@@ -1,0 +1,1 @@
+django-environ; python_version>='3.5'
