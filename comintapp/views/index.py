@@ -1,4 +1,6 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def handleRequest(request):
-    return HttpResponse("Hello World")
+    context = {}
+    context['username'] = 'Username'
+    return render(request, "comintapp/index.html", context)
