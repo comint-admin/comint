@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-def handleRequest(request):
+def loanView(request):
     context = {}
     context['username'] = 'Username'
-    return render(request, "comintapp/index.html", context)
+    return render(request, "comintapp/loans.html", context)
