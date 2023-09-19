@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from django.urls import reverse
 from ..forms import auth_forms
 
 def user_login(request):
@@ -16,7 +17,7 @@ def user_login(request):
             user = authenticate(request, username=email, password=password)
             if user:
                 login(request, user)
-                next_url = request.GET.get('next', 'handleRequest')  # Redirect to next URL or default to 'search'
+                next_url = request.GET.get('next', reverse('comintapp:index'))  # Redirect to next URL or default to 'search'
                 return redirect(next_url)
             else:
                 messages.error(request, "Invalid Email or password.")
@@ -29,14 +30,13 @@ def user_login(request):
 
 def register(request):
     if request.user.is_authenticated:
-        return redirect('login')
-
+        return redirect(reverse('comintapp:login'))
     if request.method == 'POST':
         form = auth_forms.RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Account created successfully.")
-            return redirect('login')
+            return redirect(reverse('comintapp:login'))
         else:
             pass
             # logger.warning("Invalid registration form submission by %s", request.META.get('REMOTE_ADDR'))
@@ -48,4 +48,4 @@ def register(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect('handleRequest')
+    return redirect(reverse('comintapp:index'))
