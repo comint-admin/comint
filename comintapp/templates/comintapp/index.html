@@ -4,4 +4,14 @@
 
 {% block body %}
 <p>Hello, {{ username }}</p>
+<p> {{ list_of_loans }} </p>
+<ul>
+    {% for item in list_of_loans %}
+        {% if forloop.counter|divisibleby:"2" %}
+            <li> <b> {{ item }} </b> </li>
+        {% else %}
+            <li>  {{ item }} </li>
+        {% endif %}
+    {% endfor %}
+</ul>
 {% endblock body%}
