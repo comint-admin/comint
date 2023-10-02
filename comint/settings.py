@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'comintapp'
+    'comintapp',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -91,6 +92,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'comintapp.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
