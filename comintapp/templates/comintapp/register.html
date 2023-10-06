@@ -5,6 +5,14 @@
 
 {% block body %}
 
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors  %}
+  <div class="alert alert-danger">
+    {{ error }}
+  </div>
+{% endfor %}
+{% endif %}
+
 <div class="d-flex align-items-center justify-content-center py-20">
   <div class="" style="border: 1px solid #ccc; border-radius: 10px; padding: 40px; background-color: #f8f9fa; width:65%;">
     <h2 class="text-center">Welcome to CoMint</h2>

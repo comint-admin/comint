@@ -12,16 +12,13 @@
 <body>
   <div class="container-fluid main-content topm py-2">
     <div class="errors">
-    {% for message in messages %}
-    {% if message.tags == "success" %}
-      <div class="alert alert-success">{{ message }}</div>
-    {% elif message.tags == "error" %}
-      <div class="alert alert-danger">{{ message }}</div>
-    {% else %}
-      <div class="alert">{{ message }}</div>
-    {% endif %}
-  {% endfor %}
-  </div>
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+    </div>
 
 {% block body %}{% endblock body %}
   </div>

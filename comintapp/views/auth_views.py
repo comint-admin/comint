@@ -1,51 +1,39 @@
-# ------------------------------------------------------------------------------------------
-# User authentication views
-# ------------------------------------------------------------------------------------------
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib import messages
-from django.urls import reverse
+from django.contrib.auth.views import LoginView, LogoutView
+from django.forms.forms import BaseForm
+from django.http.response import HttpResponse
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 from ..forms import auth_forms
+from django.contrib.auth import get_user_model
+from django.contrib.messages.views import SuccessMessageMixin
+from verify_email.email_handler import send_verification_email
 
-def user_login(request):
-    if request.method == 'POST':
-        form = auth_forms.LoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=email, password=password)
-            if user:
-                login(request, user)
-                next_url = request.GET.get('next', reverse('comintapp:index'))  # Redirect to next URL or default to 'search'
-                return redirect(next_url)
-            else:
-                messages.error(request, "Invalid Email or password.")
-        else:
-            pass
-            # logger.warning("Invalid login form submission by %s", request.META.get('REMOTE_ADDR'))
-    else:
-        form = auth_forms.LoginForm()
-    return render(request, 'comintapp/login.html', {'form': form})
+class UserLoginView(SuccessMessageMixin, LoginView):
+    template_name = 'comintapp/login.html'
+    redirect_authenticated_user = True
+    show_error_messages = True
+    success_message ='Logged In Successfully.'
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+          if not self.request.user.is_active:
+                print("User: ", self.request.user, " not active")
+          return super().form_valid(form)
+    
+    def get_success_url(self):
+            return reverse_lazy('comintapp:payments')  
+    
 
-def register(request):
-    if request.user.is_authenticated:
-        return redirect(reverse('comintapp:login'))
-    if request.method == 'POST':
-        form = auth_forms.RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Account created successfully.")
-            return redirect(reverse('comintapp:login'))
-        else:
-            pass
-            # logger.warning("Invalid registration form submission by %s", request.META.get('REMOTE_ADDR'))
-    else:
-        form = auth_forms.RegistrationForm()
-    return render(request, 'comintapp/register.html', {'form': form, 'errors': form.errors, 'messages': messages.get_messages(request)})
+class RegisterView(SuccessMessageMixin, CreateView):
+    model = get_user_model()
+    template_name = 'comintapp/register.html'
+    redirect_authenticated_user = True
+    form_class = auth_forms.RegistrationForm
+    success_message ='Account created successfully. Please verify using link in email.'
 
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        inactive_user = send_verification_email(self.request, form)
+        print(inactive_user)
+        
+        return super().form_valid(form)
 
-@login_required
-def user_logout(request):
-    logout(request)
-    return redirect(reverse('comintapp:index'))
+    def get_success_url(self):
+            return reverse_lazy('comintapp:login')  

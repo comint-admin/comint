@@ -3,6 +3,14 @@
 
 {% block title %}Log In{% endblock %} 
 {% block body %}
+  {% if form.non_field_errors %}
+  {% for error in form.non_field_errors  %}
+    <div class="alert alert-danger">
+      {{ error }}
+    </div>
+  {% endfor %}
+  {% endif %}
+
   <div class="d-flex align-items-center justify-content-center py-3">
   <div style="border: 1px solid #ccc; border-radius: 10px; padding: 30px; background-color: #f8f9fa;">
     <h2 class="text-center">Log In</h2>

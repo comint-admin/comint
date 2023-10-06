@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'comintapp',
     'widget_tweaks',
+    "verify_email.apps.VerifyEmailConfig",
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,21 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+
+LOGIN_REDIRECT_URL='/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# EMAIL BACKENDS
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('ZOHO_EMAIL_ID')
+EMAIL_HOST_PASSWORD = env('ZOHO_APP_PASSWORD')
+DEFAULT_FROM_EMAIL = 'CoMint App<noreply@comintapp.com>'
+EXPIRE_AFTER = '60m'
