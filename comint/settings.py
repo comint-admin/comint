@@ -25,7 +25,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -37,20 +36,23 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'comintapp',
+    'allauth',
+    'allauth.mfa',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'comintapp',
     'widget_tweaks',
-    "verify_email.apps.VerifyEmailConfig",
-]
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,8 +62,50 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
+AUTH_USER_MODEL = 'comintapp.ComintUser'
+
+# Auth Settings
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_USER_DISPLAY = 'comintapp.models.ComintUser'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = 'CoMint App'
+ACCOUNT_FORMS = {
+'signup': 'comintapp.forms.ComintSignupForm',
+}
+
+SOCIALACCOUNT_QUERY_EMAIL=ACCOUNT_EMAIL_REQUIRED
+SOCIALACCOUNT_EMAIL_REQUIRED=ACCOUNT_EMAIL_REQUIRED
+SOCIALACCOUNT_STORE_TOKENS=False
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        "APP": {
+            "client_id": env('GOOGLE_CLIENT_ID'),
+            "secret": env('GOOGLE_SECRET_KEY'),
+            "key": ""
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+
+SITE_ID = 2
 ROOT_URLCONF = env('ROOT_URLCONF')
 
 TEMPLATES = [
@@ -82,7 +126,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'comint.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -92,8 +135,6 @@ DATABASES = {
         'NAME': BASE_DIR / env('DB_NAME'),
     }
 }
-
-AUTH_USER_MODEL = 'comintapp.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -131,8 +172,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
-
 LOGIN_REDIRECT_URL='/'
 
 # Default primary key field type
@@ -140,7 +179,8 @@ LOGIN_REDIRECT_URL='/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# EMAIL BACKENDS
+
+# # EMAIL BACKENDS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
@@ -148,4 +188,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('ZOHO_EMAIL_ID')
 EMAIL_HOST_PASSWORD = env('ZOHO_APP_PASSWORD')
 DEFAULT_FROM_EMAIL = 'CoMint App<noreply@comintapp.com>'
-EXPIRE_AFTER = '60m'

@@ -45,12 +45,12 @@
               <span class="ms-2">{{ request.user.first_name }}</span>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownAbout">
-              <li><a class="dropdown-item" href="{% url 'comintapp:logout' %}">Logout</a></li>
+              <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
           </ul>
         </li>
       {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'comintapp:login' %}">Login</a>
+          <a class="nav-link" href="{% url 'account_login' %}">Login</a>
         </li>
       {% endif %}
     </ul>

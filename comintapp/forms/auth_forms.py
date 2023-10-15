@@ -1,20 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
+from allauth.account.forms import SignupForm
 
-class LoginForm(forms.Form):
-    email = forms.EmailField(label='Email', max_length=254, required=True)
-    password = forms.CharField(label='Password', max_length=64, widget=forms.PasswordInput, required=True)
+class ComintSignupForm(SignupForm):
+    first_name = forms.CharField(max_length=30, label='First Name')
+    last_name = forms.CharField(max_length=30, label='Last Name', required=False)
     
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)  # Get the 'request' argument and remove it from kwargs
-        super().__init__(*args, **kwargs)  # Call the parent class's __init__ method
-    
-
-    class Meta:
-        model = get_user_model()
-
-class RegistrationForm(UserCreationForm):
-    class Meta:
-        model = get_user_model()
-        fields = ('email', 'password1', 'password2', 'first_name', 'last_name')
+    def signup(self, request, user):
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+        return user

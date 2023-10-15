@@ -23,10 +23,10 @@ class CustomComintUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class ComintUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, max_length=254)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
+    first_name = models.CharField(max_length=30, blank=False, null=False)
+    last_name = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -37,4 +37,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.first_name

@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from comintapp.models import ComintUser
+
 # Register your models here.
-from .models import User
-admin.site.register(User)
+
+admin.site.register(ComintUser)
