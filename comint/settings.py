@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'comintapp',
     'widget_tweaks',
+    'hcaptcha_field',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# hCaptcha
+HCAPTCHA_SITEKEY = env('HCAPTCHA_SITEKEY')
+HCAPTCHA_SECRET = env('HCAPTCHA_SECRET')
