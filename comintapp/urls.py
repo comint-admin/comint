@@ -4,7 +4,7 @@ from .views import *
 
 app_name = 'comintapp'
 urlpatterns = [
-    path('', index_views.handleRequest, name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('register/', auth_views.register, name='register'),
     path('login/', auth_views.user_login , name='login'),
     path('logout/', auth_views.user_logout, name='logout'),
