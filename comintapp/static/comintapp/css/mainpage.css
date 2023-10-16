@@ -1,0 +1,109 @@
+#hero-background{
+    background-image: url('/comintapp/static/comintapp/images/wave-haikei.png');
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+
+#bottom-wrapper{
+    background-color: #26176F;
+    color:white;
+    padding-top: 100px;
+    padding-bottom: 50px;
+    padding-left: 6em;
+    padding-right: 6em;
+}
+
+#bottom-content{
+    display:flex;
+    justify-content: space-evenly;
+}
+
+#main-content{
+    display:flex;
+    padding-bottom:75px;
+}
+
+#why-choose-comint{
+    font-family: 'Poppins';
+    font-size:40px;
+    font-weight:'semi-bold';
+}
+
+#at-comint-we{
+    font-size:24px;
+    font-family: 'Epilogue';
+}
+
+#borrow-better{
+    font-size:60px;
+    font-weight:'bold';
+    font-family:'Poppins';
+}
+
+#connect-with{
+    font-size:24;
+    font-family:'Epilogue';
+}
+
+#main-content-words{
+    padding-left:150px;
+    padding-top:100px;
+}
+
+.nav-item-comint{
+    font-weight: 600;
+    font-size:20;
+    color:black;
+    font-family: 'Epilogue';
+}
+
+.c-modal{
+    border: 1px black;
+    border-radius: 5px;
+    
+}
+
+input[type="text"], input[type="tel"], input[type="email"]{
+    background-color:#FFFFF2; 
+}
+
+
+@media (max-width: 1000px){
+    #main-content{
+        display:flex;
+        flex-wrap: wrap;
+        padding-bottom:75px;
+    }
+
+    #main-content-words{
+        padding-left:0px;
+        padding-top:100px;
+    }
+
+    img{
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 350px){
+    #main-content{
+        display:flex;
+        flex-wrap: wrap;
+        padding-bottom:75px;
+    }
+
+    #bottom-content{
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+    #main-content-words{
+        padding-left:0px;
+        padding-top:100px;
+    }
+
+    img{
+        max-width: 100%;
+    }
+}

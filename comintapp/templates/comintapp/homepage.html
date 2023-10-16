@@ -1,0 +1,182 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comint mainpage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Epilogue' rel='stylesheet'>  
+    <link rel="stylesheet" href="{% static 'comintapp/css/mainpage.css' %}"> 
+
+</head>
+<body>
+    <div id="hero-background" style="background-image: url('{% static 'comintapp/images/wave-haikei.png'%}');">
+    <nav class="navbar navbar-expand-lg navbar-light justify-content-between " style="background-color: rgba(255, 255, 255, 0);color:#000000;padding-left:11em;">
+        <a class="navbar-brand px-4" href="#"><img src="{% static 'comintapp/images/comintIcon.webp'%}"></a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item active px-4">
+              <a class="nav-link nav-item-comint" href="#"> Lend </a>
+            </li>
+            <li class="nav-item active px-4">
+              <a class="nav-link nav-item-comint" href="#"> Borrow </a>
+            </li>
+            <li class="nav-item px-4">
+              <a class="nav-link nav-item-comint" href="#"> About </a>
+            </li>
+            <li class="nav-item px-3">
+              <a class="nav-link nav-item-comint" href="#"> Contact </a>
+            </li>
+            <li class="nav-item mr-auto">
+              <a class="nav-link nav-item-comint " href="#"> Blog </a>
+            </li>
+            
+          </ul>
+
+         
+        </div>
+         <button class="btn btn-light" style="margin-right:3em; color:#26176F; font-family:'Epilogue';">Log in</button>
+         <button class="btn btn-dark" style="margin-right:17em;background-color:#26176F; font-family:'Epilogue';">Sign up</button>
+        
+      </nav>
+
+      <div id="main-content" >
+     
+      
+      <div id="main-content-words">
+        <img class="img-fluid"src="{% static 'comintapp/images/default_logo_crop.png' %}">
+        
+        <p id="borrow-better">Borrow better,<br> Invest smarter!</p>
+    
+        <p id="connect-with">Connect with like minded borrowers and investors , and unlock a world of opprotunities, all on one seamless platform</p> 
+      
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color: #26176F; color:white; font-family: 'Epilogue';"> Join the waitlist > </button>
+      </div>
+      
+      <div>
+        <img src="{% static 'comintapp/images/comint-phones.png'%}"> 
+      </div>
+ 
+
+     
+
+     
+    </div>
+ 
+      </div>
+   
+
+        
+
+      <div id="bottom-wrapper">
+
+      <div id="bottom-content">
+      <div id="why-choose-comint">
+        <p>Why Choose CoMint <br> For Your Lending And <br> Borrowing Experience</p>
+      </div>
+      <div id="at-comint-we">
+        <p> At comint we beleive in a world where <br> anyone can acheive their dreams, <br> unburdened by traditional financial barriers</p>
+        <button class="btn btn-light">Learn more > </button>
+      </div>
+    </div>
+
+     <div id="bottom-navbars">
+      <nav class="navbar navbar-expand-lg navbar-light justify-content-between navbar-dark" style="color:#ffffff">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-auto ">
+            <li class="nav-item active px-2">
+              <a class="nav-link" href="#"> TERMS OF SERVICE </a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link" href="#">PRIVACY POLICY</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link" href="#">FAQ</a>
+            </li>
+
+            
+            
+          </ul>
+
+      </nav>
+      <nav class="navbar navbar-expand-lg navbar-light justify-content-between navbar-dark" >
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-auto ">
+            <li class="nav-item active px-2">
+              <a class="nav-link" href="#"> X</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link" href="#">FACEBOOK</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link" href="#">INSTAGRAM</a>
+            </li>
+
+            
+            
+          </ul>
+
+      </nav>
+      </div>
+    </div>  
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #26176F; color: white;">
+        <h1 class="modal-title fs-5 mx-auto" id="exampleModalLabel" style="font-family:'Poppins';">Join Our Waitlist</h1>
+       <div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+      </div>
+      <div class="modal-body" style="background-color:#FFFFF2;  border-radius: 0px 0px 40px 40px;">
+        <div id="waitlist-form">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">First name <span style="color:#FC9E4F">*</span></label>
+            <input type="text" class="form-control" id="waitlist-firstname">
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Last name <span style="color:#FC9E4F">*</span></label>
+            <input  type="text" class="form-control" id="waitlist-lastname">
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address <span style="color:#FC9E4F">*</span></label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Phone number <span style="color:#FC9E4F">(optional)</span></label>
+            <input  type="tel" class="form-control" id="waitlist-lastname">
+          </div>
+          
+
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">I agree to receive text updates from comint</label>
+          </div>
+
+          <button type="button" class="btn mx-auto" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color: #26176F; color:white; font-family: 'Epilogue';"> Join the waitlist > </button>
+        
+        </div>
+      
+      </div>
+ 
+    </div>
+  </div>
+</div>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
