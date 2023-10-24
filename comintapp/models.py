@@ -111,11 +111,15 @@ def set_initial_user_names(request, user, sociallogin=None, **kwargs):
     #     preferred_avatar_size_pixels
     # )
     if sociallogin:
+        # print(sociallogin.account.extra_data)
         # Extract first / last names from social nets and store on User record
         if sociallogin.account.provider == 'google':
-            print(sociallogin.account.extra_data)
+            # print(sociallogin.account.extra_data)
             user.first_name = sociallogin.account.extra_data['given_name']
-            user.last_name = sociallogin.account.extra_data['family_name']
+            if sociallogin.account.extra_data.get('family_name'):
+                user.last_name = sociallogin.account.extra_data['family_name']
+            else:
+                user.last_name = ""
             # verified = sociallogin.account.extra_data['verified_email']
             # picture_url = sociallogin.account.extra_data['picture']
 
