@@ -1,21 +1,66 @@
 {% extends "account/base.html" %}
+{% load widget_tweaks %}
 
 {% load i18n %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock head_title %}
 
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+<section class="vh-100">
+  <div class="container py-4 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+      <div class="col-lg-7 my-5 p-5" style="background-color: #FFFFF2; border-radius: 20px">
 
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+          <h4 class="mt-1" style="font-family: 'Epilogue', sans-serif; color: #26176F; font-size: 48px;"><b>{% trans "Let's Get Started." %}</b></h4>
 
+          <div class="mb-5" style="position: relative; width: 100%; text-align: right; margin-top: -15px;">
+            <img src="/static/comintapp/images/Vector.svg" alt="Description of your SVG" style="position: absolute; right: 150px;" />
+          </div>
+
+          <h5 class="mt-5 pt-4" style="font-family: 'Poppins', sans-serif; font-size: 32px;">Create an account</h5>
+          <p class="mb-3 pb-1" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{% blocktrans %}Already have an account? <a href="{{ login_url }}" style="text-decoration: underline; color: black">Log in</a>{% endblocktrans %}</p>
+
+          <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            <div>
+
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form1Example13">{{ form.first_name.label }}</label>
+                {% render_field form.first_name placeholder="First Name" class="form-control form-control-md" style="border-color: #26176F" %}
+              </div>
+
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form1Example13">{{ form.last_name.label }}</label>
+                {% render_field form.last_name placeholder="Last Name" class="form-control form-control-md" style="border-color: #26176F" %}
+              </div>
+
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form1Example13">{{ form.email.label }}</label>
+                {% render_field form.email placeholder="Email Name" class="form-control form-control-md" style="border-color: #26176F" %}
+              </div>
+
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form1Example13">{{ form.password1.label }}</label>
+                {% render_field form.password1 placeholder="Password" class="form-control form-control-md" style="border-color: #26176F" %}
+              </div>
+
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form1Example13">{{ form.password2.label }}</label>
+                {% render_field form.password2 placeholder="Confirm Password" class="form-control form-control-md" style="border-color: #26176F" %}
+                <p style="font-size: 14px;">Use 8 or more characters with a mix of letters, numbers & symbols</p>
+              </div>
+
+              <h6 class="pt-3 mb-4 pb-1 text-center" style="font-size: 16px; font-family: 'Poppins', sans-serif;">By creating an account, you agree to the  <a href="#!" style="text-decoration: underline; color: black">Terms of use</a> and <a href="#!" style="text-decoration: underline; color: black">Privacy Policy.</a></h6>
+
+            </div>
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button type="submit" class="btn btn-secondary btn-lg btn-block" style="font-size: 16px; font-family: 'Poppins', sans-serif; background-color: #26176F; display: block; margin: 0 auto;">{% trans "Create an account" %}</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock content %}
