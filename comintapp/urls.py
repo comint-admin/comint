@@ -5,8 +5,6 @@ from .views import *
 app_name = 'comintapp'
 urlpatterns = [
     path('', index_views.handleRequest, name='index'),
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='comintapp:index'), name='logout'),
     path('loans/', loan_views.loanView, name='loans'),
     path('fund_requests/', payment_views.fundRequests, name='fund_requests'),

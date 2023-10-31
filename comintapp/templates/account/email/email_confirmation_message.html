@@ -1,24 +1,72 @@
 {% load account %}
+{% load static %}
 {% load i18n %}
 
-{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Dear {{ user_display }},  \n Welcome to CoMint, your peer-to-peer lending partner!
+{% autoescape off %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css">
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: #5750e9;
+    }
+    .email-container {
+        background-color: #ffffff;
+        color: #000000; 
+        padding: 20px;
+        border-radius: 8px;
+        margin: auto;
+        width: 80%;
+        max-width: 600px;
+    }
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #b8bbf5;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-top: 20px;  /* Added margin-top property */
+    }
+    .footer {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
 
-To get started, please verify your email by clicking the button below:
-{{ activate_url }}
+<div class="email-container">
+    <img src="https://img1.wsimg.com/isteam/ip/654adcf4-2622-43b7-927a-103976b1bbcd/blob-36403d4.png/:/rs=w:100,h:100,cg:true,m/cr=w:100,h:100/qt=q:95" alt="CoMint Logo" width="150">
+    {% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+    <p>Dear {{ user_display }},</p>  <!-- Wrapped text in <p> tags -->
+    <p>Welcome to CoMint, your peer-to-peer lending partner!</p>
+    <p>To get started, please verify your email by clicking the button below:</p>
+    <div style="text-align: center;"><a href="{{ activate_url }}" class="button">Verify Email</a></div>
+    <p>This link will be valid for 30 minutes.</p>
+    <p>Unlock the full potential of CoMint—create loans, invest, and reach your financial goals!</p>
+    <p>If you didn't sign up, please ignore this email.</p>
+    <p>For questions or assistance, contact us at admin@comintapp.com.</p>
+    <p>Best regards,</p>
+    <p>CoMint Team</p>
+    {% endblocktrans %}
 
-This link will be valid for 30 minutes. 
+    <div class="footer">
+        <a href="https://www.comintapp.com">Visit our website</a>
+    </div>
+</div>
 
-Unlock the full potential of CoMint—create loans, invest, and reach your financial goals!
-
-If you didn't sign up, please ignore this email.
-
-For questions or assistance, contact us at admin@comintapp.com.
-
-Best regards,
-
-CoMint Team
-
-[CoMint Logo] 
-HTML VERSION
-{{ site_domain }}
-{% endblocktrans %}{% endautoescape %}
+</body>
+</html>
+{% endautoescape %}
