@@ -22,10 +22,3 @@ class ComintSignupForm(SignupForm):
         user.last_name = self.cleaned_data['last_name']
         user.save()
         return user
-
-class RegistrationForm(UserCreationForm):
-    hcaptcha = hCaptchaField()
-
-    class Meta:
-        model = get_user_model()
-        fields = ('email', 'password1', 'password2', 'first_name', 'last_name')
