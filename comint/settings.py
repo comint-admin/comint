@@ -81,7 +81,8 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USER_DISPLAY = lambda user: user.name
 ACCOUNT_EMAIL_SUBJECT_PREFIX = 'CoMint App'
 ACCOUNT_FORMS = {
-'signup': 'comintapp.forms.ComintSignupForm',
+    'signup': 'comintapp.forms.ComintSignupForm',
+    'login': 'comintapp.forms.CoMintSignInForm',
 }
 
 ACCOUNT_CHANGE_EMAIL = True

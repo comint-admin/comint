@@ -46,6 +46,13 @@
     transform: rotate(360deg);
   }
 }
+
+#id_captcha {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+}
 </style>
 {% endblock styles  %}
 
@@ -119,7 +126,7 @@
     <div class="row d-flex align-items-center justify-content-center">
       <div class="col-lg-6 col-md-7 col-sm-9">
         <div class="my-5 p-5 bg-light rounded-3" style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);"> <!-- Used Bootstrap classes for background and rounding, kept your styles for border and shadow -->
-          
+
           {% if form.errors %}
           <!-- Display non-field errors -->
           {% if form.non_field_errors %}
@@ -159,13 +166,22 @@
             {% csrf_token %}
             {% for field in form %}
               <div class="form-outline mb-4">
-                <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
+                {% if field.name != "captcha" %}
+                    <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
+                {% endif %}
                 {% if field.name == "password1" %}
                   {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField" }}
                   <div id="password-validation"></div>
                   {% elif field.name == "password2" %}
                 {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField2" }}
                 <div id="password-match-validation"></div>
+                {% elif field.name == "captcha" %}
+                    {{ field|add_class:"form-control form-control-md custom-border" }}
+                    {% if form.captcha.errors %}
+                      <div class="text-danger">
+                        {{ form.captcha.errors|striptags }}
+                      </div>
+                    {% endif %}
                 {% else %}
                   {{ field|add_class:"form-control form-control-md custom-border" }}
                 {% endif %}
