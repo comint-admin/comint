@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}TITLE: Index{% endblock title%}
+{% block navbar %}{% include "navbars/index_navbar.html" %}{% endblock navbar %}
+
 
 {% block body %}
 <p>Hello, {{ username }}</p>

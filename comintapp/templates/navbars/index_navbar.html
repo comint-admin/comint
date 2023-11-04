@@ -1,23 +1,18 @@
 {% extends "navbars/base_navbar.html" %}
+{% load static %}
 
 {% block nav_styles%}
-
 .navbar-nav .nav-item {
     margin-right: 20px; 
 }
-
 {% endblock nav_styles %}
 
 {% block left_content %}
-  <!-- Content for left section -->
-  <li class="nav-item">
-    <a class="nav-link">Left Link</a>
-  </li>
-{% endblock %}
+{% endblock left_content %}
 
 
 {% block center_content %}
-<li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link {% if request.resolver_match.url_name == 'loans' %}active{% endif %}" aria-current="page" href="{% url 'comintapp:loans' %}">Lend</a>
   </li>
   <li class="nav-item">
@@ -30,8 +25,9 @@
     <a class="nav-link {% if request.resolver_match.url_name == 'payments' %}active{% endif %}" href="{% url 'comintapp:payments' %}">Contact</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {% if request.reso
-{% endblock %}
+    <a class="nav-link {% if request.resolver_match.url_name == 'payments' %}active{% endif %}" href="{% url 'comintapp:payments' %}">Blog</a>
+  </li>
+{% endblock center_content %}
 
 {% block right_content %}
 {% if request.user.is_authenticated %}
@@ -40,16 +36,16 @@
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdownAbout">
         <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
-
     </ul>
     </li>
     {% else %}
     <li class="nav-item" >
-    <a class="nav-link btn-lg btn-block" href="{% url 'account_login' %}" style="background-color: rgb(190, 244, 160); color: black; border-radius: 12px; width: 90px; text-align: center;">Log In</a>
+    <a class="nav-link btn-lg btn-block" href="{% url 'account_login' %}" style="background-color: white; color: #26176F; border: 2px solid #26176F; border-radius: 12px; width: 90px; text-align: center;">Log In</a>
     </li>
 
     <li class="nav-item" style="margin-right: 70px;">
     <a class="nav-link btn-lg btn-block" href="{% url 'account_signup' %}" style="background-color: #26176F; color: white; border-radius: 12px; width: 90px; text-align: center;">Sign Up</a>
     </li>
-    {% endif %}
-{% endblock %}
+  {% endif %}
+{% endblock right_content %}
+
