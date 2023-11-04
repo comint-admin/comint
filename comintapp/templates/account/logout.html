@@ -5,17 +5,19 @@
 {% block head_title %}{% trans "Sign Out" %}{% endblock head_title %}
 
 {% block content %}
-<h1>{% trans "Sign Out" %}</h1>
+<section style="display: flex; align-items: center; justify-content: center; margin-top:5em;">
+    <div style="background-color: #FFFFF2; border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; width: 500px; text-align: center;">
+        <h1>{% trans "Sign Out" %}</h1>
 
-<p>{% trans 'Are you sure you want to sign out?' %}</p>
+        <p>{% trans 'Are you sure you want to sign out?' %}</p>
 
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <button type="submit">{% trans 'Sign Out' %}</button>
-</form>
-
-
+        <form method="post" action="{% url 'account_logout' %}" style="margin-top: 20px;">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button type="submit" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">{% trans 'Sign Out' %}</button>
+        </form>
+    </div>
+</section>
 {% endblock content %}
