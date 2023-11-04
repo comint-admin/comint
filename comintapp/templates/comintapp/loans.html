@@ -1,6 +1,13 @@
-{% extends "comintapp/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}TITLE: Loans{% endblock title%}
+
+
+{% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
 
 {% block body %}
 <p>Hello, {{ username }}, This is the loans page. </p>
