@@ -3,6 +3,9 @@ from allauth.account.forms import SignupForm
 from comintapp.models import ComintUser
 from django.core.exceptions import ValidationError
 from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+from hcaptcha_field import hCaptchaField
 
 class ComintSignupForm(SignupForm):
     first_name = forms.CharField(max_length=30, label='First Name')
@@ -19,3 +22,10 @@ class ComintSignupForm(SignupForm):
         user.last_name = self.cleaned_data['last_name']
         user.save()
         return user
+
+class RegistrationForm(UserCreationForm):
+    hcaptcha = hCaptchaField()
+
+    class Meta:
+        model = get_user_model()
+        fields = ('email', 'password1', 'password2', 'first_name', 'last_name')

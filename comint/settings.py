@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
-    ]
+    'hcaptcha_field',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -194,3 +195,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('ZOHO_EMAIL_ID')
 EMAIL_HOST_PASSWORD = env('ZOHO_APP_PASSWORD')
 DEFAULT_FROM_EMAIL = 'CoMint App<noreply@comintapp.com>'
+
+# hCaptcha
+HCAPTCHA_SITEKEY = env('HCAPTCHA_SITEKEY')
+HCAPTCHA_SECRET = env('HCAPTCHA_SECRET')
