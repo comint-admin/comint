@@ -1,43 +1,53 @@
 {% load static %}
 
 <style>
-.logo-full,
-.logo-small {
-  transition: opacity 0.3s;
-  max-height: 45px;
-  max-width: 100%;
-}
+    .nav-item-comint {
+        font-weight: 600;
+        font-size: 20px;
+        color: black;
+        font-family: 'Epilogue';
+    }
 
-.logo-small.d-none {
-  display: none;
-  opacity: 0;
-}
+    .navbar {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
 
-.navbar{
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-{% block nav_styles %}{% endblock nav_styles %}
+    {% block nav_styles %}{% endblock nav_styles %}
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-light navbar-fixed" style="padding:2px">
-    <div class="container-fluid" style="font-family: 'Epilogue', sans-serif;">
-      <a class="navbar-brand" href="{% url 'comintapp:index' %}" style="margin-left: 70px;">
-        <img src="{% static 'comintapp/images/default_logo.png' %}" alt="CoMint" height="50" class="d-inline-block align-text-top logo-full">
-        <img src="{% static 'comintapp/images/small_logo.png' %}" alt="CoMint" height="35" class="d-inline-block align-text-top logo-small d-none">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-light justify-content-between "
+     style="background-color: rgba(255, 255, 255, 0);color:#000000;">
+    <a class="navbar-brand px-4" href="{% url 'comintapp:index' %}"><img src="{% static 'comintapp/images/comintIcon.webp' %}"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {% block left_content %}Left Links{% endblock left_content%}
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item active px-4">
+                <a class="nav-link nav-item-comint" href="{% url 'comintapp:loans' %}"> Lend </a>
+            </li>
+            <li class="nav-item active px-4">
+                <a class="nav-link nav-item-comint" href="{% url 'comintapp:payments' %}"> Borrow </a>
+            </li>
+            <li class="nav-item px-4">
+                <a class="nav-link nav-item-comint" href="#"> About </a>
+            </li>
+            <li class="nav-item px-3">
+                <a class="nav-link nav-item-comint" href="#"> Contact </a>
+            </li>
+            <li class="nav-item mr-auto">
+                <a class="nav-link nav-item-comint " href="#"> Blog </a>
+            </li>
         </ul>
-        <ul class="navbar-nav mx-auto">
-          {% block center_content %}Center Links{% endblock center_content%}
-        </ul>
-        <ul class="navbar-nav mx-auto">
-            {% block right_content %}Right Links{% endblock right_content%}
-        </ul>
-      </div>
     </div>
-    </nav>
+    <a href="{% url 'account_login' %}">
+        <button class="btn btn-light" style="margin-right:3em; color:#26176F; font-family:'Epilogue';">Log in
+        </button>
+    </a>
+    <a href="{% url 'account_signup' %}">
+        <button class="btn btn-dark" style="background-color:#26176F; font-family:'Epilogue';"
+                href="{% url 'account_signup' %}">Sign up
+        </button>
+    </a>
+</nav>
