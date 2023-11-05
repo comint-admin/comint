@@ -1,55 +1,25 @@
-{% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% extends "comintapp/base_plain.html" %}
+{% load static %}
+{% comment %} <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comint mainpage</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href='https://fonts.googleapis.com/css?family=Epilogue' rel='stylesheet'>  
-    <link rel="stylesheet" href="{% static 'comintapp/css/mainpage.css' %}"> 
+    
+  
+    
 
-</head>
-<body>
+</head> {% endcomment %}
+
+{%block head%}
+<title>Comint mainpage</title>
+<link rel="stylesheet" href="{% static 'comintapp/css/mainpage.css' %}"> 
+{%endblock head%}
+
+  {%block body%}
     <div id="hero-background" style="background-image: url('{% static 'comintapp/images/wave-haikei.png'%}');">
-    <nav class="navbar navbar-expand-lg navbar-light justify-content-between " style="background-color: rgba(255, 255, 255, 0);color:#000000;padding-left:11em;">
-        <a class="navbar-brand px-4" href="#"><img src="{% static 'comintapp/images/comintIcon.webp'%}"></a>
-        
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav">
-            <li class="nav-item active px-4">
-              <a class="nav-link nav-item-comint" href="{% url 'comintapp:loans' %}"> Lend </a>
-            </li>
-            <li class="nav-item active px-4">
-              <a class="nav-link nav-item-comint" href="{% url 'comintapp:payments' %}"> Borrow </a>
-            </li>
-            <li class="nav-item px-4">
-              <a class="nav-link nav-item-comint" href="#"> About </a>
-            </li>
-            <li class="nav-item px-3">
-              <a class="nav-link nav-item-comint" href="#"> Contact </a>
-            </li>
-            <li class="nav-item mr-auto">
-              <a class="nav-link nav-item-comint " href="#"> Blog </a>
-            </li>
-            
-          </ul>
+      {% include 'comintapp/navbar.html' %}
 
-         
-        </div>
-        <a href="{% url 'comintapp:login' %}">
-         <button class="btn btn-light" style="margin-right:3em; color:#26176F; font-family:'Epilogue';" >Log in</button>
-        </a> 
-        <a href="{% url 'comintapp:register' %}">
-        <button class="btn btn-dark" style="margin-right:17em;background-color:#26176F; font-family:'Epilogue';" href="{% url 'comintapp:register' %}">Sign up</button>
-        </a>
-
-      </nav>
 
       <div id="main-content" >
      
@@ -180,7 +150,5 @@
     </div>
   </div>
 </div>
-
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
-</html>
+{%endblock body%}
+     
