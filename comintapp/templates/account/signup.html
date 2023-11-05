@@ -1,0 +1,214 @@
+{% extends "account/base.html" %}
+{% load widget_tweaks %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign Up" %}{% endblock head_title %}
+
+{% block styles%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<style>
+.custom-border {
+  border-color: #26176F;
+}
+
+.validation-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  transition: color 0.3s ease-in-out;
+}
+
+.validation-item .icon {
+  margin-right: 5px;
+  transition: color 0.3s ease-in-out;
+}
+
+.icon-tick {
+  color: green;
+}
+
+.icon-cross {
+  color: red;
+}
+
+.animate__animated {
+  --animate-duration: 0.5s;
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#id_captcha {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+}
+</style>
+{% endblock styles  %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const passwordField = document.getElementById('passwordField');
+  const passwordValidation = document.getElementById('password-validation');
+
+  if(passwordField && passwordValidation) {
+    passwordField.addEventListener('input', () => {
+      const password = passwordField.value;
+      passwordValidation.innerHTML = '';  // Clear previous validation messages
+
+      const validations = [
+        { test: password.length >= 8, message: 'Password must be at least 8 characters long.' },
+        { test: /\d/.test(password), message: 'Password must contain at least one number.' },
+        // ... other validations
+      ];
+
+      validations.forEach(validation => {
+        const item = document.createElement('div');
+        item.className = 'validation-item';
+
+        const icon = document.createElement('span');
+        icon.className = 'icon ' + (validation.test ? 'icon-tick' : 'icon-cross');
+        icon.innerHTML = validation.test ? '<i class="fas fa-check animate__animated animate__fadeIn animate__rotateIn"></i>' : '<i class="fas fa-times animate__animated animate__rotateIn"></i>';  // FontAwesome icons
+
+        const message = document.createElement('span');
+        message.innerText = validation.message;
+
+        item.appendChild(icon);
+        item.appendChild(message);
+        passwordValidation.appendChild(item);
+      });
+    });
+  }
+  const passwordField2 = document.getElementById('passwordField2');
+  const passwordMatchValidation = document.getElementById('password-match-validation');
+
+  if(passwordField2 && passwordMatchValidation) {
+    passwordField2.addEventListener('input', () => {
+      const password = passwordField.value;
+      const confirmPassword = passwordField2.value;
+      passwordMatchValidation.innerHTML = '';  // Clear previous validation message
+
+      const match = (password === confirmPassword);
+      const item = document.createElement('div');
+      item.className = 'validation-item';
+
+      const icon = document.createElement('span');
+      icon.className = 'icon ' + (match ? 'icon-tick' : 'icon-cross');
+      icon.innerHTML = match ? '<i class="fas fa-check animate__animated animate__fadeIn animate__rotateIn"></i>' : '<i class="fas fa-times animate__animated animate__rotateIn"></i>';  // FontAwesome icons
+
+      const message = document.createElement('span');
+      message.innerText = match ? 'Passwords match.' : 'Passwords do not match.';
+
+      item.appendChild(icon);
+      item.appendChild(message);
+      passwordMatchValidation.appendChild(item);
+    });
+  }
+});
+
+</script>
+{% endblock scripts %}
+
+{% block content %}
+<section style="padding-top: 1em;">
+  <div class="container py-4">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="col-lg-6 col-md-7 col-sm-9">
+        <div class="my-5 p-5 bg-light rounded-3" style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);"> <!-- Used Bootstrap classes for background and rounding, kept your styles for border and shadow -->
+
+          {% if form.errors %}
+          <!-- Display non-field errors -->
+          {% if form.non_field_errors %}
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>There were some errors with your form submission:</strong>
+                  <ul>
+                      {% for error in form.non_field_errors %}
+                          <li>{{ error }}</li>
+                      {% endfor %}
+                  </ul>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          {% endif %}
+
+          {% if form.field_errors %}
+          <!-- Display field errors -->
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>There were some errors with your form fields:</strong>
+              <ul>
+                  {% for field in form %}
+                      {% for error in field.errors %}
+                          <li>{{ error }}</li>
+                      {% endfor %}
+                  {% endfor %}
+              </ul>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      {% endif %}
+    {% endif %}
+
+
+          <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Sign Up" %}</h1>
+
+          <p class="mb-3 pb-1 text-center" style="font-size: 16px; font-family: 'Poppins', sans-serif;">Already have an account? <a href="{% url 'account_login' %}" style="text-decoration: underline; color: black">Log in</a></p>
+
+          <form method="post" action="{% url 'account_signup' %}" class="signup mt-5" id="signup_form">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-outline mb-4">
+                {% if field.name != "captcha" %}
+                    <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
+                {% endif %}
+                {% if field.name == "password1" %}
+                  {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField" }}
+                  <div id="password-validation"></div>
+                  {% elif field.name == "password2" %}
+                {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField2" }}
+                <div id="password-match-validation"></div>
+                {% elif field.name == "captcha" %}
+                    {{ field|add_class:"form-control form-control-md custom-border" }}
+                    {% if form.captcha.errors %}
+                      <div class="text-danger">
+                        {{ form.captcha.errors|striptags }}
+                      </div>
+                    {% endif %}
+                {% else %}
+                  {{ field|add_class:"form-control form-control-md custom-border" }}
+                {% endif %}
+              </div>
+            {% endfor %}
+            {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button type="submit" class="btn btn-lg btn-block" style="color: white; background-color: #26176F; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto;">{% trans "Sign Up" %}</button>
+          </form>
+
+          <hr class="my-4" style="position: relative;
+              width: 79%;
+              border-bottom: 1px solid #e2e2e6;
+              margin: 35px auto;"/>  <!-- Horizontal rule -->
+
+          <!-- Continue with Google Button -->
+          <div class="socialaccount_ballot">
+            <ul class="socialaccount_providers">
+              {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
