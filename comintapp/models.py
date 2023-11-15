@@ -4,6 +4,8 @@ from django.utils import timezone
 from allauth.account.signals import user_signed_up
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+import re
 
 class CustomComintUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -86,6 +88,47 @@ class ComintUser(AbstractBaseUser, PermissionsMixin):
     def natural_key(self):
         return (self.email,)
 
+def validate_ssn(value):
+    """
+    Validates that the input is a valid SSN.
+    Assumes the format to be "XXX-XX-XXXX" where X is a digit.
+    """
+    if not re.match(r'^\d{3}-\d{2}-\d{4}$', value):
+        raise ValidationError(
+            _('%(value)s is not a valid SSN'),
+            params={'value': value},
+        )
+
+
+class UserProfile(models.Model):
+    """Profile data about a user."""
+
+    user = models.OneToOneField(ComintUser, primary_key=True, verbose_name='user', related_name='profile',
+                                on_delete=models.CASCADE)
+
+    # I oscillate between whether the ``avatar_url`` should be
+    # a) in the User model
+    # b) in this UserProfile model
+    # c) in a table of it's own to track multiple pictures, with the
+    #    "current" avatar as a foreign key in User or UserProfile.
+    avatar_url = models.CharField(max_length=256, blank=True, null=True)
+
+    dob = models.DateField(verbose_name="Date of Birth", blank=True, null=True)
+    ssn = models.CharField(
+        verbose_name="SSN",
+        max_length=11,
+        validators=[validate_ssn],
+        help_text="Social Security Number in the format XXX-XX-XXXX",
+        blank=False,  
+        null=False,
+    )
+
+
+    def __str__(self):
+        return str(self.user.email)
+
+    class Meta():
+        db_table = 'user_profile'
     
 
 @receiver(user_signed_up)
@@ -125,4 +168,6 @@ def set_initial_user_names(request, user, sociallogin=None, **kwargs):
 
     user.guess_display_name()
     user.save()
+
+
 
