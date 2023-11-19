@@ -6,9 +6,11 @@
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'comintapp/css/mainpage.css' %}">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Gochi+Hand" />
 {% endblock styles %}
 
 {% block body %}
+<div class="mainpage-body">
     <div id="hero-background" style="background-image: url('{% static 'comintapp/images/wave-haikei.png' %}');">
         <div id="main-content">
             <div id="main-content-words">
@@ -17,7 +19,7 @@
                 <p id="connect-with">Connect with like minded borrowers and investors , and unlock a world of
                     opprotunities,
                     all on one seamless platform</p>
-                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#waitlistModal"
                         style="background-color: #26176F; color:white; font-family: 'Epilogue';"> Join the waitlist >
                 </button>
             </div>
@@ -27,18 +29,18 @@
         </div>
     </div>
 
-    <div id="bottom-wrapper">
-        <div id="bottom-content">
-            <div id="why-choose-comint">
+    <div class="bottom-wrapper">
+        <div class="bottom-content">
+            <div class="txt-medlrg poppins semi-bold">
                 <p>Why Choose CoMint <br> For Your Lending And <br> Borrowing Experience</p>
             </div>
-            <div id="at-comint-we">
-                <p> At comint we beleive in a world where <br> anyone can acheive their dreams, <br> unburdened by
+            <div class="txt-med epilogue">
+                <p> At CoMint we beleive in a world where <br> anyone can acheive their dreams, <br> unburdened by
                     traditional financial barriers</p>
                 <button class="btn btn-light">Learn more ></button>
             </div>
         </div>
-        <div id="bottom-navbars">
+        {% comment %} <div id="bottom-navbars">
             <nav class="navbar navbar-expand-lg navbar-light justify-content-between navbar-dark" style="color:#ffffff">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto ">
@@ -69,10 +71,117 @@
                     </ul>
                 </div>
             </nav>
-        </div>
+        </div> {% endcomment %}
+    </div>
+    <div id="how-it-works">
+        <div class="hiw-header">
+        <h1 class="hiw-header mt-4">HOW IT WORKS</h1>
+        <img src="{%static 'comintapp/images/hiw-underline.png'%}">    
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="hiw-upperbody">
+            <div class="ml-4">
+            <img src="{%static 'comintapp/images/howitworks.png'%}"> 
+            </div>
+            <div class="hiw-upperbody-textcontainer">
+                <p class="vert-align epilogue txt-med">By combining cutting-edge technology with human connection, we offer a seamless and transparent experience that empowers you to borrow smarter and invest with confidence</p>
+            </div>
+        </div>
+        <div class="steps">
+
+        <div class="step-row">
+            <div class="step-article">
+                <div class="step-content">
+                <div class="cm-blue gochi-hand my-4 txt-lrg num-bg"> 01</div>
+
+                <p class="cm-blue epilogue my-4 cm-bold txt-med">Sign up</p>
+
+                <p class="epilogue my-4">Create your account in a few simple steps. Tell us your financial goals and preferences, so we can tailor the lending or investing experience just for you</p>
+                </div>
+            </div>
+
+            <div class="step-article">
+                <div class="step-content">
+                    <h2 class="cm-blue gochi-hand my-4 txt-lrg num-bg"> 02</h2>
+    
+                    <p class="cm-blue epilogue my-4 cm-bold txt-med">Choose your role</p>
+    
+                    <p class="epilogue my-4">Decide whether you want to borror or invest. Our intuitive platform guides you through the process, making it easy to find the perfect match for your needs</p>
+                    </div>
+            </div>
+
+            <div class="step-article">
+                <div class="step-content">
+                    <h2 class="cm-blue gochi-hand my-4 txt-lrg num-bg"> 03</h2>
+    
+                    <p class="cm-blue epilogue my-4 cm-bold txt-med">Browse listings</p>
+    
+                    <p class="epilogue my-4"> <b>Borrowers</b>: Explore a diverse range of loan options from verified investors <br> <b>Investors</b>: Discover promising loan requests that align with your investment strategy</p>
+                    </div>
+            </div>
+        </div>
+        <div class="step-row">
+        
+            <div class="step-article">
+                <div class="step-content">
+                    <h2 class="cm-blue gochi-hand my-4 txt-lrg num-bg"> 04</h2>
+    
+                    <p class="cm-blue epilogue my-4 cm-bold txt-med">Connect and Transact</p>
+    
+                    <p class="epilogue my-4">Initiate connections with borrowers or investors that catch your interest. Communicate, negotiate, terms, and finalize the transaction securely through CoMint.</p>
+                    </div>
+            </div>
+
+            <div class="step-article">
+                <div class="step-content">
+                    <h2 class="cm-blue gochi-hand my-4 txt-lrg num-bg"> 05</h2>
+    
+                    <p class="cm-blue epilogue my-4 cm-bold txt-med">Monitor and grow</p>
+    
+                    <p class="epilogue my-4">For investors, track the performance of your investments in real-time. For borrowers, manage your repayments efficiently and build a positive credit history.</p>
+                    </div>
+            </div>
+
+            <div class="step-article">
+                <div class="step-content">
+                    <h2 class="cm-blue gochi-hand my-4 txt-lrg num-bg"> 06</h2>
+    
+                    <p class="cm-blue epilogue my-4 cm-bold txt-med">Build your financial future</p>
+    
+                    <p class="epilogue my-4">Watch your financial aspirations take flight as you leverage the power of peer-to-peer lending.
+                        With CoMint, you're not just a borrower or an investor; you're part of a thriving community.</p>
+                    </div>
+            </div>
+        
+        </div>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="bottom-wrapper">
+        
+        <div class="bottom-content">
+            <img src="{%static '/comintapp/images/bottom-img.png'%}">   
+
+            <div>
+                <div><p class="h1 txt-lrg epilogue">Dont miss out!</p>
+                    <p class="txt-vlrg poppins">Join our waitlist!</p>
+                    <button type="button" class="btn btn-light epilogue cm-blue semi-bold" data-bs-toggle="modal" data-bs-target="#waitlistModal"> Join the waitlist >
+                </button>
+                </div>
+                
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    <div class="modal fade" id="waitlistModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #26176F; color: white;">
@@ -83,6 +192,8 @@
                                 aria-label="Close"></button>
                     </div>
                 </div>
+
+                
                 <div class="modal-body" style="background-color:#FFFFF2;  border-radius: 0px 0px 40px 40px;">
                     <div id="waitlist-form">
                         <div class="mb-3">
@@ -116,11 +227,12 @@
                             waitlist
                             >
                         </button>
-                    </div>
+                </div>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock body %}
 
 {% block scripts %}
