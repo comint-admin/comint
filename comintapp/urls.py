@@ -7,5 +7,6 @@ urlpatterns = [
     path('', index_views.IndexView.as_view(), name='index'),
     path('loans/', loan_views.loanView, name='loans'),
     path('fund_requests/', payment_views.fundRequests, name='fund_requests'),
-    path('payments/', payment_views.payments, name='payments')
+    path('payments/', payment_views.payments, name='payments'),
+    path('about/', about_views.AboutView.as_view(), name='about'),
 ]
