@@ -7,6 +7,9 @@
 
 
 {% block content %}
+<section style="display: flex; align-items: center; justify-content: center; margin-top:5em;">
+    <div style="background-color: #FFFFF1; border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; width: 500px; text-align: center;">
+        
 <h1>{% trans "Confirm Email Address" %}</h1>
 
 {% if confirmation %}
@@ -32,4 +35,6 @@
 
 {% endif %}
 
+</div>
+</section>
 {% endblock content %}

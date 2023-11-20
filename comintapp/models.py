@@ -88,6 +88,29 @@ class ComintUser(AbstractBaseUser, PermissionsMixin):
     def natural_key(self):
         return (self.email,)
 
+
+class VerificationQuestion(models.Model):
+    VERIFICATION_QUESTIONS = [
+        ('childhood_nickname', 'What was your childhood nickname?'),
+        ('favorite_childhood_friend', 'What is the name of your favorite childhood friend?'),
+        ('parents_meet_city', 'In what city or town did your mother and father meet?'),
+        ('favorite_team', 'What is your favorite team?'),
+        ('dream_job_child', 'What was your dream job as a child?'),
+        ('first_car_make_model', 'What was the make and model of your first car?'),
+        ('hospital_born', 'What was the name of the hospital where you were born?'),
+        ('childhood_sports_hero', 'Who is your childhood sports hero?'),
+        ('mothers_maiden_name', 'What was your mother’s maiden name?'),
+    ]
+
+    user = models.ForeignKey(ComintUser, on_delete=models.CASCADE)
+    question = models.CharField(max_length=255, choices=VERIFICATION_QUESTIONS)
+    answer = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.get_question_display()
+
+
+
 def validate_ssn(value):
     """
     Validates that the input is a valid SSN.
