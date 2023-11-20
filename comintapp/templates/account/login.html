@@ -24,19 +24,19 @@
       <div class="col-lg-6 col-md-7 col-sm-9">
         <div class="my-5 p-5 bg-light rounded-3" style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);"> <!-- Used Bootstrap classes for background and rounding, kept your styles for border and shadow -->
           {% if form.errors %}
+          <strong>There were some errors with your form submission:</strong>
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>There were some errors with your form submission:</strong>
             <ul>
               {% for field, errors in form.errors.items %}
                 {% for error in errors %}
-                  <li>{{ field|capfirst }}: {{ error }}</li>
+                  <li>{{ error }}</li>
                 {% endfor %}
               {% endfor %}
             </ul>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         {% endif %}
-        
+
           <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Sign In" %}</h1>
 
             {% get_providers as socialaccount_providers %}

@@ -129,11 +129,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(ComintUser, primary_key=True, verbose_name='user', related_name='profile',
                                 on_delete=models.CASCADE)
 
-    # I oscillate between whether the ``avatar_url`` should be
-    # a) in the User model
-    # b) in this UserProfile model
-    # c) in a table of it's own to track multiple pictures, with the
-    #    "current" avatar as a foreign key in User or UserProfile.
     avatar_url = models.CharField(max_length=256, blank=True, null=True)
 
     dob = models.DateField(verbose_name="Date of Birth", blank=True, null=True)
@@ -146,6 +141,12 @@ class UserProfile(models.Model):
         null=False,
     )
 
+    address_1 = models.CharField(max_length=255, verbose_name="Address 1")
+    address_2 = models.CharField(max_length=255, verbose_name="Address 2", blank=True, null=True)
+    state = models.CharField(max_length=100, verbose_name="State")
+    zip_code = models.CharField(max_length=10, verbose_name="Zip Code")
+    consent_for_verification = models.BooleanField(default=False, verbose_name="Consent for Identity Verification")
+    is_verified = models.BooleanField(default=False, verbose_name="Is Verified")
 
     def __str__(self):
         return str(self.user.email)

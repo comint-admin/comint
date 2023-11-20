@@ -1,6 +1,6 @@
 from django import forms
 from allauth.account.forms import SignupForm, LoginForm
-from comintapp.models import ComintUser,VerificationQuestion
+from comintapp.models import ComintUser,VerificationQuestion, UserProfile
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
@@ -46,3 +46,12 @@ class ComintSignupForm(SignupForm):
             )
         user.save()
         return user
+    
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['dob', 'ssn', 'address_1', 'address_2', 'state', 'zip_code', 'consent_for_verification']
+        widgets = {
+            'dob': forms.DateInput(attrs={'type': 'date'}),
+        }
