@@ -4,18 +4,24 @@
     background-size:cover;
 }
 
-#bottom-wrapper{
+.bottom-wrapper{
     background-color: #26176F;
     color:white;
-    padding-top: 100px;
-    padding-bottom: 50px;
+    padding-top: 3em;
+    padding-bottom: 3em;
     padding-left: 6em;
     padding-right: 6em;
 }
 
-#bottom-content{
+.bottom-content{
     display:flex;
     justify-content: space-evenly;
+    align-items: center;
+}
+
+.num-bg{
+    background-image: url('/static/comintapp/images/number-bg.png');
+    background-repeat: no-repeat;
 }
 
 
@@ -27,6 +33,10 @@
 #why-choose-comint{
     font-family: 'Poppins';
     font-size:40px;
+    font-weight:'semi-bold';
+}
+
+.semi-bold{
     font-weight:'semi-bold';
 }
 
@@ -57,10 +67,129 @@
     
 }
 
+.hiw-header{
+    font-size:60px;
+    text-align: center;
+    font-family:'Poppins';
+    
+}
+
+.mainpage-body{
+    background-color: white;
+}
+
+.hiw-upperbody{
+    background-image: url('/static/comintapp/images/hiw-upper-bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: -5em;
+    display:flex;
+    margin-top:5em;
+    padding-top: 4em;
+    padding-left: 8em;
+    padding-right: 8em;
+
+}
+
+.hiw-upperbody-textcontainer{
+    display:flex;
+    align-items: center;
+    padding-left:6em;
+    padding-right:6em;
+    font-size:24px;    
+}
+
+.vert-align{
+    vertical-align: middle;
+}
+
+.flexb{
+    display:flex;
+    align-items: center;
+}
+
+.steps{
+
+    
+    padding-left: 7em;
+    padding-right: 7em;
+}
+
+.step-row{
+    
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    padding-top:1.5em;
+    padding-bottom:1.5em;
+   
+}
+
+.step-article{
+    margin:auto;
+    margin-left: 1em;
+    margin-right: 1em;
+    min-width:350px;
+    max-width: 350px;
+
+    min-height:500px;
+    max-height: 500px;
+    border: 8px solid #26176F;
+    border-radius: 27px;
+}
+
+.cm-blue{
+    color:#26176F
+}
+
+.cm-bold{
+    font-weight: bolder;
+}
+
+
+
+.gochi-hand{
+    font-family: "Gochi Hand";
+}
+
+.steps{
+    margin-bottom: 8em;
+}
+
+.step-content{
+    margin-top:5em;
+    margin-left:3em;
+    margin-right: 3em;
+    font-size:16px;
+}
+
 input[type="text"], input[type="tel"], input[type="email"]{
     background-color:#FFFFF2; 
 }
 
+.poppins{
+    font-family: 'Poppins';
+}
+
+.epilogue{
+    font-family: 'Epilogue';
+}
+
+.txt-med{
+    font-size:24px;
+}
+
+.txt-vlrg{
+    font-size:70px;
+}
+
+.txt-lrg{
+    font-size:48px;
+}
+
+.txt-medlrg{
+    font-size:40px;
+}
 
 @media (max-width: 1000px){
     #main-content{
@@ -107,4 +236,9 @@ input[type="text"], input[type="tel"], input[type="email"]{
     #main-content-img{
         margin-left:500px;
     }
+    .hiw-upperbody{
+        background-size: cover;
+    }
+   
+  
 }

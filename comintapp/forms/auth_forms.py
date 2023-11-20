@@ -4,7 +4,7 @@ from comintapp.models import ComintUser,VerificationQuestion, UserProfile
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from hcaptcha_field import hCaptchaField
+#from hcaptcha_field import hCaptchaField
 
 
 class CoMintSignInForm(LoginForm):
