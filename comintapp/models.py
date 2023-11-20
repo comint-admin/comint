@@ -4,6 +4,8 @@ from django.utils import timezone
 from allauth.account.signals import user_signed_up
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+import re
 
 class CustomComintUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -86,6 +88,71 @@ class ComintUser(AbstractBaseUser, PermissionsMixin):
     def natural_key(self):
         return (self.email,)
 
+
+class VerificationQuestion(models.Model):
+    VERIFICATION_QUESTIONS = [
+        ('childhood_nickname', 'What was your childhood nickname?'),
+        ('favorite_childhood_friend', 'What is the name of your favorite childhood friend?'),
+        ('parents_meet_city', 'In what city or town did your mother and father meet?'),
+        ('favorite_team', 'What is your favorite team?'),
+        ('dream_job_child', 'What was your dream job as a child?'),
+        ('first_car_make_model', 'What was the make and model of your first car?'),
+        ('hospital_born', 'What was the name of the hospital where you were born?'),
+        ('childhood_sports_hero', 'Who is your childhood sports hero?'),
+        ('mothers_maiden_name', 'What was your mother’s maiden name?'),
+    ]
+
+    user = models.ForeignKey(ComintUser, on_delete=models.CASCADE)
+    question = models.CharField(max_length=255, choices=VERIFICATION_QUESTIONS)
+    answer = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.get_question_display()
+
+
+
+def validate_ssn(value):
+    """
+    Validates that the input is a valid SSN.
+    Assumes the format to be "XXX-XX-XXXX" where X is a digit.
+    """
+    if not re.match(r'^\d{3}-\d{2}-\d{4}$', value):
+        raise ValidationError(
+            _('%(value)s is not a valid SSN'),
+            params={'value': value},
+        )
+
+
+class UserProfile(models.Model):
+    """Profile data about a user."""
+
+    user = models.OneToOneField(ComintUser, primary_key=True, verbose_name='user', related_name='profile',
+                                on_delete=models.CASCADE)
+
+    avatar_url = models.CharField(max_length=256, blank=True, null=True)
+
+    dob = models.DateField(verbose_name="Date of Birth", blank=True, null=True)
+    ssn = models.CharField(
+        verbose_name="SSN",
+        max_length=11,
+        validators=[validate_ssn],
+        help_text="Social Security Number in the format XXX-XX-XXXX",
+        blank=False,  
+        null=False,
+    )
+
+    address_1 = models.CharField(max_length=255, verbose_name="Address 1")
+    address_2 = models.CharField(max_length=255, verbose_name="Address 2", blank=True, null=True)
+    state = models.CharField(max_length=100, verbose_name="State")
+    zip_code = models.CharField(max_length=10, verbose_name="Zip Code")
+    consent_for_verification = models.BooleanField(default=False, verbose_name="Consent for Identity Verification")
+    is_verified = models.BooleanField(default=False, verbose_name="Is Verified")
+
+    def __str__(self):
+        return str(self.user.email)
+
+    class Meta():
+        db_table = 'user_profile'
     
 
 @receiver(user_signed_up)
@@ -125,4 +192,6 @@ def set_initial_user_names(request, user, sociallogin=None, **kwargs):
 
     user.guess_display_name()
     user.save()
+
+
 
