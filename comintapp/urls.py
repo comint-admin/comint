@@ -9,4 +9,5 @@ urlpatterns = [
     path('fund_requests/', payment_views.fundRequests, name='fund_requests'),
     path('payments/', payment_views.payments, name='payments'),
     path('about/', about_views.AboutView.as_view(), name='about'),
+    path('contact/', contact_views.ContactView.as_view(), name='contact'),
 ]
