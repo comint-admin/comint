@@ -10,4 +10,6 @@ urlpatterns = [
     path('payments/', payment_views.payments, name='payments'),
     path('tnc/', index_views.TncView.as_view(), name='tnc_page'),
     path('privacy/', index_views.PrivacyView.as_view(), name='privacy_page')
+    path('about/', about_views.AboutView.as_view(), name='about'),
+    path('contact/', contact_views.ContactView.as_view(), name='contact'),
 ]

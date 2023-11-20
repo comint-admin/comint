@@ -14,9 +14,10 @@ class CoMintSignInForm(LoginForm):
 class ComintSignupForm(SignupForm):
     first_name = forms.CharField(max_length=30, label='First Name')
     last_name = forms.CharField(max_length=30, label='Last Name', required=False)
+    tc = forms.BooleanField(required=True, label='I accept terms and conditions', label_suffix='')
     captcha = hCaptchaField()
 
-    field_order = ['email', 'first_name', 'last_name', 'password1', 'password2', 'captcha']
+    field_order = ['email', 'first_name', 'last_name', 'password1', 'password2', 'tc', 'captcha']
 
     def clean_email(self):
         email = self.cleaned_data['email']
