@@ -4,6 +4,10 @@ from comintapp.models import ComintUser,VerificationQuestion, UserProfile
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+from django.utils.functional import lazy
+from django.utils.translation import gettext as _
 from hcaptcha_field import hCaptchaField
 
 
@@ -21,8 +25,14 @@ class ComintSignupForm(SignupForm):
     verification_question_3 = forms.ChoiceField(choices=VerificationQuestion.VERIFICATION_QUESTIONS, label='Verification Question 3')
     verification_answer_3 = forms.CharField(max_length=255, label='Answer 3')
 
-    
-    tc = forms.BooleanField(required=True, label='I accept terms and conditions', label_suffix='')
+
+    tc = forms.BooleanField(
+        required=True,
+        label = lazy(lambda: mark_safe(_(
+            'I accept <a href="%s" target="_blank">Terms and Conditions</a>' % reverse('comintapp:tnc_page')
+        ))),
+        label_suffix=''
+    )
     captcha = hCaptchaField()
 
     field_order = ['email', 'first_name', 'last_name', 'password1', 'password2', 'verification_question_1', 'verification_answer_1', 'verification_question_2', 'verification_answer_2', 'verification_question_3', 'verification_answer_3', 'tc', 'captcha']
@@ -46,7 +56,7 @@ class ComintSignupForm(SignupForm):
             )
         user.save()
         return user
-    
+
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
