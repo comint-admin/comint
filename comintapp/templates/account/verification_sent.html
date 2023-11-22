@@ -5,12 +5,14 @@
 {% block head_title %}{% trans "Verify Your Email Address" %}{% endblock head_title %}
 
 {% block content %}
-<section style="display: flex; align-items: center; justify-content: center; margin-top:5em;">
-    <div style="background-color: #FFFFF1; border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; width: 500px; text-align: center;">
-        
-    <h1>{% trans "Verify Your Email Address" %}</h1>
-
-    <p>{% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.{% endblocktrans %}</p>
-</div>
+<section class="vh-100">
+    <div class="container pb-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
+            <div class="col-lg-7 my-5 p-5" style="background-color: #FFFFF2; border-radius: 20px">
+                <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Verify Your Email Address" %}</h1>
+                <p class="mb-3 pb-1" style="font-size: 16px; font-family: 'Poppins', sans-serif; text-align: center;">{% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.{% endblocktrans %}</p>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock content %}
