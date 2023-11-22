@@ -1,7 +1,168 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}About Us{% endblock title %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'comintapp/css/about/about.css' %}">
+{% endblock styles %}
+
 {% block body %}
-    <p>This is the About Us page.</p>
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <h1 class="text-center py-5">Meet the Team</h1>
+            <div class="row p-4 gy-5 justify-content-evenly">
+                <div class="card border border-0 col-md-6">
+                    <img src="https://media.licdn.com/dms/image/D4E03AQHcPA7tOQaoxA/profile-displayphoto-shrink_800_800/0/1676856394696?e=1706140800&v=beta&t=jJ8xrNJDFAn0Zuts7-59YPIK4Har-GxunixZkI7Nzbg"
+                         class="card-img-top w-50 mx-auto" alt="Rose Jean Louis">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Rose Jean Louis</h5>
+                        <h6 class="card-title text-center small">Founder</h6>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium
+                            amet
+                            atque
+                            consequatur cupiditate dolorem ex fugit, incidunt, mollitia nesciunt nisi, nobis nostrum
+                            perferendis
+                            sint velit! Animi aperiam eum, magnam odio officia quibusdam quis repellat sequi soluta
+                            voluptates.
+                            Accusamus adipisci corporis cumque esse mollitia nesciunt quod ratione, recusandae
+                            repellendus
+                            ut.</p>
+                    </div>
+                </div>
+                <div class="card border border-0 col-md-6">
+                    <img src="https://media.licdn.com/dms/image/D4E03AQGfEwMTxMkqQQ/profile-displayphoto-shrink_800_800/0/1697227396081?e=1706140800&v=beta&t=nu89U2CfMdEZm3skWDWb6daPWdwtAp-u2ObBKsxhl8k"
+                         class="card-img-top w-50 mx-auto" alt="Matthew Zomorodi">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Matthew Zomorodi</h5>
+                        <h6 class="card-title text-center small">Founder</h6>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium
+                            amet
+                            atque
+                            consequatur cupiditate dolorem ex fugit, incidunt, mollitia nesciunt nisi, nobis nostrum
+                            perferendis
+                            sint velit! Animi aperiam eum, magnam odio officia quibusdam quis repellat sequi soluta
+                            voluptates.
+                            Accusamus adipisci corporis cumque esse mollitia nesciunt quod ratione, recusandae
+                            repellendus
+                            ut.</p>
+                    </div>
+                </div>
+                <div class="card border border-0 col-md-6 col-lg-4">
+                    <img src="https://media.licdn.com/dms/image/D4E03AQF5IsnsKAWkNQ/profile-displayphoto-shrink_800_800/0/1695180688224?e=1706140800&v=beta&t=HlP1WSyVykM6dzZbSKIv_c2VWpVFXhIVOU2BrLi7IYw"
+                         class="card-img-top w-50 mx-auto" alt="Nosha Milfort">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Nosha Milfort</h5>
+                        <h6 class="card-title text-center small">Designer</h6>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium
+                            amet
+                            atque
+                            consequatur cupiditate dolorem ex fugit, incidunt, mollitia nesciunt nisi, nobis nostrum
+                            perferendis
+                            sint velit! Animi aperiam eum, magnam odio officia quibusdam quis repellat sequi soluta
+                            voluptates.
+                            Accusamus adipisci corporis cumque esse mollitia nesciunt quod ratione, recusandae
+                            repellendus
+                            ut.</p>
+                    </div>
+                </div>
+                <div class="card border border-0 col-md-6 col-lg-4">
+                    <img src="https://media.licdn.com/dms/image/D5603AQFwqVsUtgw62g/profile-displayphoto-shrink_800_800/0/1692384500617?e=1706140800&v=beta&t=7PWJELr-D3FWcwpPRRr7jFk0s2umq3xnx6x8JmFx0uQ"
+                         class="card-img-top w-50 mx-auto" alt="David Koplik">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">David Koplik</h5>
+                        <h6 class="card-title text-center small">Fullstack Developer</h6>
+                        <p class="card-text">Hi everyone!<br/>
+                            As part of the backend team of CoMint, I'm a contributor to the web and database servers
+                            behind
+                            this
+                            website.
+                            Outside CoMint, I'm a software developer working on my bachelor's degree with plenty of full
+                            stack
+                            experience, coming from both industry and personal projects.
+                            Feel free to send me a message on <a href="https://www.linkedin.com/in/davidkoplik/"
+                                                                 target="_blank">LinkedIn</a> if
+                            you'd like to talk!</p>
+                    </div>
+                </div>
+                <div class="card border border-0 col-md-6 col-lg-4">
+                    <img src="https://media.licdn.com/dms/image/D5635AQGXlNWQe6HVXg/profile-framedphoto-shrink_800_800/0/1683586357450?e=1701194400&v=beta&t=IQk5Ims6jUDNOeFHt-vtWiJsmZyUKo3DZFGWUxcRiYg"
+                         class="card-img-top w-50 mx-auto" alt="Shubh Khandelwal">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Shubh Khandelwal</h5>
+                        <h6 class="card-title text-center small">Fullstack Developer</h6>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium
+                            amet
+                            atque
+                            consequatur cupiditate dolorem ex fugit, incidunt, mollitia nesciunt nisi, nobis nostrum
+                            perferendis
+                            sint velit! Animi aperiam eum, magnam odio officia quibusdam quis repellat sequi soluta
+                            voluptates.
+                            Accusamus adipisci corporis cumque esse mollitia nesciunt quod ratione, recusandae
+                            repellendus
+                            ut.</p>
+                    </div>
+                </div>
+                <div class="card border border-0 col-md-6 col-lg-4">
+                    <img src="https://media.licdn.com/dms/image/D5603AQG4FIHMoYw4gA/profile-displayphoto-shrink_800_800/0/1667413458579?e=1706140800&v=beta&t=SgWFQY-3KvobX_9yFAIi10DMm_HE2EEQJGRFy0btZY4"
+                         class="card-img-top w-50 mx-auto" alt="Bao Huynh">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Bao Huynh</h5>
+                        <h6 class="card-title text-center small">Frontend Developer</h6>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium
+                            amet
+                            atque
+                            consequatur cupiditate dolorem ex fugit, incidunt, mollitia nesciunt nisi, nobis nostrum
+                            perferendis
+                            sint velit! Animi aperiam eum, magnam odio officia quibusdam quis repellat sequi soluta
+                            voluptates.
+                            Accusamus adipisci corporis cumque esse mollitia nesciunt quod ratione, recusandae
+                            repellendus
+                            ut.</p>
+                    </div>
+                </div>
+                <div class="card border border-0 col-md-6 col-lg-4">
+                    <img src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
+                         class="card-img-top w-50 mx-auto" alt="Nicholas Gantt">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Nicholas Gantt</h5>
+                        <h6 class="card-title text-center small">Frontend Developer</h6>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium
+                            amet
+                            atque
+                            consequatur cupiditate dolorem ex fugit, incidunt, mollitia nesciunt nisi, nobis nostrum
+                            perferendis
+                            sint velit! Animi aperiam eum, magnam odio officia quibusdam quis repellat sequi soluta
+                            voluptates.
+                            Accusamus adipisci corporis cumque esse mollitia nesciunt quod ratione, recusandae
+                            repellendus
+                            ut.</p>
+                    </div>
+                </div>
+                <div class="card border border-0 col-md-6 col-lg-4">
+                    <img src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
+                         class="card-img-top w-50 mx-auto" alt="Al-Harith Al-Maawali">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Al-Harith Al-Maawali</h5>
+                        <h6 class="card-title text-center small">Security Analyst</h6>
+                        <p class="card-text">Meet Alharith Almaawali, a seasoned senior at Arizona State University
+                            (ASU)
+                            majoring in cybersecurity. Alharith's academic journey has honed his expertise in network
+                            security,
+                            encryption, and vulnerability assessment. His dynamic contributions to our capstone project
+                            showcase
+                            his adaptability and proficiency. Initially playing a pivotal role in front-end development,
+                            Alharith seamlessly transitioned to cybersecurity, where his contributions include impactful
+                            risk
+                            assessments and vulnerability assessments for some of the tools we used. His commitment to
+                            continuous improvement and staying abreast of the latest security trends is evident in his
+                            multifaceted contributions. For any inquiries or assistance related to cybersecurity, <a
+                                    href="https://www.linkedin.com/in/al-harith-al-maawali-46986b286/" target="_blank">connect
+                                with Alharith</a>; he's here to help.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock body %}
