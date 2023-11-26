@@ -1,3 +1,10 @@
+:root{
+    --cm-padding-left:10%;
+    --cm-padding-right:10%;
+    --cm-margin-left:10%;
+    --cm-margin-right:10%;
+}
+
 #hero-background{
     background-image: url('/comintapp/static/comintapp/images/wave-haikei.png');
     background-repeat: no-repeat;
@@ -9,14 +16,19 @@
     color:white;
     padding-top: 3em;
     padding-bottom: 3em;
-    padding-left: 6em;
-    padding-right: 6em;
+    padding-left: var(--cm-margin-left);
+    padding-right: var(--cm-margin-right);
 }
 
 .bottom-content{
     display:flex;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
+}
+
+.bottom-content > * {
+    flex:1 1 10em;
 }
 
 .num-bg{
@@ -24,11 +36,48 @@
     background-repeat: no-repeat;
 }
 
+.cm-margin-l{
+    margin-left: var(--cm-margin-left);
+}
+
+.cm-margin-r{
+    margin-right: var(--cm-margin-right);
+}
+
+.cm-margin{
+    margin-left: var(--cm-margin-left);
+    margin-right: var(--cm-margin-right);
+}
+
+.cm-padding-l{
+    padding-left:var(--cm-padding-left);
+}
+.cm-padding-r{
+    padding-left:var(--cm-padding-right);
+}
+.cm-padding{
+    padding-left: var(--cm-padding-left);
+    padding-right: var(--cm-padding-right);
+}
+
 
 #main-content{
     display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     padding-bottom:75px;
 }
+
+#main-content > *{
+    flex:1 1 10em;
+}
+
+#main-content-img{
+    min-width: 300px;
+}
+
+
 
 #why-choose-comint{
     font-family: 'Poppins';
@@ -57,7 +106,6 @@
 }
 
 #main-content-words{
-    padding-left:150px;
     padding-top:100px;
 }
 
@@ -84,18 +132,26 @@
     background-repeat: no-repeat;
     background-position-x: -5em;
     display:flex;
+    flex-wrap: wrap;
+
+
+    justify-content: space-between;
     margin-top:5em;
     padding-top: 4em;
-    padding-left: 8em;
-    padding-right: 8em;
+    padding-left: var(--cm-padding-left);
+    padding-right: var(--cm-padding-right);
 
+}
+
+.hiw-upperbody > *{
+    flex:1 1 10em;
 }
 
 .hiw-upperbody-textcontainer{
     display:flex;
+    flex-wrap: wrap;
     align-items: center;
-    padding-left:6em;
-    padding-right:6em;
+    margin-left: 10%;
     font-size:24px;    
 }
 
@@ -105,21 +161,18 @@
 
 .flexb{
     display:flex;
+    flex-wrap: wrap;
     align-items: center;
 }
 
-.steps{
 
-    
-    padding-left: 7em;
-    padding-right: 7em;
-}
 
 .step-row{
     
     display:flex;
+    flex-wrap: wrap;
     align-items:center;
-    justify-content: center;
+    justify-content: space-evenly;
     padding-top:1.5em;
     padding-bottom:1.5em;
    
@@ -129,6 +182,8 @@
     margin:auto;
     margin-left: 1em;
     margin-right: 1em;
+    margin-top:1em;
+    margin-bottom:1em;
     min-width:350px;
     max-width: 350px;
 
@@ -190,7 +245,7 @@ input[type="text"], input[type="tel"], input[type="email"]{
 .txt-medlrg{
     font-size:40px;
 }
-
+/* 
 @media (max-width: 1000px){
     #main-content{
         display:flex;
@@ -215,10 +270,10 @@ input[type="text"], input[type="tel"], input[type="email"]{
         padding-bottom:75px;
     }
 
-    #bottom-content{
+    .bottom-content{
         display:flex;
         flex-wrap: wrap;
-        justify-content: space-evenly;
+        justify-content: space-between;
     }
 
     #main-content-words{
@@ -233,12 +288,10 @@ input[type="text"], input[type="tel"], input[type="email"]{
 
 @media (min-width:1440px){
 
-    #main-content-img{
-        margin-left:500px;
-    }
+    
     .hiw-upperbody{
         background-size: cover;
     }
    
   
-}
+} */

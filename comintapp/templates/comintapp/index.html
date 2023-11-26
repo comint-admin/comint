@@ -12,24 +12,24 @@
 {% block body %}
 <div class="mainpage-body">
     <div id="hero-background" style="background-image: url('{% static 'comintapp/images/wave-haikei.png' %}');">
-        <div id="main-content">
-            <div id="main-content-words">
+        <div id="main-content" class="cm-margin">  
+            <div id="main-content-words"  >
                 <img class="img-fluid" src="{% static 'comintapp/images/default_logo_crop.png' %}">
                 <p id="borrow-better">Borrow better,<br> Invest smarter!</p>
-                <p id="connect-with">Connect with like minded borrowers and investors , and unlock a world of
+                <p id="connect-with" class="cm-margin-r">Connect with like minded borrowers and investors , and unlock a world of
                     opprotunities,
                     all on one seamless platform</p>
                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#waitlistModal"
                         style="background-color: #26176F; color:white; font-family: 'Epilogue';"> Join the waitlist >
                 </button>
             </div>
-            <div id="main-content-img">
-                <img src="{% static 'comintapp/images/comint-phones.png' %}">
+            <div id="main-content-img" >
+                <img src="{% static 'comintapp/images/comint-phones.png' %}" class="img-fluid">
             </div>
         </div>
     </div>
 
-    <div class="bottom-wrapper">
+    <div class="bottom-wrapper cm-padding">
         <div class="bottom-content">
             <div class="txt-medlrg poppins semi-bold">
                 <p>Why Choose CoMint <br> For Your Lending And <br> Borrowing Experience</p>
@@ -80,14 +80,14 @@
     </div>
 
         <div class="hiw-upperbody">
-            <div class="ml-4">
-            <img src="{%static 'comintapp/images/howitworks.png'%}"> 
+            <div>
+            <img class="img-fluid" src="{%static 'comintapp/images/howitworks.png'%}"> 
             </div>
             <div class="hiw-upperbody-textcontainer">
                 <p class="vert-align epilogue txt-med">By combining cutting-edge technology with human connection, we offer a seamless and transparent experience that empowers you to borrow smarter and invest with confidence</p>
             </div>
         </div>
-        <div class="steps">
+        <div class="cm-padding">
 
         <div class="step-row">
             <div class="step-article">
@@ -164,7 +164,7 @@
     <div class="bottom-wrapper">
         
         <div class="bottom-content">
-            <img src="{%static '/comintapp/images/bottom-img.png'%}">   
+            <img class="img-fluid" src="{%static '/comintapp/images/bottom-img.png'%}">   
 
             <div>
                 <div><p class="h1 txt-lrg epilogue">Dont miss out!</p>

@@ -88,10 +88,14 @@ body {
 
     <span class="navbar-toggler">&#9776;</span>
 
+    {%if not self.request.user.is_authenticated%}
     <ul class="px-4 nav-btn" style="list-style: none;">
         <a class="btn btn-light" style="width: 90px; margin-right:1em; color:#26176F; background-color: #97f191; font-family:'Epilogue';" href="{% url 'account_login' %}">Log in</a>
         <a class="btn btn-dark" style="width: 90px; background-color:#26176F; font-family:'Epilogue';" href="{% url 'account_signup' %}">Sign up</a>
     </ul>
+    {%endif%}
+
+
 </div>
 
 
