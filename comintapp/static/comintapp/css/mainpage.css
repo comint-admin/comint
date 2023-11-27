@@ -187,6 +187,7 @@
     min-width:350px;
     max-width: 350px;
 
+
     min-height:500px;
     max-height: 500px;
     border: 8px solid #26176F;
@@ -201,7 +202,14 @@
     font-weight: bolder;
 }
 
-
+.step-grid{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-items: center;
+}
 
 .gochi-hand{
     font-family: "Gochi Hand";
@@ -294,4 +302,5 @@ input[type="text"], input[type="tel"], input[type="email"]{
     }
    
   
-} */
+} */ 
+ 
