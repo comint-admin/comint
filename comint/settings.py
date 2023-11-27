@@ -84,6 +84,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'CoMint App'
 ACCOUNT_FORMS = {
     'signup': 'comintapp.forms.ComintSignupForm',
     'login': 'comintapp.forms.CoMintSignInForm',
+    'reset_password': 'comintapp.forms.ComintResetPasswordForm',
 }
 
 ACCOUNT_CHANGE_EMAIL = True
@@ -199,5 +200,5 @@ EMAIL_HOST_PASSWORD = env('ZOHO_APP_PASSWORD')
 DEFAULT_FROM_EMAIL = 'CoMint App<noreply@comintapp.com>'
 
 # # hCaptcha
-HCAPTCHA_SITEKEY = env('HCAPTCHA_SITEKEY')
-HCAPTCHA_SECRET = env('HCAPTCHA_SECRET')
+# HCAPTCHA_SITEKEY = env('HCAPTCHA_SITEKEY')
+# HCAPTCHA_SECRET = env('HCAPTCHA_SECRET')

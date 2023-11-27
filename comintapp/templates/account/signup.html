@@ -65,6 +65,22 @@
     display: flex;
     justify-content: center;
 }
+
+.validation-box {
+  border: 2px solid #f9c74f; /* Yellowish color */
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: none; /* Initially hidden */
+  align-items: center;
+  background-color: #fff3cd; /* Light yellow background */
+}
+
+.validation-box .message {
+  margin-left: 10px;
+  color: #856404; /* Darker yellow text for contrast */
+}
+
 </style>
 {% endblock styles  %}
 
@@ -75,77 +91,108 @@
             const PW_MIN_LEN = 8;
             const MAX_SIMILARITY = 0.7;
 
+            const form = document.getElementById('signup_form');
             const emailField = document.getElementById('id_email');
             const firstNameField = document.getElementById('id_first_name');
             const lastNameField = document.getElementById('id_last_name');
             const passwordField = document.getElementById('passwordField');
             const passwordValidation = document.getElementById('password-validation');
 
-            if (passwordField && passwordValidation) {
-                passwordField.addEventListener('input', () => {
-                    const password = passwordField.value;
-                    const email = emailField.value;
-                    const firstName = firstNameField.value;
-                    const lastName = lastNameField.value;
-                    passwordValidation.innerHTML = '';  // Clear previous validation messages
+            // Function to validate verification questions
+          function validateVerificationQuestions() {
+            const question1 = document.getElementById('id_verification_question_1').value;
+            const question2 = document.getElementById('id_verification_question_2').value;
+            const question3 = document.getElementById('id_verification_question_3').value;
 
-                    const validations = [
-                        {
-                            test: password.length >= PW_MIN_LEN,
-                            message: `Password must be at least ${PW_MIN_LEN} characters long.`
-                        },
-                        {test: /\d/.test(password), message: 'Password must contain at least one number.'},
-                        {
-                            test: [...email.split(/\W+/), firstName, lastName]
-                                .every((val) =>
-                                    (new difflib.SequenceMatcher(null, password, val)).quickRatio() < MAX_SIMILARITY
-                                ),
-                            message: `Password cannot be too similar to other fields.`
-                        },
-                    ];
+            const validationBox = document.getElementById('verification-questions-validation');
+            validationBox.innerHTML = '';  // Clear previous message
 
-                    validations.forEach(validation => {
-                        const item = document.createElement('div');
-                        item.className = 'validation-item';
+            const icon = document.createElement('span');
+            icon.className = 'icon';
+            const message = document.createElement('span');
+            message.className = 'message';
 
-                        const icon = document.createElement('span');
-                        icon.className = 'icon ' + (validation.test ? 'icon-tick' : 'icon-cross');
-                        icon.innerHTML = validation.test ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times pulse"></i>';  // FontAwesome icons
-
-                        const message = document.createElement('span');
-                        message.innerText = validation.message;
-
-                        item.appendChild(icon);
-                        item.appendChild(message);
-                        passwordValidation.appendChild(item);
-                    });
-                });
+            if (new Set([question1, question2, question3]).size !== 3) {
+                icon.innerHTML = '<i class="fas fa-times" style="color: red;"></i>';
+                message.innerText = 'Please select different verification questions.';
+                validationBox.appendChild(icon);
+                validationBox.appendChild(message);
+                validationBox.style.display = 'flex';
+                return false;
+            } else {
+                icon.innerHTML = '<i class="fas fa-check" style="color: green;"></i>';
+                message.innerText = 'Verification questions are unique.';
+                validationBox.appendChild(icon);
+                validationBox.appendChild(message);
+                validationBox.style.display = 'flex';
+                return true;
             }
-            const passwordField2 = document.getElementById('passwordField2');
-            const passwordMatchValidation = document.getElementById('password-match-validation');
+          }
 
-            if (passwordField2 && passwordMatchValidation) {
-                passwordField2.addEventListener('input', () => {
-                    const password = passwordField.value;
-                    const confirmPassword = passwordField2.value;
-                    passwordMatchValidation.innerHTML = '';  // Clear previous validation message
+            function validatePassword() {
+                const password = passwordField.value;
+                const email = emailField.value;
+                const firstName = firstNameField.value;
+                const lastName = lastNameField.value;
+                passwordValidation.innerHTML = '';  // Clear previous validation messages
 
-                    const match = (password === confirmPassword);
+                const validations = [
+                    {
+                        test: password.length >= PW_MIN_LEN,
+                        message: `Password must be at least ${PW_MIN_LEN} characters long.`
+                    },
+                    { test: /\d/.test(password), message: 'Password must contain at least one number.' },
+                    {
+                        test: [...email.split(/\W+/), firstName, lastName]
+                            .every((val) =>
+                                (new difflib.SequenceMatcher(null, password, val)).quickRatio() < MAX_SIMILARITY
+                            ),
+                        message: 'Password cannot be too similar to your name or email.'
+                    },
+                ];
+
+                let isValid = true;
+
+                validations.forEach(validation => {
+                    if (!validation.test) {
+                        isValid = false;
+                    }
                     const item = document.createElement('div');
                     item.className = 'validation-item';
 
                     const icon = document.createElement('span');
-                    icon.className = 'icon ' + (match ? 'icon-tick' : 'icon-cross');
-                    icon.innerHTML = match ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times pulse"></i>';  // FontAwesome icons
+                    icon.className = 'icon ' + (validation.test ? 'icon-tick' : 'icon-cross');
+                    icon.innerHTML = validation.test ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times pulse"></i>';  // FontAwesome icons
 
                     const message = document.createElement('span');
-                    message.innerText = match ? 'Passwords match.' : 'Passwords do not match.';
+                    message.innerText = validation.message;
 
                     item.appendChild(icon);
                     item.appendChild(message);
-                    passwordMatchValidation.appendChild(item);
+                    passwordValidation.appendChild(item);
                 });
+
+                return isValid;
             }
+
+            if (passwordField && passwordValidation) {
+                passwordField.addEventListener('input', validatePassword);
+            }
+
+          // Add event listeners to verification question fields
+          document.getElementById('id_verification_question_1').addEventListener('change', validateVerificationQuestions);
+          document.getElementById('id_verification_question_2').addEventListener('change', validateVerificationQuestions);
+          document.getElementById('id_verification_question_3').addEventListener('change', validateVerificationQuestions);
+
+          // Modify the form submit handler to include verification question validation
+          form.addEventListener('submit', function(event) {
+              if (!validatePassword() || !validateVerificationQuestions()) {
+                  event.preventDefault();
+              }
+          });
+
+          // Initial validation check
+          validateVerificationQuestions();
         });
     </script>
 {% endblock scripts %}
@@ -179,29 +226,37 @@
             {% csrf_token %}
             {% for field in form %}
               <div class="form-outline mb-4">
-                {% if field.name != "captcha" and field.name != "tc" %}
-                    <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
-                {% endif %}
-                {% if field.name == "password1" %}
-                  {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField" }}
-                  <div id="password-validation"></div>
-                  {% elif field.name == "password2" %}
-                {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField2" }}
-                <div id="password-match-validation"></div>
-                {% elif field.name == "captcha" %}
-                    {{ field|add_class:"form-control form-control-md custom-border" }}
-                    {% if form.captcha.errors %}
-                      <div class="text-danger">
-                        {{ form.captcha.errors|striptags }}
-                      </div>
-                    {% endif %}
-                {% elif field.name == "tc" %}
-                    <div class="form-check margin-auto">
-                        {{ field|add_class:"form-check-input" }}
-                        {{ field.label_tag }}
-                    </div>
-                {% else %}
+                {% if 'verification_question' in field.name %}
+                  {% if field.name == 'verification_question_1' %}
+                    <div id="verification-questions-validation" class="validation-box" style="display: none;"></div>
+                  {% endif %}
+                  <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
                   {{ field|add_class:"form-control form-control-md custom-border" }}
+                {% else %}
+                  {% if field.name != "captcha" and field.name != "tc" %}
+                      <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
+                  {% endif %}
+                  {% if field.name == "password1" %}
+                    {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField" }}
+                    <div id="password-validation"></div>
+                    {% elif field.name == "password2" %}
+                  {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField2" }}
+                  <div id="password-match-validation"></div>
+                  {% elif field.name == "captcha" %}
+                      {{ field|add_class:"form-control form-control-md custom-border" }}
+                      {% if form.captcha.errors %}
+                        <div class="text-danger">
+                          {{ form.captcha.errors|striptags }}
+                        </div>
+                      {% endif %}
+                  {% elif field.name == "tc" %}
+                      <div class="form-check margin-auto">
+                          {{ field|add_class:"form-check-input" }}
+                          {{ field.label_tag }}
+                      </div>
+                  {% else %}
+                    {{ field|add_class:"form-control form-control-md custom-border" }}
+                  {% endif %}
                 {% endif %}
               </div>
             {% endfor %}
