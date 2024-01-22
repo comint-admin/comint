@@ -61,9 +61,9 @@ body {
             margin-top: 20px;
         }
 
-        .navbar.collapsed span {
+        {% comment %} .navbar.collapsed span {
             display: none;
-        }
+        } {% endcomment %}
 
         .navbar.collapsed {
             flex-direction: column;
@@ -86,7 +86,7 @@ body {
         <a class="navbar-item" href="#"> Blog </a>
     </div>
 
-    <span class="navbar-toggler">&#9776;</span>
+  
 
     {%if not request.user.is_authenticated%}
     <ul class="px-4 nav-btn" style="list-style: none;">
@@ -98,6 +98,8 @@ body {
             <a class="btn btn-dark" style="width: 90px; background-color:#26176F; font-family:'Epilogue';" href="{% url 'account_logout' %}">Log out</a>
         </ul>
     {% endif %}
+
+    <span class="navbar-toggler">&#9776;</span>
 
 
 </div>

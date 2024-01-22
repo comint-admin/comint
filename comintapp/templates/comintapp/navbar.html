@@ -25,10 +25,10 @@
   
   <nav class="navbar navbar-expand-lg navbar-light justify-content-between " style="background-color: rgba(255, 255, 255, 0);color:#000000;padding-left:11em;">
     <a class="navbar-brand px-4" href="{% url 'comintapp:index' %}"><img src="{% static 'comintapp/images/comintIcon.webp'%}"></a>
-    
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+  
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
@@ -52,6 +52,8 @@
 
      
     </div>
+    
+   
     <a href="{% url 'comintapp:login' %}">
      <button class="btn btn-light" style="margin-right:3em; color:#26176F; font-family:'Epilogue';" >Log in</button>
     </a> 
