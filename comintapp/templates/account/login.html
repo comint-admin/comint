@@ -39,7 +39,12 @@
               </div>
             {% endif %}
 
-            <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Sign In" %}</h1>
+          <div class="" style="position: relative; width: 100%; text-align: right; margin-top: -15px;">
+            <img src="/static/comintapp/images/Group.svg" alt="Description of your SVG" style="position: absolute; right: -70px;" />
+          </div> 
+
+          <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Sign In" %}</h1> 
+
 
             {% get_providers as socialaccount_providers %}
             {% if socialaccount_providers %}
@@ -120,8 +125,10 @@
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                   {% endif %}
 
-                  <button type="submit" class="btn btn-lg btn-block"
-                          style="color: white; background-color: #26176F; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto;">{% trans "Sign In" %}</button>
+              <button type="submit" class="btn btn-lg btn-block" style="color: white; background-color: #26176F; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto;">{% trans "Sign In" %}</button>
+              <div class="" style="position: relative; width: 100%; text-align: right; margin-top: -15px;">
+                <img src="/static/comintapp/images/Group.svg" alt="Description of your SVG" style="position: absolute; right: 480px;" />
+              </div> 
 
             </form>
             </div>
