@@ -2,20 +2,32 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
-from comintapp.models import UserProfile
+from comintapp.models import UserProfile, VerificationQuestion
 
 class ProfileCompletionMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
+
+        # Exclude certain paths to avoid redirect loops
+        if request.path in [reverse('account_login'), reverse('account_logout'), reverse('account_signup'), reverse('account_email_verification_sent')]:
+            return self.get_response(request)
+        
         if request.user.is_authenticated:
             try:
                 profile = UserProfile.objects.get(user=request.user)
+                questions_answered = VerificationQuestion.objects.filter(user=request.user).count() == 3
                 profile_exists = True
             except UserProfile.DoesNotExist:
                 profile_exists = False
+                questions_answered = False
 
+            # Redirect to verification questions page if not answered
+            if not questions_answered and request.path != reverse('comintapp:verification_questions'):
+                messages.info(request, "You must complete the security questions to continue!")
+                return redirect('comintapp:verification_questions')
+            
             if profile_exists:
                 if not profile.is_verified:
                      # If the profile exists but is not verified

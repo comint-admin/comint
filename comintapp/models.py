@@ -92,10 +92,14 @@ class ComintUser(AbstractBaseUser, PermissionsMixin):
 @receiver(email_confirmed)
 def update_user_profile(sender, request, email_address, **kwargs):
     """
-    Update the is_verified field in the user profile when the email is confirmed.
+    Create a user profile and update the is_verified field when the email is confirmed.
     """
     # Get the user based on the email address
     user = email_address.user
+
+    # Check if the user already has a profile, create one if not
+    UserProfile.objects.get_or_create(user=user)
+
     # Update the is_verified field in the user's profile
     user.profile.is_verified = True
     user.profile.save()
