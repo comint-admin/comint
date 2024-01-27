@@ -10,21 +10,19 @@ from django.utils.functional import lazy
 from django.utils.translation import gettext as _
 from hcaptcha_field import hCaptchaField
 
-
 class CoMintSignInForm(LoginForm):
     captcha = hCaptchaField()
-
 
 class ComintSignupForm(SignupForm):
     first_name = forms.CharField(max_length=30, label='First Name', required=True)
     last_name = forms.CharField(max_length=30, label='Last Name', required=False)
-    verification_question_1 = forms.ChoiceField(choices=VerificationQuestion.VERIFICATION_QUESTIONS, label='Verification Question 1')
-    verification_answer_1 = forms.CharField(max_length=255, label='Answer 1', required=True)
-    verification_question_2 = forms.ChoiceField(choices=VerificationQuestion.VERIFICATION_QUESTIONS, label='Verification Question 2')
-    verification_answer_2 = forms.CharField(max_length=255, label='Answer 2', required=True)
-    verification_question_3 = forms.ChoiceField(choices=VerificationQuestion.VERIFICATION_QUESTIONS, label='Verification Question 3')
-    verification_answer_3 = forms.CharField(max_length=255, label='Answer 3', required=True)
 
+    def __init__(self, *args, **kwargs):
+        super(ComintSignupForm, self).__init__(*args, **kwargs)
+        # Change the label for the password2 field
+        self.fields['password2'].label = "Confirm Password"
+        for field_name, field in self.fields.items():
+            field.widget.attrs['placeholder'] = ''
 
     tc = forms.BooleanField(
         required=True,
@@ -35,7 +33,7 @@ class ComintSignupForm(SignupForm):
     )
     captcha = hCaptchaField()
 
-    field_order = ['email', 'first_name', 'last_name', 'password1', 'password2', 'verification_question_1', 'verification_answer_1', 'verification_question_2', 'verification_answer_2', 'verification_question_3', 'verification_answer_3', 'tc', 'captcha']
+    field_order = ['email', 'first_name', 'last_name', 'password1', 'password2', 'tc', 'captcha']
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -43,6 +41,30 @@ class ComintSignupForm(SignupForm):
             raise ValidationError("A user with this email already exists. Please login instead.")
         return email
     
+    def signup(self, request, user):
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+        return user
+
+class VerificationQuestionsForm(forms.Form):
+    verification_question_1 = forms.ChoiceField(choices=VerificationQuestion.VERIFICATION_QUESTIONS, label='Verification Question 1')
+    verification_answer_1 = forms.CharField(max_length=255, label='Answer 1', required=True)
+    verification_question_2 = forms.ChoiceField(choices=VerificationQuestion.VERIFICATION_QUESTIONS, label='Verification Question 2')
+    verification_answer_2 = forms.CharField(max_length=255, label='Answer 2', required=True)
+    verification_question_3 = forms.ChoiceField(choices=VerificationQuestion.VERIFICATION_QUESTIONS, label='Verification Question 3')
+    verification_answer_3 = forms.CharField(max_length=255, label='Answer 3', required=True)
+
+    field_order = ['verification_question_1', 'verification_answer_1', 'verification_question_2', 'verification_answer_2', 'verification_question_3', 'verification_answer_3']
+
+    def __init__(self, *args, **kwargs):
+            super(VerificationQuestionsForm, self).__init__(*args, **kwargs)
+            # Set initial questions
+            self.fields['verification_question_1'].initial = VerificationQuestion.VERIFICATION_QUESTIONS[0][0]
+            self.fields['verification_question_2'].initial = VerificationQuestion.VERIFICATION_QUESTIONS[1][0]
+            self.fields['verification_question_3'].initial = VerificationQuestion.VERIFICATION_QUESTIONS[2][0]
+
+
     def clean(self):
         cleaned_data = super().clean()
 
@@ -56,21 +78,6 @@ class ComintSignupForm(SignupForm):
             raise forms.ValidationError("Please select different verification questions.")
 
         return cleaned_data
-    
-    def signup(self, request, user):
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        for i in range(1, 4):
-            question_field = f'verification_question_{i}'
-            answer_field = f'verification_answer_{i}'
-            VerificationQuestion.objects.create(
-                user=user,
-                question=self.cleaned_data[question_field],
-                answer=self.cleaned_data[answer_field]
-            )
-        user.save()
-        return user
-
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
@@ -89,7 +96,6 @@ class UserProfileForm(forms.ModelForm):
             # Set required attribute for the fields in the list
             for field_name in required_fields:
                 self.fields[field_name].required = True
-
 
 
 class ComintResetPasswordForm(ResetPasswordForm):

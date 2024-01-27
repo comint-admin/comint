@@ -1,7 +1,7 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
-from allauth.account.signals import user_signed_up
+from allauth.account.signals import user_signed_up, email_confirmed
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
@@ -89,6 +89,21 @@ class ComintUser(AbstractBaseUser, PermissionsMixin):
         return (self.email,)
 
 
+@receiver(email_confirmed)
+def update_user_profile(sender, request, email_address, **kwargs):
+    """
+    Create a user profile and update the is_verified field when the email is confirmed.
+    """
+    # Get the user based on the email address
+    user = email_address.user
+
+    # Check if the user already has a profile, create one if not
+    UserProfile.objects.get_or_create(user=user)
+
+    # Update the is_verified field in the user's profile
+    user.profile.is_verified = True
+    user.profile.save()
+
 class VerificationQuestion(models.Model):
     VERIFICATION_QUESTIONS = [
         ('childhood_nickname', 'What was your childhood nickname?'),
@@ -109,8 +124,6 @@ class VerificationQuestion(models.Model):
     def __str__(self):
         return self.get_question_display()
 
-
-
 def validate_ssn(value):
     """
     Validates that the input is a valid SSN.
@@ -122,7 +135,6 @@ def validate_ssn(value):
             params={'value': value},
         )
 
-
 class UserProfile(models.Model):
     """Profile data about a user."""
 
@@ -133,7 +145,7 @@ class UserProfile(models.Model):
 
     dob = models.DateField(verbose_name="Date of Birth", blank=True, null=True)
     ssn = models.CharField(
-        verbose_name="SSN",
+        verbose_name="SSN (optional)",
         max_length=11,
         validators=[validate_ssn],
         help_text="Social Security Number in the format XXX-XX-XXXX",
@@ -192,6 +204,3 @@ def set_initial_user_names(request, user, sociallogin=None, **kwargs):
 
     user.guess_display_name()
     user.save()
-
-
-

@@ -59,30 +59,14 @@
           }
       }
 
-      #id_captcha {
-          border: none;
-          background-color: transparent;
-          display: flex;
-          justify-content: center;
-      }
-
-      .validation-box {
-          border: 2px solid #f9c74f; /* Yellowish color */
-          border-radius: 8px;
-          padding: 10px;
-          margin-bottom: 10px;
-          display: none; /* Initially hidden */
-          align-items: center;
-          background-color: #fff3cd; /* Light yellow background */
-      }
-
-      .validation-box .message {
-          margin-left: 10px;
-          color: #856404; /* Darker yellow text for contrast */
-      }
-
-  </style>
-{% endblock styles %}
+#id_captcha {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+}
+</style>
+{% endblock styles  %}
 
 {% block scripts %}
   <script src="https://cdn.jsdelivr.net/npm/difflib@0.2.4/dist/difflib-browser.min.js"></script>
@@ -91,43 +75,12 @@
       const PW_MIN_LEN = 8;
       const MAX_SIMILARITY = 0.7;
 
-      const form = document.getElementById('signup_form');
-      const emailField = document.getElementById('id_email');
-      const firstNameField = document.getElementById('id_first_name');
-      const lastNameField = document.getElementById('id_last_name');
-      const passwordField = document.getElementById('passwordField');
-      const passwordValidation = document.getElementById('password-validation');
-
-      // Function to validate verification questions
-      function validateVerificationQuestions() {
-        const question1 = document.getElementById('id_verification_question_1').value;
-        const question2 = document.getElementById('id_verification_question_2').value;
-        const question3 = document.getElementById('id_verification_question_3').value;
-
-        const validationBox = document.getElementById('verification-questions-validation');
-        validationBox.innerHTML = '';  // Clear previous message
-
-        const icon = document.createElement('span');
-        icon.className = 'icon';
-        const message = document.createElement('span');
-        message.className = 'message';
-
-        if (new Set([question1, question2, question3]).size !== 3) {
-          icon.innerHTML = '<i class="fas fa-times" style="color: red;"></i>';
-          message.innerText = 'Please select different verification questions.';
-          validationBox.appendChild(icon);
-          validationBox.appendChild(message);
-          validationBox.style.display = 'flex';
-          return false;
-        } else {
-          icon.innerHTML = '<i class="fas fa-check" style="color: green;"></i>';
-          message.innerText = 'Verification questions are unique.';
-          validationBox.appendChild(icon);
-          validationBox.appendChild(message);
-          validationBox.style.display = 'flex';
-          return true;
-        }
-      }
+            const form = document.getElementById('signup_form');
+            const emailField = document.getElementById('id_email');
+            const firstNameField = document.getElementById('id_first_name');
+            const lastNameField = document.getElementById('id_last_name');
+            const passwordField = document.getElementById('passwordField');
+            const passwordValidation = document.getElementById('password-validation');
 
       function validatePassword() {
         const password = passwordField.value;
@@ -179,22 +132,15 @@
         passwordField.addEventListener('input', validatePassword);
       }
 
-      // Add event listeners to verification question fields
-      document.getElementById('id_verification_question_1').addEventListener('change', validateVerificationQuestions);
-      document.getElementById('id_verification_question_2').addEventListener('change', validateVerificationQuestions);
-      document.getElementById('id_verification_question_3').addEventListener('change', validateVerificationQuestions);
+          // Modify the form submit handler to include verification question validation
+          form.addEventListener('submit', function(event) {
+              if (!validatePassword()) {
+                  event.preventDefault();
+              }
+          });
 
-      // Modify the form submit handler to include verification question validation
-      form.addEventListener('submit', function (event) {
-        if (!validatePassword() || !validateVerificationQuestions()) {
-          event.preventDefault();
-        }
-      });
-
-      // Initial validation check
-      validateVerificationQuestions();
-    });
-  </script>
+        });
+    </script>
 {% endblock scripts %}
 
 {% block content %}
@@ -223,31 +169,22 @@
           <img src="/static/comintapp/images/Group.svg" alt="Description of your SVG" style="position: absolute; right: -70px;" />
         </div> 
 
-            <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Sign Up" %}</h1>
+          <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Create an account" %}</h1>
 
             <p class="mb-3 pb-1 text-center" style="font-size: 16px; font-family: 'Poppins', sans-serif;">Already have
               an account? <a href="{% url 'account_login' %}" style="text-decoration: underline; color: black">Log
                 in</a></p>
 
-            <form method="post" action="{% url 'account_signup' %}" class="signup mt-5" id="signup_form">
-              {% csrf_token %}
-              {% for field in form %}
-                <div class="form-outline mb-4">
-                  {% if 'verification_question' in field.name %}
-                    {% if field.name == 'verification_question_1' %}
-                      <div id="verification-questions-validation" class="validation-box" style="display: none;"></div>
-                    {% endif %}
-                    <label class="form-label" for="{{ field.id_for_label }}"
-                           style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
-                    {{ field|add_class:"form-control form-control-md custom-border" }}
-                  {% else %}
-                    {% if field.name != "captcha" and field.name != "tc" %}
-                      <label class="form-label" for="{{ field.id_for_label }}"
-                             style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
-                    {% endif %}
-                    {% if field.name == "password1" %}
-                      {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField" }}
-                      <div id="password-validation"></div>
+          <form method="post" action="{% url 'account_signup' %}" class="signup mt-5" id="signup_form">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-outline mb-4">
+                  {% if field.name != "captcha" and field.name != "tc" %}
+                      <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
+                  {% endif %}
+                  {% if field.name == "password1" %}
+                    {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField" }}
+                    <div id="password-validation"></div>
                     {% elif field.name == "password2" %}
                       {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField2" }}
                       <div id="password-match-validation"></div>
@@ -266,7 +203,6 @@
                   {% else %}
                     {{ field|add_class:"form-control form-control-md custom-border" }}
                   {% endif %}
-                {% endif %}
               </div>
             {% endfor %}
             {% if redirect_field_value %}
