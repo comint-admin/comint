@@ -1,5 +1,6 @@
 {% extends "account/base.html" %}
 {% load widget_tweaks %}
+{% load static %}
 
 {% load i18n %}
 {% load account socialaccount %}
@@ -65,6 +66,12 @@
     display: flex;
     justify-content: center;
 }
+#hero-background {
+            background-image: url('{% static 'comintapp/images/wave-haikei.png'%}');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
 </style>
 {% endblock styles  %}
 
@@ -144,26 +151,24 @@
 {% endblock scripts %}
 
 {% block content %}
-  <section style="padding-top: 1em;">
-    <div class="container py-4">
-      <div class="row d-flex align-items-center justify-content-center">
-        <div class="col-lg-6 col-md-7 col-sm-9">
-          <div class="my-5 p-5 bg-light rounded-3"
-               style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-            <!-- Used Bootstrap classes for background and rounding, kept your styles for border and shadow -->
-            {% if form.errors %}
-              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>There were some errors with your form submission:</strong>
-                <ul>
-                  {% for field, errors in form.errors.items %}
-                    {% for error in errors %}
-                      <li>{{ error }}</li>
-                    {% endfor %}
-                  {% endfor %}
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            {% endif %}
+<section style="padding-top: 1em;" id="hero-background" >
+  <div class="container py-4">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="col-lg-6 col-md-7 col-sm-9">
+        <div class="my-5 p-5 bg-light rounded-3" style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);"> <!-- Used Bootstrap classes for background and rounding, kept your styles for border and shadow -->
+          {% if form.errors %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>There were some errors with your form submission:</strong>
+            <ul>
+              {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
 
         <div class="" style="position: relative; width: 100%; text-align: right; margin-top: -15px;">
           <img src="/static/comintapp/images/Group.svg" alt="Description of your SVG" style="position: absolute; right: -70px;" />
@@ -183,12 +188,28 @@
                       <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
                   {% endif %}
                   {% if field.name == "password1" %}
-                    {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField" }}
+
+                  <div class="input-group">
+
+                    {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField1" }}
+                    <span toggle="#passwordField1" class="fa fa-fw fa-eye field-icon toggle-password" style="font-size: 20px; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></span>
+
+                  </div>
                     <div id="password-validation"></div>
                     {% elif field.name == "password2" %}
-                      {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField2" }}
-                      <div id="password-match-validation"></div>
-                    {% elif field.name == "captcha" %}
+
+                  <div class="input-group">
+                  {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField2" }}
+                  <span toggle="#passwordField2" class="fa fa-fw fa-eye field-icon toggle-password" style="font-size: 20px; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></span>
+
+                  </div>
+                  <div id="password-match-validation"></div>
+
+
+
+
+
+                  {% elif field.name == "captcha" %}
                       {{ field|add_class:"form-control form-control-md custom-border" }}
                       {% if form.captcha.errors %}
                         <div class="text-danger">
@@ -210,6 +231,19 @@
             {% endif %}
             <button type="submit" class="btn btn-lg btn-block" style="color: white; background-color: #26176F; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto;">{% trans "Create an account" %}</button>
           </form>
+
+          <script>
+            document.querySelectorAll('.toggle-password').forEach(function (toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    var passwordInput = document.querySelector(this.getAttribute('toggle'));
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                    } else {
+                        passwordInput.type = 'password';
+                    }
+                });
+            });
+        </script>
 
             <hr class="my-4" style="position: relative;
               width: 79%;

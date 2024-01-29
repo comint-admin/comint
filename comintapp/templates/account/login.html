@@ -1,5 +1,7 @@
 {% extends "account/base.html" %}
 {% load widget_tweaks %}
+{% load static %}
+
 
 {% load i18n %}
 {% load account socialaccount %}
@@ -7,18 +9,26 @@
 {% block head_title %}{% trans "Log In" %}{% endblock head_title %}
 
 {% block styles %}
-  <style>
-      #id_captcha {
-          border: none;
-          background-color: transparent;
-          display: flex;
-          justify-content: center;
-      }
-  </style>
+    <style>
+        #id_captcha {
+            border: none;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+        }
+
+        #hero-background {
+            background-image: url('{% static 'comintapp/images/wave-haikei.png'%}');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+
+    </style>
 {% endblock styles %}
 
 {% block content %}
-  <section style="padding-top: 2em;">
+  <section style="padding-top: 2em;"  id="hero-background" >
     <div class="container py-4">
       <div class="row d-flex align-items-center justify-content-center">
         <div class="col-lg-6 col-md-7 col-sm-9">
@@ -50,7 +60,7 @@
             {% if socialaccount_providers %}
               <p class="mt-1 mb-5 pb-1 text-center" style="font-family: 'Poppins', sans-serif; font-size: 12px;">
                 {% blocktrans with site.name as site_name %}Don't have an account?
-                  <a href="{{ signup_url }}" style="text-decoration: underline; color: black">sign up</a>
+                  <a href="{{ signup_url }}" style="text-decoration: underline; color: black">Sign up</a>
                 {% endblocktrans %}</p>
 
               <div class="socialaccount_ballot">
@@ -94,11 +104,17 @@
 
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form1Example23">{{ form.password.label }}</label>
-                  {% render_field form.password placeholder="Password" class="form-control form-control-md" style="border-color: #26176F" %}
-                  {% if form.password.errors %}
-                    <div class="invalid-feedback">
-                      {{ form.password.errors|striptags }}
-                    </div>
+                  <div class="input-group">
+                    {% render_field form.password placeholder="Password" class="form-control form-control-md" style="border-color: #26176F; padding-right: 40px;" %}
+                    <span toggle="#id_password" class="fa fa-fw fa-eye field-icon toggle-password" style="font-size: 20px; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></span>
+
+
+
+                  </div>
+                        {% if form.password.errors %}
+                  <div class="invalid-feedback">
+                    {{ form.password.errors|striptags }}
+                  </div>
                   {% endif %}
                   <a class="mt-1" href="{% url 'account_reset_password' %}"
                      style="text-decoration: underline; font-family: 'Poppins', sans-serif; color:black; display: flex; justify-content: flex-end; font-size: 12px;">{% trans "Forgot Password?" %}</a>
@@ -131,8 +147,21 @@
               </div> 
 
             </form>
-            </div>
-            </div>
-          </div>
-  </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+   document.querySelector('.toggle-password').addEventListener('click', function () {
+    var passwordInput = document.querySelector(this.getAttribute('toggle'));
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  });
+</script>
+
+
 {% endblock content %}
