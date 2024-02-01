@@ -24,12 +24,13 @@ def verification_questions(request):
                     question=form.cleaned_data[question_field],
                     answer=form.cleaned_data[answer_field]
                 )
+
             # Redirect to profile completion
             return redirect('comintapp:complete_profile')
     else:
         form = VerificationQuestionsForm()
 
-    return render(request, 'comintapp//verification_questions.html', {'form': form})
+    return render(request, 'comintapp/verification_questions.html', {'form': form})
 
 @login_required
 def complete_profile(request):

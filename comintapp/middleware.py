@@ -15,13 +15,11 @@ class ProfileCompletionMiddleware:
             return self.get_response(request)
         
         if request.user.is_authenticated:
-            try:
-                profile = UserProfile.objects.get(user=request.user)
-                questions_answered = VerificationQuestion.objects.filter(user=request.user).count() == 3
-                profile_exists = True
-            except UserProfile.DoesNotExist:
-                profile_exists = False
-                questions_answered = False
+            questions_answered = VerificationQuestion.objects.filter(user=request.user).count() == 3
+            profile_exists = UserProfile.objects.filter(user=request.user).exists()
+
+            # Check if verification questions have been answered
+            # questions_answered = request.session.get('verification_questions_answered', False)
 
             # Redirect to verification questions page if not answered
             if not questions_answered and request.path != reverse('comintapp:verification_questions'):
@@ -29,6 +27,7 @@ class ProfileCompletionMiddleware:
                 return redirect('comintapp:verification_questions')
             
             if profile_exists:
+                profile = UserProfile.objects.filter(user=request.user)
                 if not profile.is_verified:
                      # If the profile exists but is not verified
                     messages.info(request, "Your profile is currently undergoing verification, please wait till it is verified to access full functionality of the site.")
