@@ -27,7 +27,7 @@ class ProfileCompletionMiddleware:
                 return redirect('comintapp:verification_questions')
             
             if profile_exists:
-                profile = UserProfile.objects.filter(user=request.user)
+                profile = UserProfile.objects.get(user=request.user)
                 if not profile.is_verified:
                      # If the profile exists but is not verified
                     messages.info(request, "Your profile is currently undergoing verification, please wait till it is verified to access full functionality of the site.")
