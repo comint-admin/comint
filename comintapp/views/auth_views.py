@@ -35,7 +35,6 @@ def verification_questions(request):
 @login_required
 def complete_profile(request):
     user = request.user
-    profile = None
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
@@ -47,9 +46,13 @@ def complete_profile(request):
             profile = UserProfile(user=user)
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
-            form.save()
-            return redirect('comintapp:index')  
+            profile = form.save(commit=False)
+            profile.is_complete = True
+            profile.save()
+            return redirect('comintapp:cashboard')  
     else:
+        if profile and profile.is_complete:
+            return redirect('comintapp:cashboard')
         form = UserProfileForm(instance=profile) if profile else UserProfileForm()
 
     return render(request, 'comintapp/complete_profile.html', {'form': form})

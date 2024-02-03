@@ -101,7 +101,6 @@ def update_user_profile(sender, request, email_address, **kwargs):
     UserProfile.objects.get_or_create(user=user)
 
     # Update the is_verified field in the user's profile
-    user.profile.is_verified = True
     user.profile.save()
 
 class VerificationQuestion(models.Model):
@@ -149,8 +148,8 @@ class UserProfile(models.Model):
         max_length=11,
         validators=[validate_ssn],
         help_text="Social Security Number in the format XXX-XX-XXXX",
-        blank=False,  
-        null=False,
+        blank=True,  
+        null=True,
     )
 
     address_1 = models.CharField(max_length=255, verbose_name="Address 1")
@@ -159,6 +158,7 @@ class UserProfile(models.Model):
     zip_code = models.CharField(max_length=10, verbose_name="Zip Code")
     consent_for_verification = models.BooleanField(default=False, verbose_name="Consent for Identity Verification")
     is_verified = models.BooleanField(default=False, verbose_name="Is Verified")
+    is_complete = models.BooleanField(default=False, verbose_name="Profile Completed")
 
     def __str__(self):
         return str(self.user.email)

@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-
+from django.shortcuts import render
 
 class IndexView(TemplateView):
     template_name = 'comintapp/index.html'
@@ -36,3 +36,40 @@ class PrivacyView(TemplateView):
         else:
             context['username'] = 'User'
         return context
+
+def loanView(request):
+    context = {}
+    if request.user.is_authenticated:
+        # Assuming 'first_name' is a field on your custom user model
+        context['username'] = request.user.first_name if request.user.first_name else request.user.email
+    else:
+        context['username'] = 'User'
+    return render(request, "comintapp/loans.html", context)
+
+class AboutView(TemplateView):
+    template_name = 'comintapp/about.html'
+
+def handleRequest(request):
+    context = {}
+    return render(request, "comintapp/index.html", context)
+
+def fundRequests(request):
+    context = {}
+    if request.user.is_authenticated:
+        # Assuming 'first_name' is a field on your custom user model
+        context['username'] = request.user.first_name if request.user.first_name else request.user.email
+    else:
+        context['username'] = 'User'
+    return render(request, "comintapp/fund_requests.html", context)
+
+def payments(request):
+    context = {}
+    if request.user.is_authenticated:
+        # Assuming 'first_name' is a field on your custom user model
+        context['username'] = request.user.first_name if request.user.first_name else request.user.email
+    else:
+        context['username'] = 'User'
+    return render(request, "comintapp/payments.html", context)
+
+class ContactView(TemplateView):
+    template_name = 'comintapp/contact.html'
