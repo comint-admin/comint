@@ -80,12 +80,6 @@ class VerificationQuestionsForm(forms.Form):
         return cleaned_data
 
 class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['dob', 'ssn', 'address_1', 'address_2', 'state', 'zip_code', 'consent_for_verification']
-        widgets = {
-            'dob': forms.DateInput(attrs={'type': 'date'}),
-        }
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
@@ -97,6 +91,12 @@ class UserProfileForm(forms.ModelForm):
         for field_name in required_fields:
             self.fields[field_name].required = True
 
+    class Meta:
+        model = UserProfile
+        fields = ['dob', 'ssn', 'address_1', 'address_2', 'state', 'zip_code', 'consent_for_verification']
+        widgets = {
+            'dob': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 class ComintResetPasswordForm(ResetPasswordForm):
     def clean_email(self):
