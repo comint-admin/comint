@@ -217,17 +217,18 @@ class LoanRequest(models.Model):
     user = models.ForeignKey(ComintUser, on_delete=models.CASCADE, related_name='loan_requests')
     term = models.IntegerField(help_text='Term in months')
     interest_rate = models.DecimalField(max_digits=5, decimal_places=1, help_text='Interest rate as a percentage')
-    amount = models.DecimalField(max_digits=10, decimal_places=2, help_text='Loan amount in USD')
+    amount = models.DecimalField(max_digits=6, decimal_places=2, help_text='Loan amount in USD')
     name = models.CharField(max_length=255)
     description = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='OPEN')
 
     def __str__(self):
-        return f'{self.name} - {self.user}'
+        return f'{self.name} - {self.user if self.user_id else ""}'
+
 
     def clean(self):
-        if self.amount > 5000:
+        if self.amount is not None and self.amount > 5000:
             raise ValidationError({'amount': 'Loan amount cannot exceed 5000 USD'})
 
 class LineOfCredit(models.Model):

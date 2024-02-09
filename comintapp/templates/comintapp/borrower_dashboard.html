@@ -1,12 +1,9 @@
 {% extends "base.html" %}
-
-{% load static %}
-
-{% block head_title %}Comint - Cashboard {% endblock head_title %}
-
 {% block body %}
-<div class="container">
-  <h2 style="color: blue;">Borrower Dashboard</h2>
+<div class="container mt-5">
+  <h2 class="text-center" style="color: #26176F;">Borrower Dashboard</h2>
+  <div class="text-center mt-4">
+    <a href="{% url 'comintapp:create_loan_request' %}" class="btn btn-primary" style="background-color: #26176F;">Create Loan Request</a>
+  </div>
 </div>
-
-{% endblock body %}
+{% endblock %}
