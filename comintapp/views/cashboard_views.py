@@ -40,7 +40,7 @@ class LoanRequestCreateView(CreateView):
         loan_request.save()
         return super().form_valid(form)
 
-@method_decorator([profile_verified_required], name='dispatch')
+@method_decorator([login_required], name='dispatch')
 class MarketplaceView(ListView):
     model = LoanRequest
     template_name = 'comintapp/marketplace.html'

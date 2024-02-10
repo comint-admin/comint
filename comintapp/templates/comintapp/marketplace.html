@@ -52,7 +52,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ loan_request.name }}</h5>
-                    <p class="card-text">{{ loan_request.description|truncatewords:20 }}</p>
+                    <p class="card-text">{{ loan_request.description|truncatewords:10 }}</p>
                     <p>Amount: ${{ loan_request.amount|intcomma }}</p>
                     <p>Interest Rate: {{ loan_request.interest_rate }}%</p>
                     <p>Term: {{ loan_request.term }} months</p>

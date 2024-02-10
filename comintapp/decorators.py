@@ -10,8 +10,12 @@ def profile_verified_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         try:
             user_profile = UserProfile.objects.get(user=request.user)
-            if user_profile.is_verified:
+            if user_profile.is_verified and user_profile.is_complete:
                 return view_func(request, *args, **kwargs)
+            elif not user_profile.is_complete:
+                # Inform the user that they need to complete their profile
+                messages.warning(request, "You must complete your profile before accessing that feature.")
+                return redirect('comintapp:complete_profile')  # Redirect to profile completion page
             else:
                 # Message updated to use messages.info for consistency
                 messages.warning(request, "Your profile is currently undergoing verification. Please wait till it is verified to access full functionality of the site.")
