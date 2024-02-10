@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView
 
-@method_decorator([login_required], name='dispatch')
+@method_decorator([profile_verified_required], name='dispatch')
 class LoanRequestDetailView(DetailView):
     model = LoanRequest
     template_name = 'comintapp/loan_request_detail.html'
@@ -40,7 +40,7 @@ class LoanRequestCreateView(CreateView):
         loan_request.save()
         return super().form_valid(form)
 
-@method_decorator([login_required], name='dispatch')
+@method_decorator([profile_verified_required], name='dispatch')
 class MarketplaceView(ListView):
     model = LoanRequest
     template_name = 'comintapp/marketplace.html'
