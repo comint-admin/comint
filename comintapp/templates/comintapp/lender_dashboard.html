@@ -2,11 +2,15 @@
 
 {% load static %}
 
-{% block head_title %}Comint - Cashboard {% endblock head_title %}
+{% block head_title %}Lender Dashboard {% endblock head_title %}
 
 {% block body %}
-<div class="container">
-  <h2 style="color: blue;">Lender Dashboard</h2>
+<div class="container mt-5">
+  <h2 class="text-center" style="color: #26176F;">Lender Dashboard</h2>
+  <div class="text-center mt-4">
+    <!-- Link to the marketplace -->
+    <a href="{% url 'comintapp:marketplace' %}" class="btn btn-primary" style="background-color: #26176F;">View Marketplace</a>
+  </div>
 </div>
 
 {% endblock body %}

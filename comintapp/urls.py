@@ -19,4 +19,5 @@ urlpatterns = [
     path('cashboard/borrower', cashboard_views.BorrowerView.as_view(), name='borrower_view'),
     path('create_loan_request/', LoanRequestCreateView.as_view(), name='create_loan_request'),
     path('marketplace/', MarketplaceView.as_view(), name='marketplace'),
+    path('loan-request/<int:pk>/', LoanRequestDetailView.as_view(), name='loan_request_detail'),
 ]

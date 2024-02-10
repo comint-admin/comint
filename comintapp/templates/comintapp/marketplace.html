@@ -56,6 +56,7 @@
                     <p>Amount: ${{ loan_request.amount|intcomma }}</p>
                     <p>Interest Rate: {{ loan_request.interest_rate }}%</p>
                     <p>Term: {{ loan_request.term }} months</p>
+                    <a href="{% url 'comintapp:loan_request_detail' loan_request.id %}" class="btn btn-primary">View Details</a>
                     <!-- Add a button or link to fund a loan request -->
                 </div>
             </div>

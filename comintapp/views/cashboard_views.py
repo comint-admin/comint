@@ -6,7 +6,13 @@ from django.views.generic import TemplateView
 from ..decorators import profile_verified_required  
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
+
+@method_decorator([login_required], name='dispatch')
+class LoanRequestDetailView(DetailView):
+    model = LoanRequest
+    template_name = 'comintapp/loan_request_detail.html'
+    context_object_name = 'loan_request'
 
 @method_decorator([login_required], name='dispatch')
 class CashboardView(TemplateView):
@@ -42,3 +48,4 @@ class MarketplaceView(ListView):
 
     def get_queryset(self):
         return LoanRequest.objects.filter(status='OPEN').order_by('-created_at')
+    
