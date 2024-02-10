@@ -86,7 +86,7 @@
             const emailField = document.getElementById('id_email');
             const firstNameField = document.getElementById('id_first_name');
             const lastNameField = document.getElementById('id_last_name');
-            const passwordField = document.getElementById('passwordField');
+            const passwordField = document.getElementById('passwordField1');
             const passwordValidation = document.getElementById('password-validation');
 
       function validatePassword() {
@@ -204,10 +204,6 @@
 
                   </div>
                   <div id="password-match-validation"></div>
-
-
-
-
 
                   {% elif field.name == "captcha" %}
                       {{ field|add_class:"form-control form-control-md custom-border" }}

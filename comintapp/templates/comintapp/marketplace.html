@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Marketplace" %}{% endblock head_title %}
+
+{% block styles %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+      .custom-border {
+          border-color: #26176F;
+      }
+
+    .loan-request-container {
+        background: #FFFFF2;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 25px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .loan-request-form .form-control {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px solid #26176F;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    .loan-request-form label {
+        font-family: 'Poppins', sans-serif;
+        color: #000000;
+    }
+    .submit-btn {
+        width: 527px;
+        height: 71px;
+        background: #26176F;
+        color: #FFFFFF;
+        border-radius: 10px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+  </style>
+{% endblock styles %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Marketplace</h2>
+    <div class="row">
+        {% for loan_request in page_obj %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ loan_request.name }}</h5>
+                    <p class="card-text">{{ loan_request.description|truncatewords:10 }}</p>
+                    <p>Amount: ${{ loan_request.amount|intcomma }}</p>
+                    <p>Interest Rate: {{ loan_request.interest_rate }}%</p>
+                    <p>Term: {{ loan_request.term }} months</p>
+                    <a href="{% url 'comintapp:loan_request_detail' loan_request.id %}" class="btn btn-primary">View Details</a>
+                    <!-- Add a button or link to fund a loan request -->
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No open loan requests available.</p>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination Controls -->
+    <div class="pagination d-flex justify-content-center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+            
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock body %}
