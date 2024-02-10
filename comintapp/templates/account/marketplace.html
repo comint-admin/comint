@@ -1,0 +1,135 @@
+{% extends "account/base.html" %}
+{% load widget_tweaks %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Dashboard" %}{% endblock head_title %}
+
+{% block styles %}
+  <style>
+    .highlight-news-container ul{
+        list-style: none;
+    }
+    .lend-borrow {
+        max-width: 100%;
+        height: 257px;
+        box-sizing: border-box;
+        padding-right: 20px;
+        background-color: #26176F; 
+        margin-right: 40px; 
+        width: 550px; 
+    }
+    .d-flex {
+        display: flex;
+    }
+    .filter {
+      margin-right: 20px;
+      border: #26176F 1px solid ;
+    }
+    .filter:hover {
+      color: white;
+      background-color: #26176F;
+    }
+  </style>
+{% endblock styles %}
+
+{% block content %}
+  <div class="highlight-news-container" style="background-color: rgb(206, 241, 195); padding: 150px 80px 150px 50px; color: white;">
+    <div>
+      <p class="font-weight-light" style="margin: -80px 0px 80px 50px; color: #26176F; font-size: 25px;" >Marketplace</p>  
+      <ul class="d-flex" style="list-style: none; margin: -55px 0px 50px 15px; color: #26176F;">
+        <li>
+          <button class="btn btn-md btn-block filter">Filter</button>
+        </li>
+      </ul>
+    </div>
+      <ul class="highlight-news-list d-flex">
+        <li class="container">
+            <div class="container" style="background-color:#18AA47; border-radius: 25px 25px 0px 0px; height: 60px; padding: 0px 40px;">
+              <p style="padding: 20px 0px; text-align: right;">Open</p>
+            </div>
+            <div class="container" style="background-color: #26176F; height: 80px; padding: 0px 40px;">
+              <p style="padding-top: 15px; text-align: left;">[Title]</p>
+              <p style="margin-top: -10px; text-align:left; font-size: 12px;">[Description]</p>
+            </div>
+            <div class="container" style="background-color: white; border-radius: 0px 0px 25px 25px; height: 117px; padding: 0px 40px; box-shadow: 0 4px 5px -2px gray;">
+            </div>
+        </li>
+        <li class="container">
+          <div class="container" style="background-color:#18AA47; border-radius: 25px 25px 0px 0px; height: 60px; padding: 0px 40px;">
+            <p style="padding: 20px 0px; text-align: right;">Open</p>
+          </div>
+          <div class="container" style="background-color: #26176F; height: 80px; padding: 0px 40px;">
+            <p style="padding-top: 15px; text-align: left;">[Title]</p>
+            <p style="margin-top: -10px; text-align:left; font-size: 12px;">[Description]</p>
+          </div>
+          <div class="container" style="background-color: white; border-radius: 0px 0px 25px 25px; height: 117px; padding: 0px 40px; box-shadow: 0 4px 5px -2px gray;">
+          </div>
+        </li>
+        <li class="container">
+          <div class="container" style="background-color:#FC9E4F; border-radius: 25px 25px 0px 0px; height: 60px; padding: 0px 40px;">
+            <p style="padding: 20px 0px; text-align: right;">Expiring Soon</p>
+          </div>
+          <div class="container" style="background-color: #26176F; height: 80px; padding: 0px 40px;">
+            <p style="padding-top: 15px; text-align: left;">[Title]</p>
+            <p style="margin-top: -10px; text-align:left; font-size: 12px;">[Description]</p>
+          </div>
+          <div class="container" style="background-color: white; border-radius: 0px 0px 25px 25px; height: 117px; padding: 0px 40px; box-shadow: 0 4px 5px -2px gray;">
+          </div>
+      </li>
+    </ul>
+
+    <ul class="highlight-news-list d-flex">
+      <li class="container">
+          <div class="container" style="background-color:#FC9E4F; border-radius: 25px 25px 0px 0px; height: 60px; padding: 0px 40px;">
+            <p style="padding: 20px 0px; text-align: right;">Expiring Soon</p>
+          </div>
+          <div class="container" style="background-color: #26176F; height: 80px; padding: 0px 40px;">
+            <p style="padding-top: 15px; text-align: left;">[Title]</p>
+            <p style="margin-top: -10px; text-align:left; font-size: 12px;">[Description]</p>
+          </div>
+          <div class="container" style="background-color: white; border-radius: 0px 0px 25px 25px; height: 117px; padding: 0px 40px; box-shadow: 0 4px 5px -2px gray;">
+          </div>
+      </li>
+      <li class="container">
+        <div class="container" style="background-color:#18AA47; border-radius: 25px 25px 0px 0px; height: 60px; padding: 0px 40px;">
+          <p style="padding: 20px 0px; text-align: right;">Open</p>
+        </div>
+        <div class="container" style="background-color: #26176F; height: 80px; padding: 0px 40px;">
+          <p style="padding-top: 15px; text-align: left;">[Title]</p>
+          <p style="margin-top: -10px; text-align:left; font-size: 12px;">[Description]</p>
+        </div>
+        <div class="container" style="background-color: white; border-radius: 0px 0px 25px 25px; height: 117px; padding: 0px 40px; box-shadow: 0 4px 5px -2px gray;">
+        </div>
+      </li>
+      <li class="container">
+        <div class="container" style="background-color:#18AA47; border-radius: 25px 25px 0px 0px; height: 60px; padding: 0px 40px;">
+          <p style="padding: 20px 0px; text-align: right;">Open</p>
+        </div>
+        <div class="container" style="background-color: #26176F; height: 80px; padding: 0px 40px;">
+          <p style="padding-top: 15px; text-align: left;">[Title]</p>
+          <p style="margin-top: -10px; text-align:left; font-size: 12px;">[Description]</p>
+        </div>
+        <div class="container" style="background-color: white; border-radius: 0px 0px 25px 25px; height: 117px; padding: 0px 40px; box-shadow: 0 4px 5px -2px gray;">
+        </div>
+    </li>
+  </ul>
+  <div>
+    <ul class="d-flex" style="list-style: none; margin: 100px 0px -100px 15px; color: #26176F; text-align: center; justify-content: center;">
+      <li>
+        <button class="btn btn-md btn-block filter">&laquo; First</button>
+      </li>
+      <li>
+        <button class="btn btn-md btn-block filter">&laquo; Previous</button>
+      </li>
+      <li>
+        <button class="btn btn-md btn-block filter">Next &raquo;</button>
+      </li>
+      <li>
+        <button class="btn btn-md btn-block filter">Last &raquo;</button>
+      </li>
+    </ul>
+  </div>
+  </div>
+{% endblock content %}
