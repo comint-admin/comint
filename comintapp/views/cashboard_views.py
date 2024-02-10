@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 from ..decorators import profile_verified_required  
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
 
 @method_decorator([login_required], name='dispatch')
 class CashboardView(TemplateView):
@@ -32,3 +33,12 @@ class LoanRequestCreateView(CreateView):
         loan_request.user = self.request.user  # Assign the user here
         loan_request.save()
         return super().form_valid(form)
+
+@method_decorator([profile_verified_required], name='dispatch')
+class MarketplaceView(ListView):
+    model = LoanRequest
+    template_name = 'comintapp/marketplace.html'
+    paginate_by = 2  # Adjust the number of items per page as needed
+
+    def get_queryset(self):
+        return LoanRequest.objects.filter(status='OPEN').order_by('-created_at')
