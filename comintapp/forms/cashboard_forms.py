@@ -4,7 +4,15 @@ from ..models import LoanRequest
 class LoanRequestForm(forms.ModelForm):
     class Meta:
         model = LoanRequest
-        fields = ['term', 'interest_rate', 'amount', 'name', 'description']
+        fields = ['name', 'description', 'amount', 'term', 'interest_rate']
+
+    def __init__(self, *args, **kwargs):
+        super(LoanRequestForm, self).__init__(*args, **kwargs)
+        # Updating labels
+        self.fields['amount'].label = "Initial Amount ($USD)"
+        self.fields['term'].label = "Term (In Months)"
+        self.fields['description'].widget = forms.Textarea(attrs={'rows': 2})  
+
 
     def clean_term(self):
         term = self.cleaned_data.get('term')
