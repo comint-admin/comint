@@ -4,6 +4,7 @@
 {% load static %}
 {% load humanize %}
 {% load account socialaccount %}
+{% load query %}
 
 {% block head_title %}{% trans "Marketplace" %}{% endblock head_title %}
 
@@ -46,6 +47,10 @@
 {% block body %}
 <div class="container mt-4">
     <h2>Marketplace</h2>
+    <form method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
     <div class="row">
         {% for loan_request in page_obj %}
         <div class="col-md-4 mb-4">
@@ -70,8 +75,8 @@
     <div class="pagination d-flex justify-content-center">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="?{% query_transform page=1 %}">&laquo; first</a>
+                <a href="?{% query_transform page=page_obj.previous_page_number %}">previous</a>
             {% endif %}
             
             <span class="current">
@@ -79,8 +84,8 @@
             </span>
             
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                <a href="?{% query_transform page=page_obj.next_page_number %}">next</a>
+                <a href="?{% query_transform page=page_obj.paginator.num_pages %}">last &raquo;</a>
             {% endif %}
         </span>
     </div>
