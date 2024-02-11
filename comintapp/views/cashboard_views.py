@@ -44,7 +44,7 @@ class LoanRequestCreateView(CreateView):
 class MarketplaceView(ListView):
     model = LoanRequest
     template_name = 'comintapp/marketplace.html'
-    paginate_by = 2  # Adjust the number of items per page as needed
+    paginate_by = 6  # Adjust the number of items per page as needed
 
     def get_queryset(self):
         return LoanRequest.objects.filter(status='OPEN').order_by('-created_at')

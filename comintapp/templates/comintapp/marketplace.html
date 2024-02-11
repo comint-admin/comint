@@ -10,79 +10,106 @@
 {% block styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
-      .custom-border {
-          border-color: #26176F;
-      }
-
-    .loan-request-container {
-        background: #FFFFF2;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        border-radius: 25px;
-        padding: 20px;
-        margin-top: 20px;
+    .filter {
+      margin-right: 20px;
+      border: #26176F 1px solid ;
+      display: block;
     }
-    .loan-request-form .form-control {
-        background: rgba(255, 255, 255, 0.7);
-        border: 2px solid #26176F;
-        border-radius: 10px;
-        margin-bottom: 15px;
+    .filter:hover {
+      color: white;
+      background-color: #26176F;
     }
-    .loan-request-form label {
-        font-family: 'Poppins', sans-serif;
-        color: #000000;
+    .bg {
+      background-image: url('{% static "comintapp/images/cashboard-bg.jpg" %}');
+      background-size: 1400px;
+      padding: 100px 80px 100px 50px;
     }
-    .submit-btn {
-        width: 527px;
-        height: 71px;
-        background: #26176F;
+    .view-btn {
+        display: flex; 
+        justify-content:center; 
+        text-align: center; 
+        align-items: center;    
+    }
+    .lowest-box {
+        background-color: white; 
+        border-radius: 0px 0px 25px 25px; 
+        padding: 20px 40px 20px 40px; 
+        box-shadow: 0 4px 5px -2px gray;
+    }
+    .middle-box {
+        background-color: #26176F; 
+        height: 80px; 
+        padding: 0px 40px; 
         color: #FFFFFF;
-        border-radius: 10px;
-        font-family: 'Poppins', sans-serif;
+    }
+    .upper-box {
+        background-color:#18AA47; 
+        border-radius: 25px 25px 0px 0px; 
+        height: 60px; 
+        padding: 0px 40px;
     }
 
   </style>
 {% endblock styles %}
 
 {% block body %}
-<div class="container mt-4">
-    <h2>Marketplace</h2>
-    <div class="row">
+<div class="bg">
+    <div style="color: #26176F">
+        <p style="margin: -80px 0px 80px 50px; font-size: 25px;">Marketplace</p>  
+        <ul style="list-style: none; margin: -55px 0px 50px 15px;">
+          <li>
+            <button class="btn btn-md filter">Filter</button>
+          </li>
+        </ul>
+    </div>
+    
+    <ul class="row" style="list-style: none;">
         {% for loan_request in page_obj %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ loan_request.name }}</h5>
-                    <p class="card-text">{{ loan_request.description|truncatewords:10 }}</p>
-                    <p>Amount: ${{ loan_request.amount|intcomma }}</p>
-                    <p>Interest Rate: {{ loan_request.interest_rate }}%</p>
-                    <p>Term: {{ loan_request.term }} months</p>
-                    <a href="{% url 'comintapp:loan_request_detail' loan_request.id %}" class="btn btn-primary">View Details</a>
-                    <!-- Add a button or link to fund a loan request -->
+        <li class="col-md-4 mb-4 col-lg-4">
+            <div class="upper-box">
+                <p style="padding: 20px 0px; text-align: right;">{{ loan_request.get_status_display }}</p>
+            </div>
+            <div class="middle-box">
+                <p style="padding-top: 15px; text-align: left;">{{ loan_request.name }}</p>
+                <p style="margin-top: -10px; text-align:left; font-size: 12px;">{{ loan_request.description|truncatewords:10 }}</p>
+            </div>
+            <div class="lowest-box">
+                <p>Amount: ${{ loan_request.amount|intcomma }}</p>
+                <p>Interest Rate: {{ loan_request.interest_rate }}%</p>
+                <p>Term: {{ loan_request.term }} months</p>
+                <div>
+                <a href="{% url 'comintapp:loan_request_detail' loan_request.id %}" class="btn filter view-btn">View Details</a>
                 </div>
             </div>
-        </div>
+        </li>
         {% empty %}
         <p>No open loan requests available.</p>
         {% endfor %}
-    </div>
-    
+    </ul>
+
     <!-- Pagination Controls -->
-    <div class="pagination d-flex justify-content-center">
-        <span class="step-links">
+    <div style="margin-bottom: 30px;">
+        <ul class="d-flex" style="list-style: none; margin: 100px 0px -100px 15px; color: #26176F; text-align: center; justify-content: center;">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <li>
+                <a href="?page=1" class="btn btn-md filter">&laquo; First</a>
+            </li>
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-md filter">&laquo; Previous</a>
+            </li>
             {% endif %}
-            
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-            
+            <li>
+                <a class="btn">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
+            </li>
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            <li>
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-md filter">Next &raquo;</a>
+            </li>
+            <li>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-md filter">Last &raquo;</a>
+            </li>
             {% endif %}
-        </span>
-    </div>
+        </ul>
+      </div>
 </div>
 {% endblock body %}
