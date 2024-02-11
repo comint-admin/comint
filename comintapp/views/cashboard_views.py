@@ -48,8 +48,8 @@ class MarketplaceView(ListView):
     paginate_by = 2  # Adjust the number of items per page as needed
 
     def get_queryset(self):
-        f = LoanRequestFilter(self.request.GET, queryset=self.queryset)
-        return f.qs.filter(status='OPEN').order_by('-created_at')
+        qs = LoanRequest.objects.filter(status='OPEN').order_by('-created_at')
+        return LoanRequestFilter(self.request.GET, queryset=qs).qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
