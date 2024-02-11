@@ -7,6 +7,7 @@ from ..decorators import profile_verified_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView
+from ..filters import LoanRequestFilter
 
 @method_decorator([profile_verified_required], name='dispatch')
 class LoanRequestDetailView(DetailView):
@@ -47,5 +48,10 @@ class MarketplaceView(ListView):
     paginate_by = 2  # Adjust the number of items per page as needed
 
     def get_queryset(self):
-        return LoanRequest.objects.filter(status='OPEN').order_by('-created_at')
-    
+        f = LoanRequestFilter(self.request.GET, queryset=self.queryset)
+        return f.qs.filter(status='OPEN').order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = LoanRequestFilter(self.request.GET, queryset=self.queryset)
+        return context
