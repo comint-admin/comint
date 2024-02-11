@@ -51,9 +51,6 @@
         {{ filter.form.as_p }}
         <input type="submit" />
     </form>
-    {% for obj in page_obj %}
-        {{ obj.name }} - ${{ obj.price }}<br />
-    {% endfor %}
     <div class="row">
         {% for loan_request in page_obj %}
         <div class="col-md-4 mb-4">
