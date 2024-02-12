@@ -4,6 +4,7 @@
 {% load static %}
 {% load humanize %}
 {% load account socialaccount %}
+{% load query %}
 
 {% block head_title %}{% trans "Marketplace" %}{% endblock head_title %}
 
@@ -52,7 +53,11 @@
   </style>
 {% endblock styles %}
 
+{%block navbar%}  {%include 'navbars/cashboard/marketplace_navbar.html'%}{%endblock navbar%}
+
 {% block body %}
+<div style="display:flex;"class="content min-vh-100">
+{%include 'navbars/sidebar.html'%}
 <div class="bg">
     <div style="color: #26176F">
         <p style="margin: -80px 0px 80px 50px; font-size: 25px;">Marketplace</p>  
@@ -61,6 +66,10 @@
             <button class="btn btn-md filter">Filter</button>
           </li>
         </ul>
+    <form method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
     </div>
     
     <ul class="row" style="list-style: none;">
@@ -92,10 +101,10 @@
         <ul class="d-flex" style="list-style: none; margin: 100px 0px -100px 15px; color: #26176F; text-align: center; justify-content: center;">
             {% if page_obj.has_previous %}
             <li>
-                <a href="?page=1" class="btn btn-md filter">&laquo; First</a>
+                <a href="?{% query_transform page=1 %}" class="btn btn-md filter">&laquo; First</a>
             </li>
             <li>
-                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-md filter">&laquo; Previous</a>
+                <a href="?{% query_transform page=page_obj.previous_page_number %}" class="btn btn-md filter">&laquo; Previous</a>
             </li>
             {% endif %}
             <li>
@@ -103,13 +112,14 @@
             </li>
             {% if page_obj.has_next %}
             <li>
-                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-md filter">Next &raquo;</a>
+                <a href="?{% query_transform page=page_obj.next_page_number %}" class="btn btn-md filter">Next &raquo;</a>
             </li>
             <li>
-                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-md filter">Last &raquo;</a>
+                <a href="?{% query_transform page=page_obj.paginator.num_pages %}" class="btn btn-md filter">Last &raquo;</a>
             </li>
             {% endif %}
         </ul>
-      </div>
+    </div>
+  </div>
 </div>
 {% endblock body %}

@@ -136,10 +136,14 @@ $(document).ready(function() {
 </script>
 {% endblock scripts %}
 
+{%block navbar%} {%include 'navbars/cashboard/loanrequests_navbar.html'%}{%endblock navbar%}
 
 
 {% block body %}
-<section class="bg" style="padding: 150px 80px 150px 80px;">
+<div style="display:flex" class="min-vh-100">
+{%include 'navbars/sidebar_borrower.html'%}
+
+<div class="bg" style="padding: 150px 80px 150px 80px;" class="container mt4">
   <p style="margin: -80px 0px 70px 50px; color: #26176F; font-size: 30px;" >New Campaign</p>  
   <div class="container">
       <div class="row d-flex align-items-center justify-content-center">
@@ -203,7 +207,8 @@ $(document).ready(function() {
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
   <!-- Error Modal -->
 <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

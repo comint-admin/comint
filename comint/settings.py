@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'widget_tweaks',
     'hcaptcha_field',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
