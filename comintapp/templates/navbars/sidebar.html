@@ -5,7 +5,7 @@
         padding-left: 2em;
         padding-right: 4em;
       
-        width: fit-content;
+        width: 25em;
         background-color: #FFFFF2;
         display:inline-block;
 
@@ -15,17 +15,24 @@
         
       }
 
-      .current-page{
-        color: #26176F !important
-      }
-
-      .sidebar a {
-        text-decoration: none;
-        color: grey;
+      .current-page {
+        color: #26176F !important; 
+         
+       
+       }
+ 
+      .sidebar .link {
+        
+        color: #B1B1B1;
         font-size:20px;
       }
 
-      .sidebar a:hover {
+      .sidebar a{
+        text-decoration: none;
+        color: currentcolor;
+      }
+
+      .sidebar .link:hover {
         color: #26176F
       }
 
@@ -50,6 +57,18 @@
         padding-top: .5em;
         padding-bottom:1px;
       }
+
+      svg path{
+        fill:currentcolor;
+      }
+
+      .sel-false{
+        opacity: 0; 
+      }
+
+      .sel-true{
+        opacity: 1;
+      }
 </style>
 
 <div class="sidebar">
@@ -57,10 +76,32 @@
        <p class="h5"> Lender </p>
     </div>
     <ul>
-    <li> <a class="current-page" href="#">User Profile</a> </li>
-    <li> <a href="#">Marketplace</a> </li>
-    <li> <a href="#">Offers</a> </li>
-    <li> <a href="#">Returns</a> </li>
+    <li> <div class="current-page link">
+     <span class="sel-true"> {%include "svg/selected.svg"%} </span>
+      {%include "svg/userprofile.svg" %}
+      <a class="current-page" href="{%url 'comintapp:lender_view'%}">User Profile</a> </div>
+    </li>
+    <li> 
+      <div class="link"> 
+        <span class="sel-false"> {%include "svg/selected.svg"%} </span>
+      {%include "svg/marketplace.svg"%}
+      <a href="{%url 'comintapp:marketplace'%}">Marketplace</a> 
+      </div>
+    </li>
+    <li> 
+      <div class="link">
+        <span class="sel-false"> {%include "svg/selected.svg"%} </span>
+      {%include "svg/offers.svg"%}
+      <a href="#">Offers</a> 
+      </div>
+    </li>
+    <li>
+      <div class="link">
+        <span class="sel-false"> {%include "svg/selected.svg"%} </span>
+      {%include "svg/returns.svg"%} 
+      <a href="#">Returns</a> 
+      </div>
+    </li>
  </ul>
 
 </div> 
