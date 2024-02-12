@@ -189,6 +189,75 @@
 
   .LOC-tbl{
     width:100%;
+    font-family: poppins;
+  }
+
+  .subscript{
+    color: grey;
+    font-size: 11px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #F9FAFB;
+  }
+
+  
+
+  .status-success{
+    background-color: #A7F3D0;
+    border-radius: 10px;
+    color: #064E3B;
+    text-align:center;
+    font-weight:bold;
+    
+  }
+
+  .status-pending{
+    background-color: #FC9E4F96;
+    border-radius: 10px;
+    color: #BA5602;
+    text-align:center;
+    font-weight:bold;
+    
+  }
+
+  thead{
+    text-align:center;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    color: grey;
+     
+    
+  }
+
+  thead > tr {
+    height:1em;
+    
+
+  }
+
+  thead > td {
+    height:1em;
+    
+
+  }
+
+  td{
+    height: 6em;
+  }
+
+  .fb{
+    display: flex;
+  }
+
+  .total-earnings{
+    font-size: 24px;
+    font-weight: bold; 
+  }
+
+  .earnings{
+    font-size: 18px;
+    color: #5DB57A;
   }
 
 
@@ -202,8 +271,14 @@
 
      
      <div class="sub-container">
-      <div class="cb-container c-title shadow-sm" id="earnings-graph"> 
-        <p> Your total earnings </p> 
+      <div class="cb-container  shadow-sm" id="earnings-graph"> 
+        <p class="c-title"> Your total earnings </p> 
+
+        <div class="fb">
+          <div class="total-earnings">$120,543.43 </div>
+          <div class="mx-4 earnings"> +20.32%</div> 
+
+        </div>
   
       </div>
 
@@ -211,12 +286,162 @@
         <p class="c-title"> Lines of credit </p>
 
         <table class="LOC-tbl">
-          <tr>
-          <td> Name</td>
-          <td> Date/time</td>
-          <th> Amount/Card No.</th>
-          <th> Status</th>
-          <tr>
+          <thead>
+            <tr>
+              <td> Name</td>
+              <td> Date/time</td>
+              <td> Amount/Card No.</td>
+              <td> Status</td>
+            <tr>
+          </thead>
+          <tr> {%comment %} should be "template"  {%endcomment %}
+          <td>
+            <div class="loc-title">
+              <div class="loc-name">  Link Bank  </div>
+              <div class="loc-ref-num subscript">Ref #12345678910</div>
+            </div>
+          </td>
+
+          <td>
+            <div class="loc-time-date">
+              <div class="loc-date">June 4 2020</div>
+              <div class="loc-time subscript">05:34:45 AM</div>
+            </div>
+          </td>
+
+          <td>
+            <div class="loc-amount-card">
+              <div class="loc-amount">$500000000000</div>
+              <div class="loc-cardnum subscript">**** 4593</div>
+            </div>
+          </td>
+
+          <td>
+            <div class="status-success"> Successful </div>
+          </td>
+
+
+
+          </tr> {%comment %} end of "template"{%endcomment %}
+          <tr> {%comment %} should be "template"  {%endcomment %}
+            <td>
+              <div class="loc-title">
+                <div class="loc-name">  Link Bank  </div>
+                <div class="loc-ref-num subscript">Ref #12345678910</div>
+              </div>
+            </td>
+  
+            <td>
+              <div class="loc-time-date">
+                <div class="loc-date">June 4 2020</div>
+                <div class="loc-time subscript">05:34:45 AM</div>
+              </div>
+            </td>
+  
+            <td>
+              <div class="loc-amount-card">
+                <div class="loc-amount">$500000000000</div>
+                <div class="loc-cardnum subscript">**** 4593</div>
+              </div>
+            </td>
+  
+            <td>
+              <div class="status-success"> Successful </div>
+            </td>
+  
+  
+  
+            </tr> {%comment %} end of "template"{%endcomment %}
+            <tr> {%comment %} should be "template"  {%endcomment %}
+              <td>
+                <div class="loc-title">
+                  <div class="loc-name">  Link Bank  </div>
+                  <div class="loc-ref-num subscript">Ref #12345678910</div>
+                </div>
+              </td>
+    
+              <td>
+                <div class="loc-time-date">
+                  <div class="loc-date">June 4 2020</div>
+                  <div class="loc-time subscript">05:34:45 AM</div>
+                </div>
+              </td>
+    
+              <td>
+                <div class="loc-amount-card">
+                  <div class="loc-amount">$500000000000</div>
+                  <div class="loc-cardnum subscript">**** 4593</div>
+                </div>
+              </td>
+    
+              <td>
+                <div class="status-success"> Successful </div>
+              </td>
+    
+    
+    
+              </tr> {%comment %} end of "template"{%endcomment %}
+              <tr> {%comment %} should be "template"  {%endcomment %}
+                <td>
+                  <div class="loc-title">
+                    <div class="loc-name">  Link Bank  </div>
+                    <div class="loc-ref-num subscript">Ref #12345678910</div>
+                  </div>
+                </td>
+      
+                <td>
+                  <div class="loc-time-date">
+                    <div class="loc-date">June 4 2020</div>
+                    <div class="loc-time subscript">05:34:45 AM</div>
+                  </div>
+                </td>
+      
+                <td>
+                  <div class="loc-amount-card">
+                    <div class="loc-amount">$500000000000</div>
+                    <div class="loc-cardnum subscript">**** 4593</div>
+                  </div>
+                </td>
+      
+                <td>
+                  <div class="status-pending"> Pending </div>
+                </td>
+      
+      
+      
+                </tr> {%comment %} end of "template"{%endcomment %}
+                <tr> {%comment %} should be "template"  {%endcomment %}
+                  <td>
+                    <div class="loc-title">
+                      <div class="loc-name">  Link Bank  </div>
+                      <div class="loc-ref-num subscript">Ref #12345678910</div>
+                    </div>
+                  </td>
+        
+                  <td>
+                    <div class="loc-time-date">
+                      <div class="loc-date">June 4 2020</div>
+                      <div class="loc-time subscript">05:34:45 AM</div>
+                    </div>
+                  </td>
+        
+                  <td>
+                    <div class="loc-amount-card">
+                      <div class="loc-amount">$500000000000</div>
+                      <div class="loc-cardnum subscript">**** 4593</div>
+                    </div>
+                  </td>
+        
+                  <td>
+                    <div class="status-success"> Successful </div>
+                  </td>
+        
+        
+        
+                  </tr> {%comment %} end of "template"{%endcomment %}
+
+
+
         </table>
 
       </div>
