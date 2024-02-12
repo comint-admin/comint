@@ -97,11 +97,17 @@
       <a class="btn btn-dark" style="width: 90px; background-color:#26176F; font-family:'Epilogue';"
          href="{% url 'account_signup' %}">Sign up</a>
     </ul>
+
+    
   {% else %}
     <ul class="px-4 nav-btn" style="list-style: none;">
+
+      
       <a class="btn btn-dark" style="width: 90px; background-color:#26176F; font-family:'Epilogue';"
          href="{% url 'account_logout' %}">Log out</a>
     </ul>
+
+
   {% endif %}
 
     <span class="navbar-toggler">&#9776;</span>

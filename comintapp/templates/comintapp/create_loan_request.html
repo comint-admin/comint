@@ -106,10 +106,14 @@ $(document).ready(function() {
 </script>
 {% endblock scripts %}
 
+{%block navbar%} {%include 'navbars/cashboard/loanrequests_navbar.html'%}{%endblock navbar%}
 
 
 {% block body %}
-  <section style="padding-top: 1em;">
+<div style="display:flex" class="min-vh-100">
+{%include 'navbars/sidebar_borrower.html'%}
+
+  <div style="padding-top: 1em;" class="container mt4">
     <div class="py-4">
       <div class="row d-flex align-items-center justify-content-center">
         <div class="col-lg-6 col-md-7 col-sm-9">
@@ -153,7 +157,8 @@ $(document).ready(function() {
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
   <!-- Error Modal -->
 <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

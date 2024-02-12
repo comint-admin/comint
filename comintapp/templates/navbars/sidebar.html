@@ -74,20 +74,24 @@
 <div class="sidebar">
     <div class="sidebar-title">
        <p class="h5"> Lender </p>
+       
+      
     </div>
     <ul>
-    <li> <div class="current-page link">
-     <span class="sel-true"> {%include "svg/selected.svg"%} </span>
+
+    <li> <div class="{% if request.path == "/cashboard/lender" %}current-page {% endif %} link">
+     <span class={% if request.path == "/cashboard/lender" %}"sel-true" {%else%} "sel-false" {% endif %}> {%include "svg/selected.svg"%} </span>
       {%include "svg/userprofile.svg" %}
-      <a class="current-page" href="{%url 'comintapp:lender_view'%}">User Profile</a> </div>
+      <a {% if request.path == "/cashboard/lender" %}class="current-page" {% endif %} href="{%url 'comintapp:lender_view'%}">User Profile</a> </div>
     </li>
     <li> 
-      <div class="link"> 
-        <span class="sel-false"> {%include "svg/selected.svg"%} </span>
+      <div class="{% if request.path == "/marketplace/" %}current-page {% endif %}link"> 
+        <span class={% if request.path == "/marketplace/" %}"sel-true" {%else%} "sel-false" {% endif %}> {%include "svg/selected.svg"%} </span>
       {%include "svg/marketplace.svg"%}
-      <a href="{%url 'comintapp:marketplace'%}">Marketplace</a> 
+      <a {% if request.path == "/marketplace/" %}class="current-page" {% endif %}  href="{%url 'comintapp:marketplace'%}">Marketplace</a> 
       </div>
     </li>
+
     <li> 
       <div class="link">
         <span class="sel-false"> {%include "svg/selected.svg"%} </span>
@@ -103,5 +107,9 @@
       </div>
     </li>
  </ul>
+ 
 
 </div> 
+
+
+

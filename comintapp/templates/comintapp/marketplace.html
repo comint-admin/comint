@@ -44,7 +44,11 @@
   </style>
 {% endblock styles %}
 
+{%block navbar%}  {%include 'navbars/cashboard/marketplace_navbar.html'%}{%endblock navbar%}
+
 {% block body %}
+<div style="display:flex;"class="content min-vh-100">
+{%include 'navbars/sidebar.html'%}
 <div class="container mt-4">
     <h2>Marketplace</h2>
     <form method="get">
@@ -89,5 +93,6 @@
             {% endif %}
         </span>
     </div>
+</div>
 </div>
 {% endblock body %}

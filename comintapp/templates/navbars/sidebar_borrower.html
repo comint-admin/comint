@@ -1,0 +1,99 @@
+{% load static %}
+<style>
+    .sidebar {
+       
+        padding-left: 2em;
+        padding-right: 4em;
+      
+        width: 25em;
+        background-color: #FFFFF2;
+        display:inline-block;
+
+        overflow: hidden;
+  
+        border-right: #26176F solid;
+        
+      }
+
+      .current-page {
+        color: #26176F !important; 
+         
+       
+       }
+ 
+      .sidebar .link {
+        
+        color: #B1B1B1;
+        font-size:20px;
+      }
+
+      .sidebar a{
+        text-decoration: none;
+        color: currentcolor;
+      }
+
+      .sidebar .link:hover {
+        color: #26176F
+      }
+
+      .sidebar ul {
+        list-style-type: none;
+      }
+
+      .sidebar li{
+        margin-top: 1em;
+        margin-bottom: 1em
+      }
+
+      .sidebar-title{
+        background-color: #26176F;
+        color: #FFFFF2;
+        text-align:center;
+        border-radius:20px;
+        margin-left: 1em;
+        margin-right: 1em;
+        margin-bottom: 2em;
+        margin-top: 1em;
+        padding-top: .5em;
+        padding-bottom:1px;
+      }
+
+      svg path{
+        fill:currentcolor;
+      }
+
+      .sel-false{
+        opacity: 0; 
+      }
+
+      .sel-true{
+        opacity: 1;
+      }
+</style>
+
+<div class="sidebar">
+    <div class="sidebar-title">
+       <p class="h5"> Borrower </p>
+       
+    </div>
+    <ul>
+
+   
+    
+    <li> <div class="{% if request.path == "/cashboard/borrower" %}current-page {% endif %} link">
+      <span class={% if request.path == "/cashboard/borrower" %}"sel-true" {%else%} "sel-false" {% endif %}> {%include "svg/selected.svg"%} </span>
+       {%include "svg/userprofile.svg" %}
+       <a {% if request.path == "/cashboard/borrower" %}class="current-page" {% endif %} href="{%url 'comintapp:borrower_view'%}">User Profile</a> </div>
+     </li>
+     <li> 
+       <div class="{% if request.path == "/create_loan_request/" %}current-page {% endif %}link"> 
+         <span class={% if request.path == "/create_loan_request/" %}"sel-true" {%else%} "sel-false" {% endif %}> {%include "svg/selected.svg"%} </span>
+       {%include "svg/offers.svg"%}
+       <a {% if request.path == "/create_loan_request/" %}class="current-page" {% endif %}  href="{%url 'comintapp:create_loan_request'%}">Campaigns</a> 
+       </div>
+     </li>
+
+    
+ </ul>
+
+</div> 
