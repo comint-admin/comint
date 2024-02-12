@@ -101,7 +101,6 @@ def update_user_profile(sender, request, email_address, **kwargs):
     UserProfile.objects.get_or_create(user=user)
 
     # Update the is_verified field in the user's profile
-    user.profile.is_verified = True
     user.profile.save()
 
 class VerificationQuestion(models.Model):
@@ -149,8 +148,8 @@ class UserProfile(models.Model):
         max_length=11,
         validators=[validate_ssn],
         help_text="Social Security Number in the format XXX-XX-XXXX",
-        blank=False,  
-        null=False,
+        blank=True,  
+        null=True,
     )
 
     address_1 = models.CharField(max_length=255, verbose_name="Address 1")
@@ -159,6 +158,7 @@ class UserProfile(models.Model):
     zip_code = models.CharField(max_length=10, verbose_name="Zip Code")
     consent_for_verification = models.BooleanField(default=False, verbose_name="Consent for Identity Verification")
     is_verified = models.BooleanField(default=False, verbose_name="Is Verified")
+    is_complete = models.BooleanField(default=False, verbose_name="Profile Completed")
 
     def __str__(self):
         return str(self.user.email)
@@ -204,3 +204,70 @@ def set_initial_user_names(request, user, sociallogin=None, **kwargs):
 
     user.guess_display_name()
     user.save()
+
+class LoanRequest(models.Model):
+    STATUS_CHOICES = [
+        ('OPEN', 'Open'),
+        ('EXPIRING', 'Expiring'),
+        ('EXPIRED', 'Expired'),
+        ('FUNDED', 'Funded'),
+        ('CANCELLED', 'Cancelled'),
+    ]
+
+    user = models.ForeignKey(ComintUser, on_delete=models.CASCADE, related_name='loan_requests')
+    term = models.IntegerField(help_text='Term in months')
+    interest_rate = models.DecimalField(max_digits=5, decimal_places=1, help_text='Interest rate as a percentage')
+    amount = models.DecimalField(max_digits=6, decimal_places=2, help_text='Loan amount in USD')
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='OPEN')
+
+    def __str__(self):
+        return f'{self.name} - {self.user if self.user_id else ""}'
+
+
+    def clean(self):
+        if self.amount is not None and self.amount > 5000:
+            raise ValidationError({'amount': 'Loan amount cannot exceed 5000 USD'})
+
+class LineOfCredit(models.Model):
+    loan_request = models.ForeignKey(LoanRequest, on_delete=models.CASCADE, related_name='lines_of_credit')
+    negotiator = models.ForeignKey(ComintUser, on_delete=models.CASCADE, related_name='negotiated_loc')
+
+    def __str__(self):
+        return f'{self.loan_request} - {self.negotiator}'
+    
+    def save(self, *args, **kwargs):
+        if self.negotiator == self.loan_request.user:
+            raise ValidationError('A user cannot add a line of credit to their own loan')
+        super().save(*args, **kwargs)
+
+
+class LOCNegotiationRequest(models.Model):
+    STATUS_CHOICES = [
+        ('OPEN', 'Open'),
+        ('COUNTERED', 'Countered'),
+        ('ACCEPTED', 'Accepted'),
+        ('REJECTED', 'Rejected'),
+        ('CANCELLED', 'Cancelled'),
+    ]
+
+    line_of_credit = models.ForeignKey(LineOfCredit, on_delete=models.CASCADE, related_name='negotiations')
+    request_creator = models.ForeignKey(ComintUser, on_delete=models.CASCADE, related_name='loc_negotiations')
+    term = models.IntegerField(help_text='Term in months')
+    interest_rate = models.DecimalField(max_digits=5, decimal_places=1, help_text='Interest rate as a percentage')
+    amount = models.DecimalField(max_digits=10, decimal_places=2, help_text='Loan amount in USD')
+    created_at = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='OPEN')
+
+    def __str__(self):
+        return f'Negotiation for {self.line_of_credit} by {self.request_creator}'
+
+class LOCConfirmation(models.Model):
+    loc_negotiation_request = models.OneToOneField(LOCNegotiationRequest, on_delete=models.CASCADE, related_name='confirmation')
+    confirmed = models.BooleanField(default=False)
+    confirmed_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f'Confirmation for {self.loc_negotiation_request}'

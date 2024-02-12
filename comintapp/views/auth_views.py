@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from comintapp.forms import UserProfileForm, VerificationQuestionsForm
 from comintapp.models import UserProfile, VerificationQuestion
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 @login_required
 def verification_questions(request):
@@ -35,7 +36,6 @@ def verification_questions(request):
 @login_required
 def complete_profile(request):
     user = request.user
-    profile = None
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
@@ -47,9 +47,14 @@ def complete_profile(request):
             profile = UserProfile(user=user)
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
-            form.save()
-            return redirect('comintapp:index')  
+            profile = form.save(commit=False)
+            profile.is_complete = True
+            profile.save()
+            messages.success(request, "Profile Status - In Progress! Our team is currently reviewing your profile. You will be notified of any updates via email.")
+            return redirect('comintapp:cashboard')  
     else:
+        if profile and profile.is_complete:
+            return redirect('comintapp:cashboard')
         form = UserProfileForm(instance=profile) if profile else UserProfileForm()
 
     return render(request, 'comintapp/complete_profile.html', {'form': form})

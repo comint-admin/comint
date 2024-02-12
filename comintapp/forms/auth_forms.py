@@ -80,23 +80,23 @@ class VerificationQuestionsForm(forms.Form):
         return cleaned_data
 
 class UserProfileForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        
+        # List of fields that should be required
+        required_fields = ['dob', 'address_1', 'state', 'zip_code', 'consent_for_verification']
+        self.fields['consent_for_verification'].label = 'By providing information, you agree to consent identity verification.'
+        # Set required attribute for the fields in the list
+        for field_name in required_fields:
+            self.fields[field_name].required = True
+
     class Meta:
         model = UserProfile
         fields = ['dob', 'ssn', 'address_1', 'address_2', 'state', 'zip_code', 'consent_for_verification']
         widgets = {
             'dob': forms.DateInput(attrs={'type': 'date'}),
         }
-
-        def __init__(self, *args, **kwargs):
-            super(UserProfileForm, self).__init__(*args, **kwargs)
-            
-            # List of fields that should be required
-            required_fields = ['dob', 'address_1', 'state', 'zip_code', 'consent_for_verification']
-
-            # Set required attribute for the fields in the list
-            for field_name in required_fields:
-                self.fields[field_name].required = True
-
 
 class ComintResetPasswordForm(ResetPasswordForm):
     def clean_email(self):

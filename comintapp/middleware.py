@@ -28,10 +28,9 @@ class ProfileCompletionMiddleware:
             
             if profile_exists:
                 profile = UserProfile.objects.get(user=request.user)
-                if not profile.is_verified:
+                # if not profile.is_verified:
                      # If the profile exists but is not verified
-                    messages.info(request, "Your profile is currently undergoing verification, please wait till it is verified to access full functionality of the site.")
-                # Redirect to index in both cases if the current path is not index
+                    # messages.info(request, "Your profile is currently undergoing verification, please wait till it is verified to access full functionality of the site.")
             else:
                 # If the profile does not exist
                 if not request.session.get('profile_checked', False):
