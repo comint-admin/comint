@@ -2,10 +2,7 @@
 
 <style>
 
-    body {
-        margin: 0;
-        font-family: 'Epilogue';
-    }
+
 
     .navbar {
         /* background-color: #FFFFF1; */
@@ -25,17 +22,30 @@
         display: inline-block;
         font-size: 18px;
         transition: color 0.3s, transform 0.2s, font-weight 0.2s;
+        float:right
     }
 
-    .navbar-item:hover {
-        color: #26176F;
-        transform: scale(1.1);
-        font-weight: bolder;
-    }
 
     .navbar-toggler {
         display: none;
         cursor: pointer;
+    }
+
+    
+
+    .navbar-path-container{
+      margin-left: 4em;
+      display: inline-block;
+    }
+    .navbar-path{
+      color: grey;
+      padding: .5em;
+      font-size: 18px;
+      text-decoration: none;
+    }
+
+    .active-path{
+      color: #26176F;
     }
 
     @media screen and (max-width: 800px) {
@@ -76,16 +86,19 @@
 
 <div class="navbar">
 
-  <a class="navbar-brand px-3 nav-logo" href="{% url 'comintapp:index' %}"><img
+  <div>
+  <a class="navbar-brand  nav-logo" href="{% url 'comintapp:index' %}"><img
     src="{% static 'comintapp/images/comintIcon.webp' %}"></a>
-
-  <div class="navbar-list-item">
-    <a class="navbar-item" href="{% url 'comintapp:loans' %}"> Lend </a>
-    <a class="navbar-item" href="{% url 'comintapp:payments' %}"> Borrow </a>
-    <a class="navbar-item" href="{% url 'comintapp:about' %}"> About </a>
-    <a class="navbar-item" href="{% url 'comintapp:contact' %}"> Contact </a>
-    <a class="navbar-item" href="#"> Blog </a>
+  
+    <div class="navbar-path-container">
+    {%block path%}
+       <a class="active-path navbar-path "> Cashboard </a>
+    {%endblock path%}
+    </div>
+  
   </div>
+
+ 
 
   
 
@@ -97,17 +110,11 @@
       <a class="btn btn-dark" style="width: 90px; background-color:#26176F; font-family:'Epilogue';"
          href="{% url 'account_signup' %}">Sign up</a>
     </ul>
-
-    
   {% else %}
     <ul class="px-4 nav-btn" style="list-style: none;">
-
-      
       <a class="btn btn-dark" style="width: 90px; background-color:#26176F; font-family:'Epilogue';"
          href="{% url 'account_logout' %}">Log out</a>
     </ul>
-
-
   {% endif %}
 
     <span class="navbar-toggler">&#9776;</span>
