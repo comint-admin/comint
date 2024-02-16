@@ -1,0 +1,266 @@
+{% extends "account/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign Up" %}{% endblock head_title %}
+
+{% block styles %}
+  <style>
+      .custom-border {
+          border-color: #26176F;
+      }
+
+      .validation-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 5px;
+          transition: color 0.3s ease-in-out;
+      }
+
+      .validation-item .icon {
+          margin-right: 5px;
+          transition: color 0.3s ease-in-out;
+      }
+
+      .icon-tick {
+          color: green;
+      }
+
+      .icon-cross {
+          color: red;
+      }
+
+      @keyframes rotateIn {
+          from {
+              transform: rotate(0deg);
+          }
+          to {
+              transform: rotate(360deg);
+          }
+      }
+
+      .pulse {
+          animation: pulse-animation 0.4s none;
+      }
+
+      @keyframes pulse-animation {
+          0% {
+              transform: scale(1);
+          }
+
+          70% {
+              transform: scale(1.25);
+          }
+
+          100% {
+              transform: scale(1);
+          }
+      }
+
+#id_captcha {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+}
+#hero-background {
+            background-image: url('{% static 'comintapp/images/wave-haikei.png'%}');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+</style>
+{% endblock styles  %}
+
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/difflib@0.2.4/dist/difflib-browser.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const PW_MIN_LEN = 8;
+      const MAX_SIMILARITY = 0.7;
+
+            const form = document.getElementById('signup_form');
+            const emailField = document.getElementById('id_email');
+            const firstNameField = document.getElementById('id_first_name');
+            const lastNameField = document.getElementById('id_last_name');
+            const passwordField = document.getElementById('passwordField1');
+            const passwordValidation = document.getElementById('password-validation');
+
+      function validatePassword() {
+        const password = passwordField.value;
+        const email = emailField.value;
+        const firstName = firstNameField.value;
+        const lastName = lastNameField.value;
+        passwordValidation.innerHTML = '';  // Clear previous validation messages
+
+        const validations = [
+          {
+            test: password.length >= PW_MIN_LEN,
+            message: `Password must be at least ${PW_MIN_LEN} characters long.`
+          },
+          {test: /\d/.test(password), message: 'Password must contain at least one number.'},
+          {
+            test: [...email.split(/\W+/), firstName, lastName]
+              .every((val) =>
+                (new difflib.SequenceMatcher(null, password, val)).quickRatio() < MAX_SIMILARITY
+              ),
+            message: 'Password cannot be too similar to your name or email.'
+          },
+        ];
+
+        let isValid = true;
+
+        validations.forEach(validation => {
+          if (!validation.test) {
+            isValid = false;
+          }
+          const item = document.createElement('div');
+          item.className = 'validation-item';
+
+          const icon = document.createElement('span');
+          icon.className = 'icon ' + (validation.test ? 'icon-tick' : 'icon-cross');
+          icon.innerHTML = validation.test ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times pulse"></i>';  // FontAwesome icons
+
+          const message = document.createElement('span');
+          message.innerText = validation.message;
+
+          item.appendChild(icon);
+          item.appendChild(message);
+          passwordValidation.appendChild(item);
+        });
+
+        return isValid;
+      }
+
+      if (passwordField && passwordValidation) {
+        passwordField.addEventListener('input', validatePassword);
+      }
+
+          // Modify the form submit handler to include verification question validation
+          form.addEventListener('submit', function(event) {
+              if (!validatePassword()) {
+                  event.preventDefault();
+              }
+          });
+
+        });
+    </script>
+{% endblock scripts %}
+
+{% block content %}
+<section style="padding-top: 1em;" id="hero-background" >
+  <div class="container py-4">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="col-lg-6 col-md-7 col-sm-9">
+        <div class="my-5 p-5 bg-light rounded-3" style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);"> <!-- Used Bootstrap classes for background and rounding, kept your styles for border and shadow -->
+          {% if form.errors %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>There were some errors with your form submission:</strong>
+            <ul>
+              {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
+
+        <div class="" style="position: relative; width: 100%; text-align: right; margin-top: -15px;">
+          <img src="/static/comintapp/images/Group.svg" alt="Description of your SVG" style="position: absolute; right: -70px;" />
+        </div> 
+
+          <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Create an account" %}</h1>
+
+            <p class="mb-3 pb-1 text-center" style="font-size: 16px; font-family: 'Poppins', sans-serif;">Already have
+              an account? <a href="{% url 'account_login' %}" style="text-decoration: underline; color: black">Log
+                in</a></p>
+
+          <form method="post" action="{% url 'account_signup' %}" class="signup mt-5" id="signup_form">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-outline mb-4">
+                  {% if field.name != "captcha" and field.name != "tc" %}
+                      <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
+                  {% endif %}
+                  {% if field.name == "password1" %}
+
+                  <div class="input-group">
+
+                    {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField1" }}
+                    <span toggle="#passwordField1" class="fa fa-fw fa-eye field-icon toggle-password" style="font-size: 20px; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></span>
+
+                  </div>
+                    <div id="password-validation"></div>
+                    {% elif field.name == "password2" %}
+
+                  <div class="input-group">
+                  {{ field|add_class:"form-control form-control-md custom-border"|attr:"id:passwordField2" }}
+                  <span toggle="#passwordField2" class="fa fa-fw fa-eye field-icon toggle-password" style="font-size: 20px; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></span>
+
+                  </div>
+                  <div id="password-match-validation"></div>
+
+                  {% elif field.name == "captcha" %}
+                      {{ field|add_class:"form-control form-control-md custom-border" }}
+                      {% if form.captcha.errors %}
+                        <div class="text-danger">
+                          {{ form.captcha.errors|striptags }}
+                        </div>
+                      {% endif %}
+                    {% elif field.name == "tc" %}
+                      <div class="form-check margin-auto">
+                        {{ field|add_class:"form-check-input" }}
+                        {{ field.label_tag }}
+                      </div>
+                  {% else %}
+                    {{ field|add_class:"form-control form-control-md custom-border" }}
+                  {% endif %}
+              </div>
+            {% endfor %}
+            {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button type="submit" class="btn btn-lg btn-block" style="color: white; background-color: #26176F; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto;">{% trans "Create an account" %}</button>
+          </form>
+
+          <script>
+            document.querySelectorAll('.toggle-password').forEach(function (toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    var passwordInput = document.querySelector(this.getAttribute('toggle'));
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                    } else {
+                        passwordInput.type = 'password';
+                    }
+                });
+            });
+        </script>
+
+            <hr class="my-4" style="position: relative;
+              width: 79%;
+              border-bottom: 1px solid #e2e2e6;
+              margin: 35px auto;"/>  <!-- Horizontal rule -->
+
+            <!-- Continue with Google Button -->
+            <div class="socialaccount_ballot">
+              <ul class="socialaccount_providers">
+                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+              </ul>
+            </div>
+
+          <div class="" style="position: relative; width: 100%; text-align: right; margin-top: -15px;">
+            <img src="/static/comintapp/images/Group.svg" alt="Description of your SVG" style="position: absolute; right: 480px;" />
+          </div> 
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}

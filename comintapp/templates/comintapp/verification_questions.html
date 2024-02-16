@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Verification Questions" %}{% endblock title %}
+
+{% block styles%}
+<style>
+.custom-border {
+  border-color: #26176F;
+}
+
+</style>
+{% endblock styles  %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/difflib@0.2.4/dist/difflib-browser.min.js"></script>
+{% endblock scripts %}
+
+
+{% block body %}
+<section style="padding-top: 1em;">
+  <div class="container py-4">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="col-lg-6 col-md-7 col-sm-9">
+        <div class="my-5 p-5 bg-light rounded-3" style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);"> <!-- Used Bootstrap classes for background and rounding, kept your styles for border and shadow -->
+          {% if form.errors %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>There were some errors with your form submission:</strong>
+            <ul>
+              {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
+
+
+          <h1 class="mt-1 pb-1 text-center" style="font-family: 'Poppins', sans-serif;">{% trans "Security Questions" %}</h1>
+
+          <p class="mb-3 pb-1 text-center" style="font-size: 16px; font-family: 'Poppins', sans-serif;">Pick your secret questions.</p>
+
+          <form method="post" action="{% url 'comintapp:verification_questions' %}" class="signup mt-5" id="verification_questions">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-outline mb-4">            
+                  <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
+                  {{ field|add_class:"form-control form-control-md custom-border" }}
+              </div>
+            {% endfor %}
+            {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button type="submit" class="btn btn-lg btn-block" style="color: white; background-color: #26176F; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto;">{% trans "Submit" %}</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

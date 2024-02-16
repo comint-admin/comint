@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container mt-4">
+    <h2>Loan Request Details</h2>
+    <div>
+        <h3>{{ loan_request.name }}</h3>
+        <h5> by {{ loan_request.user }}</h5>
+        <hr>
+        <p>Description: {{ loan_request.description }}</p>
+        <p>Amount: ${{ loan_request.amount }}</p>
+        <p>Interest Rate: {{ loan_request.interest_rate }}%</p>
+        <p>Term: {{ loan_request.term }} months</p>
+    </div>
+</div>
+{% endblock %}

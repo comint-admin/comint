@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{%load static%}
+{% block title %}TITLE: Loans{% endblock title %}
+{%block navbar%} {%include "navbars/cashboard/lender_navbar.html"%} {%endblock navbar%}
+
+{% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
+
+{% block body %}
+<p>Hello, {{ username }}, This is the loans page. </p>
+{%endblock body%}

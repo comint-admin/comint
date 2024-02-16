@@ -1,0 +1,24 @@
+{% load account %}
+{% load i18n %}
+
+{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Dear {{ user_display }},  \n Welcome to CoMint, your peer-to-peer lending partner!
+
+To get started, please verify your email by clicking the button below:
+{{ activate_url }}
+
+This link will be valid for 30 minutes. 
+
+Unlock the full potential of CoMint—create loans, invest, and reach your financial goals!
+
+If you didn't sign up, please ignore this email.
+
+For questions or assistance, contact us at admin@comintapp.com.
+
+Best regards,
+
+CoMint Team
+
+[CoMint Logo] 
+
+{{ site_domain }}
+{% endblocktrans %}{% endautoescape %}

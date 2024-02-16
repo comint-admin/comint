@@ -1,0 +1,518 @@
+{% extends "base.html" %}
+
+{%load static%}
+{% block title %}Lender dashboard{% endblock title %}
+{%block navbar%} {%include "navbars/cashboard/lender_navbar.html"%} {%endblock navbar%}
+
+{% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
+
+{% block body %}
+<div>
+
+<style>
+  .content {
+    display:flex;
+    overflow:hidden; 
+    background-color: #FFFFFF;
+    background-image: url("{% static 'comintapp/images/lender-profile-bg.png'%}");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
+  }
+
+  .main-container{
+    margin-left: 8em;
+    margin-top: 2em;
+    width:100%;
+  }
+
+  .main-container-grid{
+    display: flex;
+    margin-right: 4em;
+    padding-bottom: 2em;
+
+  }
+
+  
+
+  .cb-container {
+    background-color: #FFFFFF; 
+    border-radius: 10px;
+
+    padding: 1em;
+    display: block; 
+    height: fit-content;
+    
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  .sub-container { 
+    margin-right: 2em;
+    width: 100%;
+  }
+
+
+
+  .c-title{
+    font-family: poppins;
+    color: #26176F;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .cm-blue{
+   color: #26176F;
+  }
+  .achi{
+    display:flex;
+    height:3em;
+    width: 100%;
+    margin-bottom: 2em; 
+  }
+
+  .blog{
+    display:flex; 
+    height: 8em;
+    border-radius: 10px;
+    img-fit: contain;
+    width: 100%;
+    margin-bottom: 2em;
+  }
+
+  .blog-content{
+    display:inline-block;
+    margin-left: 1em;
+  }
+
+  .blog-title{
+    color: #26176F;
+    font-size: 20px;
+    font-family: poppins;
+
+    
+  }
+
+  .blog-desc{
+    font-family: poppins; 
+    font-size:12px
+  }
+
+  .blog-img{
+    height:100%;
+    border-radius:10px;
+  }
+  .achi-bar{
+    display:grid;
+
+    width:100%;
+    margin-right: 1em; 
+  }
+
+  .achi-base{
+    width:100%;
+    height: 1em; 
+   background-color: #F1F1F1; 
+   border-radius: 10px; 
+   grid-row:1;
+   grid-column:1;
+  }
+
+  .achi-prog{
+    
+    height:1em;
+    width: 57%;
+    
+    border-radius: 10px;
+    grid-row:1;
+    grid-column:1;
+  }
+
+  
+  .orange-bar{
+    background:linear-gradient(to left,#FCAE73,#F79042);
+  }
+
+  .blue-bar{
+    background:linear-gradient(to right,#4f77ab,#70A6E8);
+  }
+
+  
+
+  .achi-prog-green{
+    
+    height:1em;
+    width: 57%;
+    background:linear-gradient(to left,#FCAE73,#F79042);
+    border-radius: 10px;
+    grid-row:1;
+    grid-column:1;
+  }
+
+  .achi-img{
+    height: 50%;
+  }
+
+  .achi-desc{
+    color:#AEAEAE;
+    font-family: poppins; 
+  }
+  .achi-prog-num{
+    color:#696969;
+    font-size:25px;
+  }
+  .achi-orange{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    background-color: #FFEADA;
+    border-radius: 10px;
+    width: 3em;
+    margin-right: 2em; 
+
+  }
+
+  .achi-blue{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    background-color: #E4F0FF;
+    border-radius: 10px;
+    width: 3em;
+    margin-right: 2em; 
+
+  }
+
+  .LOC-tbl{
+    width:100%;
+    font-family: poppins;
+  }
+
+  .subscript{
+    color: grey;
+    font-size: 11px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #F9FAFB;
+  }
+
+  
+
+  .status-success{
+    background-color: #A7F3D0;
+    border-radius: 10px;
+    color: #064E3B;
+    text-align:center;
+    font-weight:bold;
+    
+  }
+
+  .status-pending{
+    background-color: #FC9E4F96;
+    border-radius: 10px;
+    color: #BA5602;
+    text-align:center;
+    font-weight:bold;
+    
+  }
+
+  thead{
+    text-align:center;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    color: grey;
+     
+    
+  }
+
+  thead > tr {
+    height:1em;
+    
+
+  }
+
+  thead > td {
+    height:1em;
+    
+
+  }
+
+  td{
+    height: 6em;
+  }
+
+  .fb{
+    display: flex;
+  }
+
+  .total-earnings{
+    font-size: 24px;
+    font-weight: bold; 
+  }
+
+  .earnings{
+    font-size: 18px;
+    color: #5DB57A;
+  }
+
+
+
+</style>
+<div class="content min-vh-100">
+  {% include "navbars/sidebar.html"%}
+  <div class="main-container">
+  <p class="h1 poppins cm-blue">Hello {{ username }}, </p>
+    <div class="main-container-grid">
+
+     
+     <div class="sub-container">
+      <div class="cb-container  shadow-sm" id="earnings-graph"> 
+        <p class="c-title"> Your total earnings </p> 
+
+        <div class="fb">
+          <div class="total-earnings">$120,543.43 </div>
+          <div class="mx-4 earnings"> +20.32%</div> 
+
+        </div>
+  
+      </div>
+
+      <div class="cb-container  shadow-sm" id="lines-of-credit">
+        <p class="c-title"> Lines of credit </p>
+
+        <table class="LOC-tbl">
+          <thead>
+            <tr>
+              <td> Name</td>
+              <td> Date/time</td>
+              <td> Amount/Card No.</td>
+              <td> Status</td>
+            <tr>
+          </thead>
+          <tr> {%comment %} should be "template"  {%endcomment %}
+          <td>
+            <div class="loc-title">
+              <div class="loc-name">  Link Bank  </div>
+              <div class="loc-ref-num subscript">Ref #12345678910</div>
+            </div>
+          </td>
+
+          <td>
+            <div class="loc-time-date">
+              <div class="loc-date">June 4 2020</div>
+              <div class="loc-time subscript">05:34:45 AM</div>
+            </div>
+          </td>
+
+          <td>
+            <div class="loc-amount-card">
+              <div class="loc-amount">$500000000000</div>
+              <div class="loc-cardnum subscript">**** 4593</div>
+            </div>
+          </td>
+
+          <td>
+            <div class="status-success"> Successful </div>
+          </td>
+
+
+
+          </tr> {%comment %} end of "template"{%endcomment %}
+          <tr> {%comment %} should be "template"  {%endcomment %}
+            <td>
+              <div class="loc-title">
+                <div class="loc-name">  Link Bank  </div>
+                <div class="loc-ref-num subscript">Ref #12345678910</div>
+              </div>
+            </td>
+  
+            <td>
+              <div class="loc-time-date">
+                <div class="loc-date">June 4 2020</div>
+                <div class="loc-time subscript">05:34:45 AM</div>
+              </div>
+            </td>
+  
+            <td>
+              <div class="loc-amount-card">
+                <div class="loc-amount">$500000000000</div>
+                <div class="loc-cardnum subscript">**** 4593</div>
+              </div>
+            </td>
+  
+            <td>
+              <div class="status-success"> Successful </div>
+            </td>
+  
+  
+  
+            </tr> {%comment %} end of "template"{%endcomment %}
+            <tr> {%comment %} should be "template"  {%endcomment %}
+              <td>
+                <div class="loc-title">
+                  <div class="loc-name">  Link Bank  </div>
+                  <div class="loc-ref-num subscript">Ref #12345678910</div>
+                </div>
+              </td>
+    
+              <td>
+                <div class="loc-time-date">
+                  <div class="loc-date">June 4 2020</div>
+                  <div class="loc-time subscript">05:34:45 AM</div>
+                </div>
+              </td>
+    
+              <td>
+                <div class="loc-amount-card">
+                  <div class="loc-amount">$500000000000</div>
+                  <div class="loc-cardnum subscript">**** 4593</div>
+                </div>
+              </td>
+    
+              <td>
+                <div class="status-success"> Successful </div>
+              </td>
+    
+    
+    
+              </tr> {%comment %} end of "template"{%endcomment %}
+              <tr> {%comment %} should be "template"  {%endcomment %}
+                <td>
+                  <div class="loc-title">
+                    <div class="loc-name">  Link Bank  </div>
+                    <div class="loc-ref-num subscript">Ref #12345678910</div>
+                  </div>
+                </td>
+      
+                <td>
+                  <div class="loc-time-date">
+                    <div class="loc-date">June 4 2020</div>
+                    <div class="loc-time subscript">05:34:45 AM</div>
+                  </div>
+                </td>
+      
+                <td>
+                  <div class="loc-amount-card">
+                    <div class="loc-amount">$500000000000</div>
+                    <div class="loc-cardnum subscript">**** 4593</div>
+                  </div>
+                </td>
+      
+                <td>
+                  <div class="status-pending"> Pending </div>
+                </td>
+      
+      
+      
+                </tr> {%comment %} end of "template"{%endcomment %}
+                <tr> {%comment %} should be "template"  {%endcomment %}
+                  <td>
+                    <div class="loc-title">
+                      <div class="loc-name">  Link Bank  </div>
+                      <div class="loc-ref-num subscript">Ref #12345678910</div>
+                    </div>
+                  </td>
+        
+                  <td>
+                    <div class="loc-time-date">
+                      <div class="loc-date">June 4 2020</div>
+                      <div class="loc-time subscript">05:34:45 AM</div>
+                    </div>
+                  </td>
+        
+                  <td>
+                    <div class="loc-amount-card">
+                      <div class="loc-amount">$500000000000</div>
+                      <div class="loc-cardnum subscript">**** 4593</div>
+                    </div>
+                  </td>
+        
+                  <td>
+                    <div class="status-success"> Successful </div>
+                  </td>
+        
+        
+        
+                  </tr> {%comment %} end of "template"{%endcomment %}
+
+
+
+        </table>
+
+      </div>
+
+      
+    </div>
+
+    <div class="sub-container">
+
+      <div class="cb-container  shadow-sm" id="achievements">
+        <p class="c-title"> Achievements </p> 
+
+        <div class="achi">
+         <div class="achi-orange"> <img class="achi-img" src="{%static 'comintapp/images/achievement1.png'%}"> </div>
+          <div class="achi-bar">
+            <div class="achi-base"></div> 
+            <div class="achi-prog orange-bar"></div>
+            <p class="achi-desc">Finish account setup </p>
+          </div>
+          <p class="achi-prog-num">57%</p>
+          
+        </div>
+        
+
+        <div class="achi">
+          <div class="achi-blue"> <img class="achi-img" src="{%static 'comintapp/images/achi-2.svg'%}"> </div>
+           <div class="achi-bar">
+             <div class="achi-base"></div> 
+             <div class="achi-prog blue-bar"></div>
+             <p class="achi-desc">Refer a freind </p>
+           </div>
+           <p class="achi-prog-num">57%</p>
+           
+         </div>
+    
+       </div>{% comment %} cheevo end {% endcomment %}
+
+       
+
+       
+
+     
+
+      <div class="cb-container shadow-sm" id="blogs">
+        <p class="c-title"> Blogs </p>
+        <div class="blog shadow">
+          <img class="blog-img" src="{%static 'comintapp/images/blog_placeholder.jpeg'%}">
+          <div class="blog-content">
+            <p class="blog-title"> Recents </p>
+            <div class="blog-desc">Card desription. Lorem ipsum dolor sit amet,  </div> 
+          </div>
+      </div>
+
+      <div class="blog shadow">
+        <img class="blog-img" src="{%static 'comintapp/images/blog_placeholder.jpeg'%}">
+       <div class="blog-content">
+        <p class="blog-title"> Favorites </p>
+        <p class="blog-desc"> Card desription. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit rhoncus imperdiet nisi.</p> 
+      </div>
+    </div> 
+
+    <div class="blog shadow">
+      <img class="blog-img" src="{%static 'comintapp/images/blog_placeholder.jpeg'%}">
+     <div class="blog-content">
+      <p class="blog-title"> Blogs </p>
+      <div class="blog-desc">Card desription. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit rhoncus imperdiet nisi. </div> 
+    </div>
+  </div> 
+       
+  </div>
+
+</div>
+</div>
+{% endblock body %}

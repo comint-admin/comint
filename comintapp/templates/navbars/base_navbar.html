@@ -1,0 +1,129 @@
+{% load static %}
+
+<style>
+
+    body {
+        margin: 0;
+        font-family: 'Epilogue';
+    }
+
+    .navbar {
+        /* background-color: #FFFFF1; */
+        padding: 15px;
+        color: black;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
+    }
+
+    .navbar-item {
+        color: black;
+        text-decoration: none;
+        padding: 10px;
+        display: inline-block;
+        font-size: 18px;
+        transition: color 0.3s, transform 0.2s, font-weight 0.2s;
+    }
+
+    .navbar-item:hover {
+        color: #26176F;
+        transform: scale(1.1);
+        font-weight: bolder;
+    }
+
+    .navbar-toggler {
+        display: none;
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 800px) {
+
+        .navbar-item, .nav-btn {
+            display: none;
+        }
+
+        .navbar-toggler {
+            display: block;
+            margin-right: 30px;
+        }
+
+        .navbar.collapsed a {
+            display: block;
+        }
+
+        .navbar.collapsed ul {
+            display: block;
+        }
+
+        .navbar.collapsed ul a {
+            margin-top: 20px;
+        }
+
+        {% comment %} .navbar.collapsed span {
+            display: none;
+        } {% endcomment %}
+
+        .navbar.collapsed {
+            flex-direction: column;
+            text-align: left;
+        }
+    }
+
+    {% block nav_styles %}{% endblock nav_styles %}
+</style>
+
+<div class="navbar">
+
+  <a class="navbar-brand px-3 nav-logo" href="{% url 'comintapp:index' %}"><img
+    src="{% static 'comintapp/images/comintIcon.webp' %}"></a>
+
+  <div class="navbar-list-item">
+    <a class="navbar-item" href="{% url 'comintapp:loans' %}"> Lend </a>
+    <a class="navbar-item" href="{% url 'comintapp:payments' %}"> Borrow </a>
+    <a class="navbar-item" href="{% url 'comintapp:about' %}"> About </a>
+    <a class="navbar-item" href="{% url 'comintapp:contact' %}"> Contact </a>
+    <a class="navbar-item" href="#"> Blog </a>
+  </div>
+
+  
+
+  {% if not request.user.is_authenticated %}
+    <ul class="px-4 nav-btn" style="list-style: none;">
+      <a class="btn btn-light"
+         style="width: 90px; margin-right:1em; color:#26176F; background-color: #97f191; font-family:'Epilogue';"
+         href="{% url 'account_login' %}">Log in</a>
+      <a class="btn btn-dark" style="width: 90px; background-color:#26176F; font-family:'Epilogue';"
+         href="{% url 'account_signup' %}">Sign up</a>
+    </ul>
+
+    
+  {% else %}
+    <ul class="px-4 nav-btn" style="list-style: none;">
+
+      
+      <a class="btn btn-dark" style="width: 90px; background-color:#26176F; font-family:'Epilogue';"
+         href="{% url 'account_logout' %}">Log out</a>
+    </ul>
+
+
+  {% endif %}
+
+    <span class="navbar-toggler">&#9776;</span>
+
+
+</div>
+
+
+<script>
+  document.querySelector('.navbar-toggler').addEventListener('click', function () {
+    document.querySelector('.navbar').classList.toggle('collapsed');
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.navbar-toggler')) {
+      document.querySelector('.navbar').classList.remove('collapsed');
+    }
+  });
+</script> 
