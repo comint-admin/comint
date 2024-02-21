@@ -187,11 +187,13 @@ $(document).ready(function() {
               <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
                 <div style="width: 45%">
                   <label>Initial Amount ($USD)</label>
+                  <label>Initial Amount ($USD)</label>
                   <br>
                   {% render_field form.amount id="id_amount" class="form-style" %}
                   <span id="error_amount" class="text-danger"></span>
                 </div>
                 <div style="width: 45%">
+                  <label>Term (In months)</label>
                   <label>Term (In months)</label>
                   <br>
                   {% render_field form.term id="id_term" class="form-style" %}
