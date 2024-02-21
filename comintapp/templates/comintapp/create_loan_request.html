@@ -185,13 +185,13 @@ $(document).ready(function() {
               
               <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
                 <div style="width: 45%">
-                  <lable>Initial Amount ($USD)</lable>
+                  <label>Initial Amount ($USD)</label>
                   <br>
                   {% render_field form.amount class="form-style" %}
                   <span id="error_{{ field.name }}" class="text-danger"></span>
                 </div>
                 <div style="width: 45%">
-                  <lable>Term (In months)</lable>
+                  <label>Term (In months)</label>
                   <br>
                   {% render_field form.term class="form-style" %}
                   <span id="error_{{ field.name }}" class="text-danger"></span>
@@ -199,13 +199,13 @@ $(document).ready(function() {
               </div>
               <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
                 <div style="width: 45%">
-                  <lable>Min Interest Rate</lable>
+                  <label>Min Interest Rate</label>
                   <br>
                   {% render_field form.interest_rate class="form-style" %}
                   <span id="error_{{ field.name }}" class="text-danger"></span>
                 </div>
                 <div style="width: 45%">
-                  <lable>Max Interest Rate</lable>
+                  <label>Max Interest Rate</label>
                   <br>
                   {% render_field form.interest_rate class="form-style" %}
                   <span id="error_{{ field.name }}" class="text-danger"></span>
