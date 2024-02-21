@@ -13,7 +13,8 @@
 
     .bg {
       background-image: url('{% static "comintapp/images/cashboard-bg.jpg" %}');
-      background-size: 1400px;
+      background-size: cover;
+      width: 100%;
     }
       .custom-border {
           border-color: #26176F;
@@ -167,12 +168,21 @@ $(document).ready(function() {
                   class="loan-request-form mt-2" style="padding: 40px; width: 100%;">
               {% csrf_token %}
               <div id="form_errors" class="alert alert-danger" style="display: none;"></div>
+              <div style="margin-bottom: 20px; width:50%">
+                <label>Name</label>
+                <br>
+                {% render_field form.name class="form-style" %}
+                <span id="error_{{ field.name }}" class="text-danger"></span>
+              </div>
+              
               <div style="margin-bottom: 20px;">
                 <label>Description</label>
                 <br>
                 {% render_field form.description class="form-description" %}
                 <span id="error_{{ field.name }}" class="text-danger"></span>
               </div>
+
+              
               <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
                 <div style="width: 45%">
                   <lable>Initial Amount ($USD)</lable>
@@ -183,7 +193,7 @@ $(document).ready(function() {
                 <div style="width: 45%">
                   <lable>Term (In months)</lable>
                   <br>
-                  {% render_field form.interest_rate class="form-style" %}
+                  {% render_field form.term class="form-style" %}
                   <span id="error_{{ field.name }}" class="text-danger"></span>
                 </div>
               </div>

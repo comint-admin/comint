@@ -22,7 +22,8 @@
     }
     .bg {
       background-image: url('{% static "comintapp/images/cashboard-bg.jpg" %}');
-      background-size: 1400px;
+      background-size: cover;
+      width: 100%;
       padding: 100px 80px 100px 50px;
     }
     .view-btn {
@@ -50,6 +51,10 @@
         padding: 0px 40px;
     }
 
+    .campaign{
+        max-width: 24em;
+    }
+
   </style>
 {% endblock styles %}
 
@@ -74,7 +79,7 @@
     
     <ul class="row" style="list-style: none;">
         {% for loan_request in page_obj %}
-        <li class="col-md-4 mb-4 col-lg-4">
+        <li class="col-md-4 mb-4 col-lg-4 campaign">
             <div class="upper-box">
                 <p style="padding: 20px 0px; text-align: right;">{{ loan_request.get_status_display }}</p>
             </div>
