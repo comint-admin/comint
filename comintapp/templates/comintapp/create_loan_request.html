@@ -3,15 +3,23 @@
 {% load i18n %}
 {% load account socialaccount %}
 
+{% load static %}
+
 {% block head_title %}{% trans "Create Loan Request" %}{% endblock head_title %}
 
 {% block styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
+
+    .bg {
+      background-image: url('{% static "comintapp/images/cashboard-bg.jpg" %}');
+      background-size: 1400px;
+    }
       .custom-border {
           border-color: #26176F;
       }
 
+      
     .loan-request-container {
         background: #FFFFF2;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -36,6 +44,29 @@
         color: #FFFFFF;
         border-radius: 10px;
         font-family: 'Poppins', sans-serif;
+    }
+    .container {
+      padding: 0px 100px 0px 60px;
+      margin: 0px 100px 0px 60px;
+    }
+    .form-description {
+      width: 100%; border-radius: 10px; border: #26176F 1px solid;
+      margin-top: 10px;
+      height: 80px;
+    }
+
+    .form-style {
+      width: 100%; border-radius: 10px; border: #26176F 1px solid;
+      margin-top: 10px;
+      height: 40px;
+    }
+
+    .btn {
+      color: white; 
+      background-color: #26176F; 
+      font-family: 'Poppins', sans-serif; 
+      display: block; 
+      margin: 60px auto 0px auto;
     }
 
   </style>
@@ -113,12 +144,11 @@ $(document).ready(function() {
 <div style="display:flex" class="min-vh-100">
 {%include 'navbars/sidebar_borrower.html'%}
 
-  <div style="padding-top: 1em;" class="container mt4">
-    <div class="py-4">
+<div class="bg" style="padding: 150px 80px 150px 80px;" class="container mt4">
+  <p style="margin: -80px 0px 70px 50px; color: #26176F; font-size: 30px;" >New Campaign</p>  
+  <div class="container">
       <div class="row d-flex align-items-center justify-content-center">
-        <div class="col-lg-6 col-md-7 col-sm-9">
-          <div class="my-5 p-5 bg-light rounded-3"
-               style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <div style="background-color: #FFFFF2; margin: 20px 80px 20px 50px; border-radius: 25px; color: black;">
             {% if form.errors %}
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <strong>{% trans "There were some errors with your form submission:" %}</strong>
@@ -133,26 +163,47 @@ $(document).ready(function() {
                         aria-label="Close"></button>
               </div>
             {% endif %}
-
-            <h1 class="mt-1 pb-1 text-center"
-                style="font-family: 'Poppins', sans-serif;">{% trans "Create a Loan Request" %}</h1>
-
             <form method="post" action="{% url 'comintapp:create_loan_request' %}"
-                  class="loan-request-form mt-5">
+                  class="loan-request-form mt-2" style="padding: 40px; width: 100%;">
               {% csrf_token %}
               <div id="form_errors" class="alert alert-danger" style="display: none;"></div>
-              {% for field in form %}
-              <div class="form-outline mb-4">
-                  <label class="form-label" for="{{ field.id_for_label }}" style="font-size: 16px; font-family: 'Poppins', sans-serif;">{{ field.label }}</label>
-                  {{ field|add_class:"form-control form-control-md custom-border" }}
+              <div style="margin-bottom: 20px;">
+                <label>Description</label>
+                <br>
+                {% render_field form.description class="form-description" %}
+                <span id="error_{{ field.name }}" class="text-danger"></span>
+              </div>
+              <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
+                <div style="width: 45%">
+                  <lable>Initial Amount ($USD)</lable>
+                  <br>
+                  {% render_field form.amount class="form-style" %}
                   <span id="error_{{ field.name }}" class="text-danger"></span>
-
+                </div>
+                <div style="width: 45%">
+                  <lable>Term (In months)</lable>
+                  <br>
+                  {% render_field form.interest_rate class="form-style" %}
+                  <span id="error_{{ field.name }}" class="text-danger"></span>
+                </div>
               </div>
-            {% endfor %}
+              <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
+                <div style="width: 45%">
+                  <lable>Min Interest Rate</lable>
+                  <br>
+                  {% render_field form.interest_rate class="form-style" %}
+                  <span id="error_{{ field.name }}" class="text-danger"></span>
+                </div>
+                <div style="width: 45%">
+                  <lable>Max Interest Rate</lable>
+                  <br>
+                  {% render_field form.interest_rate class="form-style" %}
+                  <span id="error_{{ field.name }}" class="text-danger"></span>
+                </div>
               </div>
-              <button type="submit" class="btn btn-lg btn-block"
-                      style="color: white; background-color: #26176F; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto;">{% trans "Submit" %}</button>
-            </form>
+              <button type="submit" class="btn btn-lg btn-block">{% trans "Submit" %}</button>
+                </div>
+              </form>
           </div>
         </div>
       </div>

@@ -1,32 +1,80 @@
-{% extends "base.html" %}
+{% extends "account/base.html" %}
+{% load widget_tweaks %}
 
 {% load static %}
 
-{% block head_title %}Comint - Cashboard {% endblock head_title %}
+{% load i18n %}
+{% load account socialaccount %}
 
-{% block body %}
-<div class="container">
-  <h2 style="color: blue;">Choose Your Path</h2>
-  <div class="row">
-    <div class="col">
-      <div class="card" style="background-color: gray;">
-        <div class="card-body">
-          <h5 class="card-title">Lender</h5>
-          <p class="card-text">Start lending and make a difference.</p>
-          <a href="{% url 'comintapp:lender_view' %}" class="btn btn-primary">Start Lending</a>
-        </div>
-      </div>
+{% block head_title %}{% trans "Dashboard" %}{% endblock head_title %}
+
+{% block styles %}
+  <style>
+    .highlight-news-container {
+      background-image: url('{% static "comintapp/images/cashboard-bg.jpg" %}');
+      background-size: 1400px;
+    }
+
+    .highlight-news-container ul{
+        list-style: none;
+    }
+    .lend-borrow {
+        max-width: 100%;
+        height: auto;
+        box-sizing: border-box;
+        padding-right: 20px;
+        background-color: #26176F; 
+        margin-right: 40px; 
+        width: 350px; 
+        border-radius: 7px; 
+    }
+    .lend-borrow:hover {
+        transition: all 1.5s;
+        transform: scale(1.05);
+    }
+    .news-title {
+      display: block;
+      background-color: #FFFFF2; 
+      border-radius: 70px;
+    }
+    .news-title:hover {
+        color: #FC9E4F;
+    }
+    .d-flex {
+        display: flex;
+    }
+  </style>
+{% endblock styles %}
+
+{% block content %}
+  <div class="highlight-news-container" style="padding: 150px 30px 150px 10px; color: white;">
+    <div>
+      <p class="font-weight-light" style="margin: -80px 0px 80px 45px; color: #26176F; font-size: 25px;" >Welcome, John</p>  
     </div>
-    <div class="col">
-      <div class="card" style="background-color: gray;">
-        <div class="card-body">
-          <h5 class="card-title">Borrower</h5>
-          <p class="card-text">Start borrowing for your needs.</p>
-          <a href="{% url 'comintapp:borrower_view' %}" class="btn btn-primary">Start Borrowing</a>
-        </div>
-      </div>
-    </div>
+      <ul class="highlight-news-list d-flex">
+        <li class="container" style="width: 380px;">
+          <div style="margin: 50px 20px 50px 0px; color: #26176F;">
+            <p style="font-size: 28px;">Choose Your Path</p>  
+            <p style="font-size: 28px; margin-top: -20px;">To Start</p>  
+            <p style="font-size: 16px;">You can always change your path later.</p> 
+          </div>
+        </li>
+        <li class="container lend-borrow" style="border: 4px solid #FC9E4F;">
+          <div style="margin: 30px 10px 30px 15px;">
+            <h3>Lender</h3>
+            <p style="font-size: 14px; margin: 25px 0px;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has bee.
+            </p>  
+            <a href="{% url 'comintapp:lender_view' %}" class="btn btn-lg btn-block news-title">Start Lending</a>
+          </div>
+        </li>
+        <li class="container lend-borrow" style="border: 4px solid #26176F;">
+          <div style="margin: 30px 10px 30px 15px;">
+            <h3>Borrower</h3>
+            <p style="font-size: 14px; margin: 25px 0px;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has bee.
+            </p>  
+            <a href="{% url 'comintapp:borrower_view' %}" class="btn btn-lg btn-block news-title">Start Borrowing</a>
+          </div>
+        </li>
+    </ul>
   </div>
-</div>
-
-{% endblock body %}
+{% endblock content %}
