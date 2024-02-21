@@ -100,6 +100,7 @@ $(document).ready(function() {
 
     function validateInterestRate() {
         let interestRate = $('#id_interest_rate').val();
+        
         let interestRateFloat = parseFloat(interestRate);
         if(isNaN(interestRateFloat) || interestRateFloat < 0) {
             $('#error_interest_rate').text("Interest rate must be non-negative.");
@@ -185,31 +186,28 @@ $(document).ready(function() {
               
               <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
                 <div style="width: 45%">
-                  <lable>Initial Amount ($USD)</lable>
+                  <label>Initial Amount ($USD)</label>
                   <br>
-                  {% render_field form.amount class="form-style" %}
-                  <span id="error_{{ field.name }}" class="text-danger"></span>
+                  {% render_field form.amount id="id_amount" class="form-style" %}
+                  <span id="error_amount" class="text-danger"></span>
                 </div>
                 <div style="width: 45%">
-                  <lable>Term (In months)</lable>
+                  <label>Term (In months)</label>
                   <br>
-                  {% render_field form.term class="form-style" %}
-                  <span id="error_{{ field.name }}" class="text-danger"></span>
+                  {% render_field form.term id="id_term" class="form-style" %}
+                  <span id="error_term" class="text-danger"></span>
+                 
+                  
                 </div>
               </div>
               <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
                 <div style="width: 45%">
-                  <lable>Min Interest Rate</lable>
+                  <label>Interest Rate</label>
                   <br>
-                  {% render_field form.interest_rate class="form-style" %}
-                  <span id="error_{{ field.name }}" class="text-danger"></span>
+                  {% render_field form.interest_rate id="id_interest_rate" class="form-style" %}
+                  <span id="error_interest_rate" class="text-danger"></span>
                 </div>
-                <div style="width: 45%">
-                  <lable>Max Interest Rate</lable>
-                  <br>
-                  {% render_field form.interest_rate class="form-style" %}
-                  <span id="error_{{ field.name }}" class="text-danger"></span>
-                </div>
+                
               </div>
               <button type="submit" class="btn btn-lg btn-block">{% trans "Submit" %}</button>
                 </div>
