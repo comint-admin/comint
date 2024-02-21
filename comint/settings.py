@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'hcaptcha_field',
     'django_filters',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -203,5 +204,7 @@ EMAIL_HOST_PASSWORD = env('ZOHO_APP_PASSWORD')
 DEFAULT_FROM_EMAIL = 'CoMint App<noreply@comintapp.com>'
 
 # # hCaptcha
-# HCAPTCHA_SITEKEY = env('HCAPTCHA_SITEKEY')
-# HCAPTCHA_SECRET = env('HCAPTCHA_SECRET')
+HCAPTCHA_SITEKEY = env('HCAPTCHA_SITEKEY')
+HCAPTCHA_SECRET = env('HCAPTCHA_SECRET')
+
+
