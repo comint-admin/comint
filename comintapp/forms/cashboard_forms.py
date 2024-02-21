@@ -1,5 +1,11 @@
 from django import forms
-from ..models import LoanRequest
+from ..models import LoanRequest, LOCNegotiationRequest
+
+class LOCNegotiationRequestForm(forms.ModelForm):
+    class Meta:
+        model = LOCNegotiationRequest
+        fields = ['amount', 'term', 'interest_rate']  # adjust fields as necessary
+
 
 class LoanRequestForm(forms.ModelForm):
     class Meta:
