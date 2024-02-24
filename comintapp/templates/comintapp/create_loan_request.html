@@ -144,7 +144,7 @@ $(document).ready(function() {
 
 {% block body %}
 <div style="display:flex" class="min-vh-100">
-{%include 'navbars/sidebar_borrower.html'%}
+{%include 'navbars/sidebars/sidebar_borrower.html'%}
 
 <div class="bg" style="padding: 150px 80px 150px 80px;" class="container mt4">
   <p style="margin: -80px 0px 70px 50px; color: #26176F; font-size: 30px;" >New Campaign</p>  
@@ -187,7 +187,6 @@ $(document).ready(function() {
               <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
                 <div style="width: 45%">
                   <label>Initial Amount ($USD)</label>
-                  <label>Initial Amount ($USD)</label>
                   <br>
                   {% render_field form.amount id="id_amount" class="form-style" %}
                   <span id="error_amount" class="text-danger"></span>
@@ -209,7 +208,8 @@ $(document).ready(function() {
                   {% render_field form.interest_rate id="id_interest_rate" class="form-style" %}
                   <span id="error_interest_rate" class="text-danger"></span>
                 </div>
-                
+
+
               </div>
               <button type="submit" class="btn btn-lg btn-block">{% trans "Submit" %}</button>
                 </div>
