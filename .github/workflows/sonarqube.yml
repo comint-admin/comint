@@ -2,8 +2,10 @@ name: Build
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "demo", "main" ]
+  pull_request:
+    branches: [ "demo" ]
+  workflow_dispatch:
 
 
 jobs:
