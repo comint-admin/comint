@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "dashboard_layout.html" %}
 
 {%load static%}
-{% block title %}Lender dashboard{% endblock title %}
+{% block head_title %}Lender dashboard{% endblock head_title %}
 {%block navbar%} {%include "navbars/cashboard/lender_navbar.html"%} {%endblock navbar%}
 
 {% if form.non_field_errors %}
@@ -10,25 +10,34 @@
   </div>
 {% endif %}
 
-{% block body %}
+
 <div>
 
-<style>
-  .content {
+
+ 
+  
+  {%block sidebar %}
+  {% include "navbars/sidebars/sidebar_lender.html"%}
+  {%endblock sidebar %}
+
+
+  {% block layout_styles %}
+  <style>
+  /* .content {
     display:flex;
     overflow:hidden; 
     background-color: #FFFFFF;
-    background-image: url("{% static 'comintapp/images/lender-profile-bg.png'%}");
-    background-repeat: no-repeat;
-    background-size:cover;
-    background-position: center;
+   
   }
 
   .main-container{
     margin-left: 8em;
     margin-top: 2em;
-    width:100%;
-  }
+    width:100%; background-image: url("{% static 'comintapp/images/lender-profile-bg.png'%}");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
+  } */
 
   .main-container-grid{
     display: flex;
@@ -266,10 +275,13 @@
   
 
 
-</style>
-<div class="content min-vh-100">
-  {% include "navbars/sidebars/sidebar_lender.html"%}
-  <div class="main-container">
+  </style>
+ {% endblock layout_styles %}
+
+
+  
+{% block content %}
+<div>
   <p class="h1 poppins cm-blue">Hello {{ username }}, </p>
     <div class="main-container-grid">
 
@@ -519,4 +531,7 @@
 
 </div>
 </div>
-{% endblock body %}
+</div>
+
+{% endblock content %}
+

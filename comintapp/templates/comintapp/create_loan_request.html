@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "dashboard_layout.html" %}
 {% load widget_tweaks %}
 {% load i18n %}
 {% load account socialaccount %}
@@ -7,7 +7,7 @@
 
 {% block head_title %}{% trans "Create Loan Request" %}{% endblock head_title %}
 
-{% block styles %}
+{% block layout_styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
 
@@ -71,7 +71,7 @@
     }
 
   </style>
-{% endblock styles %}
+{% endblock layout_styles %}
 
 {% block scripts %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -142,10 +142,13 @@ $(document).ready(function() {
 {%block navbar%} {%include 'navbars/cashboard/loanrequests_navbar.html'%}{%endblock navbar%}
 
 
-{% block body %}
-<div style="display:flex" class="min-vh-100">
-{%include 'navbars/sidebars/sidebar_borrower.html'%}
 
+
+  {%block sidebar %}
+  {% include "navbars/sidebars/sidebar_borrower.html"%}
+  {%endblock sidebar %}
+
+{% block content %}
 <div class="bg" style="padding: 150px 80px 150px 80px;" class="container mt4">
   <p style="margin: -80px 0px 70px 50px; color: #26176F; font-size: 30px;" >New Campaign</p>  
   <div class="container">
@@ -217,7 +220,7 @@ $(document).ready(function() {
           </div>
         </div>
       </div>
-    </div>
+   
   </div>
 </div>
   <!-- Error Modal -->
@@ -239,5 +242,5 @@ $(document).ready(function() {
     </div>
   </div>
 </div>
+{% endblock content %}
 
-{% endblock body %}

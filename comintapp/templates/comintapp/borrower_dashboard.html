@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "dashboard_layout.html" %}
 
 {%load static%}
-{% block title %}Borrower dashboard{% endblock title %}
+{% block head_title %}Borrower dashboard{% endblock head_title %}
 {%block navbar%} {%include "navbars/cashboard/borrower_navbar.html"%} {%endblock navbar%}
 
 {% if form.non_field_errors %}
@@ -10,25 +10,12 @@
   </div>
 {% endif %}
 
-{% block body %}
+
 <div>
 
+  {% block layout_styles %}
 <style>
-  .content {
-    display:flex;
-    overflow:hidden; 
-    background-color: #FFFFFF;
-    background-image: url("{% static 'comintapp/images/lender-profile-bg.png'%}");
-    background-repeat: no-repeat;
-    background-size:cover;
-    background-position: center;
-  }
 
-  .main-container{
-    margin-left: 8em;
-    margin-top: 2em;
-    width:100%;
-  }
 
   .main-container-grid{
     display: flex;
@@ -263,9 +250,18 @@
 
 
 </style>
-<div class="content min-vh-100">
+{% endblock layout_styles %}
+
+{%block sidebar %}
   {% include "navbars/sidebars/sidebar_borrower.html"%}
-  <div class="main-container">
+  {%endblock sidebar %}
+
+  {% block content %}
+
+
+
+
+  <div>
   <p class="h1 poppins cm-blue">Hello {{ username }}, </p>
     <div class="main-container-grid">
 
@@ -515,4 +511,5 @@
 
 </div>
 </div>
-{% endblock body %}
+</div>
+  {% endblock content %}
