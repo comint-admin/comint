@@ -1,11 +1,9 @@
-name: Build
+name: sonarqube
 
 on:
   push:
-    branches: [ "demo", "main" ]
-  pull_request:
-    branches: [ "demo" ]
-  workflow_dispatch:
+    branches:
+      - demo
 
 
 jobs:
