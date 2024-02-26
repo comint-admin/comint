@@ -1,0 +1,30 @@
+
+{%extends "navbars/sidebars/base_sidebar.html"%}
+
+
+{% block sb_content %}
+    <div class="sidebar-title">
+       <p class="h5"> Borrower </p>
+       
+    </div>
+    <ul>
+
+   
+    
+    <li> <div class="{% if request.path == "/cashboard/borrower" %}current-page {% endif %} link">
+      <span class={% if request.path == "/cashboard/borrower" %}"sel-true" {%else%} "sel-false" {% endif %}> {%include "svg/selected.svg"%} </span>
+       {%include "svg/userprofile.svg" %}
+       <a {% if request.path == "/cashboard/borrower" %}class="current-page" {% endif %} href="{%url 'comintapp:borrower_view'%}">User Profile</a> </div>
+     </li>
+     <li> 
+       <div class="{% if request.path == "/create_loan_request/" %}current-page {% endif %}link"> 
+         <span class={% if request.path == "/create_loan_request/" %}"sel-true" {%else%} "sel-false" {% endif %}> {%include "svg/selected.svg"%} </span>
+       {%include "svg/offers.svg"%}
+       <a {% if request.path == "/create_loan_request/" %}class="current-page" {% endif %}  href="{%url 'comintapp:create_loan_request'%}">Campaigns</a> 
+       </div>
+     </li>
+
+    
+ </ul>
+
+ {% endblock sb_content %}

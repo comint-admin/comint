@@ -10,6 +10,11 @@
         <p>Amount: ${{ loan_request.amount }}</p>
         <p>Interest Rate: {{ loan_request.interest_rate }}%</p>
         <p>Term: {{ loan_request.term }} months</p>
+        {% if user == loan_request.user %}
+            <a href="{% url 'comintapp:manage_loan' loan_request.id %}" class="btn btn-primary">Manage Loan</a>
+        {% else %}
+            <a href="{% url 'comintapp:fund_loan' loan_request.id %}" class="btn btn-success">Fund Loan</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

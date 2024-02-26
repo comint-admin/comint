@@ -26,9 +26,10 @@ class LineOfCreditAdmin(admin.ModelAdmin):
     search_fields = ('loan_request__name', 'negotiator__email')
 
 class LOCNegotiationRequestAdmin(admin.ModelAdmin):
-    list_display = ('line_of_credit', 'request_creator', 'amount', 'term', 'interest_rate', 'status', 'created_at')
+    list_display = ('line_of_credit', 'request_creator', 'amount', 'term', 'interest_rate', 'status', 'created_at','updated_at')
     list_filter = ('status', 'created_at')
     search_fields = ('line_of_credit__loan_request__name', 'request_creator__email')
+    readonly_fields = ('updated_at',)  # Marking updated_at as read-only
 
 class LOCConfirmationAdmin(admin.ModelAdmin):
     list_display = ('loc_negotiation_request', 'confirmed', 'confirmed_at')

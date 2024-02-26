@@ -1,0 +1,41 @@
+{%extends "navbars/sidebars/base_sidebar.html"%}
+
+{% block sb_content %}
+<div class="sidebar-title">
+    <p class="h5"> Lender </p>
+    
+   
+ </div>
+ <ul>
+
+ 
+
+ <li> <div class="{% if request.path == "/cashboard/lender" %}current-page {% endif %} link">
+  <span class={% if request.path == "/cashboard/lender" %}"sel-true" {%else%} "sel-false" {% endif %}> {%include "svg/selected.svg"%} </span>
+   {%include "svg/userprofile.svg" %}
+   <a {% if request.path == "/cashboard/lender" %}class="current-page" {% endif %} href="{%url 'comintapp:lender_view'%}">User Profile</a> </div>
+ </li>
+ <li> 
+   <div class="{% if request.path == "/marketplace/" %}current-page {% endif %}link"> 
+     <span class={% if request.path == "/marketplace/" %}"sel-true" {%else%} "sel-false" {% endif %}> {%include "svg/selected.svg"%} </span>
+   {%include "svg/marketplace.svg"%}
+   <a {% if request.path == "/marketplace/" %}class="current-page" {% endif %}  href="{%url 'comintapp:marketplace'%}">Marketplace</a> 
+   </div>
+ </li>
+
+ <li> 
+   <div class="link">
+     <span class="sel-false"> {%include "svg/selected.svg"%} </span>
+   {%include "svg/offers.svg"%}
+   <a href="#">Offers</a> 
+   </div>
+ </li>
+ <li>
+   <div class="link">
+     <span class="sel-false"> {%include "svg/selected.svg"%} </span>
+   {%include "svg/returns.svg"%} 
+   <a href="#">Returns</a> 
+   </div>
+ </li>
+</ul>
+{% endblock sb_content %}
