@@ -23,23 +23,12 @@
 
   {% block layout_styles %}
   <style>
-  /* .content {
-    display:flex;
-    overflow:hidden; 
-    background-color: #FFFFFF;
-   
-  }
 
-  .main-container{
-    margin-left: 8em;
-    margin-top: 2em;
-    width:100%; background-image: url("{% static 'comintapp/images/lender-profile-bg.png'%}");
-    background-repeat: no-repeat;
-    background-size:cover;
-    background-position: center;
-  } */
+    .main-content{
+      padding-left: 2em; 
+    }
 
-  .main-container-grid{
+  .main-content-layout{
     display: flex;
     margin-right: 4em;
     padding-bottom: 2em;
@@ -96,6 +85,7 @@
   .blog-content{
     display:inline-block;
     margin-left: 1em;
+    overflow:scroll;
   }
 
   .blog-title{
@@ -108,7 +98,8 @@
 
   .blog-desc{
     font-family: poppins; 
-    font-size:12px
+    font-size:12px;
+    
   }
 
   .blog-img{
@@ -269,7 +260,15 @@
     color: #5DB57A;
   }
   
+
+  
  
+
+ @media (max-width:800px){
+  .main-content-layout{
+    display:block;
+  }
+ }
   
 
   
@@ -281,9 +280,9 @@
 
   
 {% block content %}
-<div>
+<div class="main-content">
   <p class="h1 poppins cm-blue">Hello {{ username }}, </p>
-    <div class="main-container-grid">
+    <div class="main-content-layout">
 
      
      <div class="sub-container">

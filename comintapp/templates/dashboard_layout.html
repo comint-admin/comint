@@ -10,20 +10,19 @@
     display:flex;
     overflow:hidden; 
     background-color: #FFFFFF;
+    width:100%;
     
   }
 
   .main-container{
     width: 100%;
-    margin-left: 8em;
-    margin-top: 2em;
     background-image: url("{% static 'comintapp/images/lender-profile-bg.png'%}");
     background-repeat: no-repeat;
     background-size:cover;
     background-position: center;
   }
 
-  @media (max-width: 760px) {
+  @media screen and (max-width: 800px) {
 
     .layout{
       display: inline-block;
