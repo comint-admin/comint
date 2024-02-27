@@ -3,7 +3,7 @@ name: SonarQube
 on:
   push:
     branches:
-      - main  # Adjust the branch as necessary
+      - demo  # Adjust the branch as necessary
   workflow_dispatch:
 
 jobs:
