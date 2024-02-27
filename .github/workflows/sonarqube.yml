@@ -25,6 +25,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt  # Install your project dependencies
 
+      - name: Install SonarScanner
+        run: |
+          sudo apt-get install unzip # Install unzip package if not already installed
+          curl -sSLo sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+          unzip -qq sonar-scanner-cli.zip
+          export PATH=$PATH:$PWD/sonar-scanner-cli-4.6.2.2472-linux/bin
+
       - name: Cache SonarQube packages
         uses: actions/cache@v2
         with:
