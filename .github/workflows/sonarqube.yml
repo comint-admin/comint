@@ -19,7 +19,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: '14'  # Specify Java 14 or higherng
+          java-version: '14'  # Specify Java 14 or higher
+          server-id: sonarqube
 
       - name: Install dependencies
         run: |
@@ -46,6 +47,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
+          export JAVA_HOME="${RUNNER_TOOL_CACHE}/java/adopt@2.2.0/x64"
           sonar-scanner \
             -Dsonar.projectKey=project1 \
             -Dsonar.sources=. \
