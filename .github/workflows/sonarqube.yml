@@ -27,8 +27,8 @@ jobs:
         uses: sonarsource/sonarqube-scan-action@master
         with:
           args: >
-            -Dsonar.projectKey=YourProjectKey
-            -Dsonar.organization=YourOrg
+            -Dsonar.projectKey=project1
+            -Dsonar.organization=comint
             -Dsonar.sources=.
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
