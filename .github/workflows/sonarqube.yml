@@ -3,32 +3,42 @@ name: SonarQube
 on:
   push:
     branches:
-      - demo  # Adjust the branch as necessary
+      - demo
   workflow_dispatch:
 
 jobs:
-  sonarqube_scan:
-    name: SonarQube Scan
+  build:
+    name: Analyze Python project with SonarQube
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
+        with:
+          fetch-depth: 0  # Necessary for SonarQube to understand project history
+        
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'  # Specify the Python version you're using
+          python-version: '3.8'  # Specify the Python version you are using
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.txt  # Install your project dependencies
 
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
+      - name: Cache SonarQube packages
+        uses: actions/cache@v2
         with:
-          args: >
-            -Dsonar.projectKey=project1
-            -Dsonar.organization=comint
-            -Dsonar.sources=.
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Run SonarQube analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=project1 \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
