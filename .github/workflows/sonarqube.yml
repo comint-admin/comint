@@ -15,10 +15,11 @@ jobs:
         with:
           fetch-depth: 0  # Necessary for SonarQube to understand project history
         
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
-          python-version: '3.8'  # Specify the Python version you are using
+          distribution: 'adopt'
+          java-version: '14'  # Specify Java 14 or higherng
 
       - name: Install dependencies
         run: |
