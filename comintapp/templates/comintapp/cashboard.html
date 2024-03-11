@@ -49,7 +49,7 @@
 {% block content %}
   <div class="highlight-news-container" style="padding: 150px 30px 150px 10px; color: white;">
     <div>
-      <p class="font-weight-light" style="margin: -80px 0px 80px 45px; color: #26176F; font-size: 25px;" >Welcome, John</p>  
+      <p class="font-weight-light" style="margin: -80px 0px 80px 45px; color: #26176F; font-size: 25px;" >Welcome, {{ request.user.display_name }}</p>  
     </div>
       <ul class="highlight-news-list d-flex">
         <li class="container" style="width: 380px;">

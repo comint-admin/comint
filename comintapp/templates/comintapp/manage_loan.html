@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+    <h2>Manage Loan: {{ loan_request.name }}</h2>
+    <div class="mb-5">
+        <h4>Negotiation Trail</h4>
+        <!-- Display existing LOC negotiations -->
+        {% for negotiation in loan_request.locnegotiationrequest_set.all %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title">Negotiation #{{ forloop.counter }}</h5>
+                <p class="card-text">Amount: {{ negotiation.amount }}</p>
+                <p>Term: {{ negotiation.term }} months</p>
+                <p>Interest Rate: {{ negotiation.interest_rate }}%</p>
+                <p>Status: {{ negotiation.get_status_display }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <p>No negotiations yet.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Form for submitting new LOC negotiation -->
+    <h4>Submit New Negotiation</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Negotiation</button>
+    </form>
+</div>
+{% endblock %}
