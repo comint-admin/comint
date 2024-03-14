@@ -10,21 +10,20 @@
   </div>
 {% endif %}
 
-
 <div>
-
   {% block layout_styles %}
 <style>
-
-
   .main-container-grid{
     display: flex;
     margin-right: 4em;
     padding-bottom: 2em;
-
   }
 
-  
+  @media (max-width:800px){
+  .main-container-grid{
+    display:block;
+  }
+ }
 
   .cb-container {
     background-color: #FFFFFF; 
@@ -42,9 +41,6 @@
     margin-right: 2em;
     width: 100%;
   }
-
-
-
   .c-title{
     font-family: poppins;
     color: #26176F;
@@ -80,8 +76,6 @@
     color: #26176F;
     font-size: 20px;
     font-family: poppins;
-
-    
   }
 
   .blog-desc{
@@ -118,7 +112,6 @@
     grid-row:1;
     grid-column:1;
   }
-
   
   .orange-bar{
     background:linear-gradient(to left,#FCAE73,#F79042);
@@ -128,10 +121,7 @@
     background:linear-gradient(to right,#4f77ab,#70A6E8);
   }
 
-  
-
   .achi-prog-green{
-    
     height:1em;
     width: 57%;
     background:linear-gradient(to left,#FCAE73,#F79042);
@@ -160,7 +150,6 @@
     border-radius: 10px;
     width: 3em;
     margin-right: 2em; 
-
   }
 
   .achi-blue{
@@ -188,15 +177,12 @@
     background-color: #F9FAFB;
   }
 
-  
-
   .status-success{
     background-color: #A7F3D0;
     border-radius: 10px;
     color: #064E3B;
     text-align:center;
     font-weight:bold;
-    
   }
 
   .status-pending{
@@ -205,7 +191,6 @@
     color: #BA5602;
     text-align:center;
     font-weight:bold;
-    
   }
 
   thead{
@@ -213,20 +198,14 @@
     border-top: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey;
     color: grey;
-     
-    
   }
 
   thead > tr {
     height:1em;
-    
-
   }
 
   thead > td {
     height:1em;
-    
-
   }
 
   td{
@@ -246,9 +225,6 @@
     font-size: 18px;
     color: #5DB57A;
   }
-
-
-
 </style>
 {% endblock layout_styles %}
 
@@ -257,15 +233,9 @@
   {%endblock sidebar %}
 
   {% block content %}
-
-
-
-
-  <div>
+  <div style="margin-left: 30px;">
   <p class="h1 poppins cm-blue">Hello {{ username }}, </p>
     <div class="main-container-grid">
-
-     
      <div class="sub-container">
       <div class="cb-container  shadow-sm" id="earnings-graph"> 
         <p class="c-title"> Your total earnings </p> 
@@ -273,14 +243,11 @@
         <div class="fb">
           <div class="total-earnings">$120,543.43 </div>
           <div class="mx-4 earnings"> +20.32%</div> 
-
         </div>
-  
       </div>
 
-      <div class="cb-container  shadow-sm" id="lines-of-credit">
+      <div class="cb-container shadow-sm" id="lines-of-credit">
         <p class="c-title"> Lines of credit </p>
-
         <table class="LOC-tbl">
           <thead>
             <tr>
@@ -316,8 +283,6 @@
             <div class="status-success"> Successful </div>
           </td>
 
-
-
           </tr> {%comment %} end of "template"{%endcomment %}
           <tr> {%comment %} should be "template"  {%endcomment %}
             <td>
@@ -344,8 +309,6 @@
             <td>
               <div class="status-success"> Successful </div>
             </td>
-  
-  
   
             </tr> {%comment %} end of "template"{%endcomment %}
             <tr> {%comment %} should be "template"  {%endcomment %}
@@ -374,8 +337,6 @@
                 <div class="status-success"> Successful </div>
               </td>
     
-    
-    
               </tr> {%comment %} end of "template"{%endcomment %}
               <tr> {%comment %} should be "template"  {%endcomment %}
                 <td>
@@ -403,8 +364,6 @@
                   <div class="status-pending"> Pending </div>
                 </td>
       
-      
-      
                 </tr> {%comment %} end of "template"{%endcomment %}
                 <tr> {%comment %} should be "template"  {%endcomment %}
                   <td>
@@ -431,22 +390,12 @@
                   <td>
                     <div class="status-success"> Successful </div>
                   </td>
-        
-        
-        
                   </tr> {%comment %} end of "template"{%endcomment %}
-
-
-
         </table>
-
       </div>
-
-      
     </div>
 
     <div class="sub-container">
-
       <div class="cb-container  shadow-sm" id="achievements">
         <p class="c-title"> Achievements </p> 
 
@@ -458,9 +407,7 @@
             <p class="achi-desc">Finish account setup </p>
           </div>
           <p class="achi-prog-num">57%</p>
-          
         </div>
-        
 
         <div class="achi">
           <div class="achi-blue"> <img class="achi-img" src="{%static 'comintapp/images/achi-2.svg'%}"> </div>
@@ -474,13 +421,6 @@
          </div>
     
        </div>{% comment %} cheevo end {% endcomment %}
-
-       
-
-       
-
-     
-
       <div class="cb-container shadow-sm" id="blogs">
         <p class="c-title"> Blogs </p>
         <div class="blog shadow">
