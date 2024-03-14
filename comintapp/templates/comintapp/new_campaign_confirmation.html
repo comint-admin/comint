@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% load static %}
+
+{% block head_title %}{% trans "Create Loan Request" %}{% endblock head_title %}
+
+{% block styles %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+
+    .bg {
+      background-image: url('{% static "comintapp/images/cashboard-bg.jpg" %}');
+      background-size: cover;
+      width: 100%;
+    }
+      .custom-border {
+          border-color: #26176F;
+      }
+
+      
+    .loan-request-container {
+        background: #FFFFF2;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 25px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .loan-request-form .form-control {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px solid #26176F;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    .loan-request-form label {
+        font-family: 'Poppins', sans-serif;
+        color: #000000;
+    }
+    .submit-btn {
+        width: 527px;
+        height: 71px;
+        background: #26176F;
+        color: #FFFFFF;
+        border-radius: 10px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .form-description {
+      width: 100%; border-radius: 10px; border: #26176F 1px solid;
+      margin-top: 10px;
+      height: 80px;
+    }
+
+    .form-style {
+      width: 100%; border-radius: 10px; border: #26176F 1px solid;
+      margin-top: 10px;
+      height: 40px;
+    }
+
+    .btn {
+      color: white; 
+      background-color: #26176F; 
+      font-family: 'Poppins', sans-serif; 
+      display: block; 
+      margin: 60px auto 0px auto;
+    }
+
+  </style>
+{% endblock styles %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    function validateAmount() {
+        let amount = $('#id_amount').val();
+        let amountFloat = parseFloat(amount);
+        if(isNaN(amountFloat) || amountFloat < 10 || amountFloat > 5000) {
+            $('#error_amount').text("Loan amount must be between 10 USD and 5000 USD.");
+        } else if (amount.indexOf('.') > -1 && amount.split('.')[1].length > 2) {
+            $('#error_amount').text("Loan amount must not have more than 2 decimal places.");
+        } else {
+            $('#error_amount').text("");
+        }
+    }
+
+    function validateTerm() {
+        let term = parseInt($('#id_term').val());
+        if(isNaN(term) || term <= 0 || term > 360) {
+            $('#error_term').text("Term must be between 1 and 360 months.");
+        } else {
+            $('#error_term').text("");
+        }
+    }
+
+    function validateInterestRate() {
+        let interestRate = $('#id_interest_rate').val();
+        
+        let interestRateFloat = parseFloat(interestRate);
+        if(isNaN(interestRateFloat) || interestRateFloat < 0) {
+            $('#error_interest_rate').text("Interest rate must be non-negative.");
+        } else if (interestRateFloat > 100) {
+            $('#error_interest_rate').text("Interest rate cannot exceed 100%.");
+        } else if (interestRate.indexOf('.') > -1 && interestRate.split('.')[1].length > 1) {
+            $('#error_interest_rate').text("Interest rate must not have more than 1 decimal place.");
+        } else {
+            $('#error_interest_rate').text("");
+        }
+    }
+
+    // Attach event listeners for real-time validation
+    $('#id_amount').on('input', validateAmount);
+    $('#id_term').on('input', validateTerm);
+    $('#id_interest_rate').on('input', validateInterestRate);
+
+    // Validate on submit as well
+    $('.loan-request-form').on('submit', function(e) {
+        validateAmount();
+        validateTerm();
+        validateInterestRate();
+
+        // Check if any errors exist before submitting
+        let errorsExist = $(".text-danger").text().trim().length > 0;
+        if(errorsExist) {
+            e.preventDefault();
+            // Provide feedback to the user to correct issues before submitting
+            $('#form_errors').text("Please correct all issues before submitting.").show();
+            $('#errorModal').modal('show');
+        } else {
+            $('#form_errors').text("").hide();
+        }
+    });
+});
+</script>
+{% endblock scripts %}
+
+{%block navbar%} {%include 'navbars/cashboard/loanrequests_navbar.html'%}{%endblock navbar%}
+
+
+{% block body %}
+<div style="display: flex; margin: 0 auto">
+  {%include 'navbars/sidebars/sidebar_borrower.html'%}
+  <div class="bg container">
+    <div style="margin: 40px;">
+    <p style="color: #26176F; font-size: 30px;" >New Campaign Confirmation</p>  
+    <p style="color: #26176F; font-size: 15px;">Please confirm that all the information entered is correct to proceed. If not, please edit the information entered.</p>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+          <div style="background-color: #FFFFF2; border-radius: 25px; color: black;">
+            <button type="submit" class="btn btn-lg btn-block" style="float: right; margin: 50px;">{% trans "Edit" %}</button>
+            <div style="margin-top: 85px;">
+              {% if form.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>{% trans "There were some errors with your form submission:" %}</strong>
+                  <ul class="m-0">
+                    {% for field, errors in form.errors.items %}
+                      {% for error in errors %}
+                        <li>{{ field|capfirst }}: {{ error }}</li>
+                      {% endfor %}
+                    {% endfor %}
+                  </ul>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"
+                          aria-label="Close"></button>
+                </div>
+              {% endif %}
+              <form method="post" action="{% url 'comintapp:create_loan_request' %}"
+                    class="loan-request-form mt-2" style="padding: 40px; width: 100%;">
+                {% csrf_token %}
+                <div id="form_errors" class="alert alert-danger" style="display: none;"></div>
+                <div style="margin-bottom: 20px; width:50%">
+                  <label>Name</label>
+                  <br>
+                  {% render_field form.name class="form-style" style="width:200%" %}
+                  <span id="error_{{ field.name }}" class="text-danger"></span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                  <label>Description</label>
+                  <br>
+                  {% render_field form.description class="form-description" %}
+                  <span id="error_{{ field.name }}" class="text-danger"></span>
+                </div>
+                <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
+                  <div style="width: 45%">
+                    <label>Initial Amount ($USD)</label>
+                    <br>
+                    {% render_field form.amount id="id_amount" class="form-style" %}
+                    <span id="error_amount" class="text-danger"></span>
+                  </div>
+                  <div style="width: 45%">
+                    <label>Term (In months)</label>
+                    <br>
+                    {% render_field form.term id="id_term" class="form-style" %}
+                    <span id="error_term" class="text-danger"></span>
+                  
+                  </div>
+                </div>
+                <div style="display: flex; margin-bottom: 20px; justify-content: space-between;">
+                  <div style="width: 45%">
+                    <label>Interest Rate</label>
+                    <br>
+                    {% render_field form.interest_rate id="id_interest_rate" class="form-style" %}
+                    <span id="error_interest_rate" class="text-danger"></span>
+                  </div>
+
+
+                </div>
+                <button type="submit" class="btn btn-lg btn-block">{% trans "Confim" %}</button>
+                  </div>
+                </form>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Error Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorModalLabel">Submission Error</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal_errors">
+        Please correct all issues before submitting.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}
