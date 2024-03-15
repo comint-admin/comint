@@ -10,6 +10,7 @@ from django.views.generic import ListView, DetailView
 from ..filters import LoanRequestFilter
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
+from django.urls import reverse
 
 @method_decorator([profile_verified_required], name='dispatch')
 class LoanRequestDetailView(DetailView):
@@ -34,13 +35,19 @@ class LoanRequestCreateView(CreateView):
     model = LoanRequest
     form_class = LoanRequestForm
     template_name = 'comintapp/create_loan_request.html'
-    success_url = reverse_lazy('comintapp:cashboard')  # Redirect to a success page
 
     def form_valid(self, form):
         loan_request = form.save(commit=False)
         loan_request.user = self.request.user  # Assign the user here
         loan_request.save()
-        return super().form_valid(form)
+
+        # After saving, self.object will have the loan request instance that was just created and saved
+        self.object = loan_request
+
+        # Now set the success_url to the loan request's detail page
+        self.success_url = reverse('comintapp:loan_request_detail', kwargs={'pk': self.object.pk})
+
+        return super(LoanRequestCreateView, self).form_valid(form)
 
 @method_decorator([profile_verified_required], name='dispatch')
 class MarketplaceView(ListView):

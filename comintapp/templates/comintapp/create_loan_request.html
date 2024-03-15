@@ -118,8 +118,8 @@ $(document).ready(function() {
     $('#id_term').on('input', validateTerm);
     $('#id_interest_rate').on('input', validateInterestRate);
 
-    // Validate on submit as well
-    $('.loan-request-form').on('submit', function(e) {
+    // Validate on initial submit as well
+    $('#review-btn').click(function(e) {
         validateAmount();
         validateTerm();
         validateInterestRate();
@@ -133,7 +133,42 @@ $(document).ready(function() {
             $('#errorModal').modal('show');
         } else {
             $('#form_errors').text("").hide();
+            $('#form-header').text('{% trans "New Campaign Confirmation" %}');
+
+          // Show the confirmation message
+          $('#confirmation-message').show();
+
+            // Make form fields readonly
+            $('.loan-request-form .form-control').prop('readonly', true);
+    
+            // Hide the review button and show the confirm button
+            $(this).hide();
+            $('#confirm-btn').show();
+    
+            // Show the edit button
+            $('#edit-btn').show();
         }
+      });
+
+      $('#edit-btn').click(function() {
+        // Change form header back to "New Campaign"
+        $('#form-header').text('{% trans "New Campaign" %}');
+
+        // Hide the confirmation message
+        $('#confirmation-message').hide();
+
+        // Make form fields editable again
+        $('.loan-request-form .form-control').prop('readonly', false);
+
+        // Hide the edit and confirm buttons, show the review button
+        $(this).hide();
+        $('#confirm-btn').hide();
+        $('#review-btn').show();
+    });
+
+    // The form should only be submitted when the confirm button is clicked
+    $('#confirm-btn').click(function(e) {
+        $('.loan-request-form').submit();
     });
 });
 </script>
@@ -141,19 +176,20 @@ $(document).ready(function() {
 
 {%block navbar%} {%include 'navbars/cashboard/loanrequests_navbar.html'%}{%endblock navbar%}
 
-
-
-
   {%block sidebar %}
   {% include "navbars/sidebars/sidebar_borrower.html"%}
   {%endblock sidebar %}
 
 {% block content %}
-<div class="bg" style="padding: 150px 80px 150px 80px;" class="container mt4">
-  <p style="margin: -80px 0px 70px 50px; color: #26176F; font-size: 30px;" >New Campaign</p>  
+<div class="bg" style="padding: 150px 80px 150px 80px;">
   <div class="container">
       <div class="row d-flex align-items-center justify-content-center">
-        <div style="background-color: #FFFFF2; margin: 20px 80px 20px 50px; border-radius: 25px; color: black;">
+          <div style="background-color: #FFFFF2; margin: 20px 80px 20px 50px; border-radius: 25px; color: black;">
+            <button type="button" id="edit-btn" class="btn btn-sm" style="display:none; position: absolute; top: 20px; left: 20px;">{% trans "Edit" %}</button>
+            <p style="margin: -80px 0px 70px 50px; color: #26176F; font-size: 30px;" id="form-header">New Campaign</p>
+            <div id="confirmation-message" style="color: #26176F; font-size: 15px; display:none; text-align: left; margin-top: 10px;">
+              {% trans "Please confirm that all the information entered is correct to proceed. If not, please edit the information entered." %}
+          </div>
             {% if form.errors %}
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <strong>{% trans "There were some errors with your form submission:" %}</strong>
@@ -214,8 +250,8 @@ $(document).ready(function() {
 
 
               </div>
-              <button type="submit" class="btn btn-lg btn-block">{% trans "Submit" %}</button>
-                </div>
+              <button type="button" id="review-btn" class="btn btn-lg btn-block">{% trans "Review" %}</button>
+              <button type="submit" id="confirm-btn" class="btn btn-lg btn-block" style="display:none;">{% trans "Confirm" %}</button>            </div>
               </form>
           </div>
         </div>
