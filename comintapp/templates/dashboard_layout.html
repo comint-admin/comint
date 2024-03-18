@@ -1,0 +1,65 @@
+{%extends "base.html"%}
+
+
+
+{%load static%}
+
+{% block styles %}
+<style>
+.layout {
+    display:flex;
+    overflow:hidden; 
+    background-color: #FFFFFF;
+    width:100%;
+    
+  }
+
+  .main-container{
+    width: 100%;
+    background-image: url("{% static 'comintapp/images/lender-profile-bg.png'%}");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
+  }
+
+  @media screen and (max-width: 800px) {
+
+    .layout{
+      display: inline-block;
+    }
+    
+  }
+</style>
+
+
+{% block layout_styles %}
+
+{% endblock layout_styles %}
+
+
+{% endblock styles %}
+
+
+
+
+{% block body %}
+
+
+
+<div class="layout min-vh-100">
+  {%block sidebar %}
+
+  {%endblock sidebar %}
+
+
+
+<div class="main-container">
+{% block content %}
+
+
+{% endblock content %}
+</div>
+
+</div>
+
+{% endblock body %}  

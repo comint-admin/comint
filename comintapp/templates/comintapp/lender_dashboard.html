@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "dashboard_layout.html" %}
 
 {%load static%}
-{% block title %}Lender dashboard{% endblock title %}
+{% block head_title %}Lender dashboard{% endblock head_title %}
 {%block navbar%} {%include "navbars/cashboard/lender_navbar.html"%} {%endblock navbar%}
 
 {% if form.non_field_errors %}
@@ -10,27 +10,25 @@
   </div>
 {% endif %}
 
-{% block body %}
+
 <div>
 
-<style>
-  .content {
-    display:flex;
-    overflow:hidden; 
-    background-color: #FFFFFF;
-    background-image: url("{% static 'comintapp/images/lender-profile-bg.png'%}");
-    background-repeat: no-repeat;
-    background-size:cover;
-    background-position: center;
-  }
 
-  .main-container{
-    margin-left: 8em;
-    margin-top: 2em;
-    width:100%;
-  }
+ 
+  
+  {%block sidebar %}
+  {% include "navbars/sidebars/sidebar_lender.html"%}
+  {%endblock sidebar %}
 
-  .main-container-grid{
+
+  {% block layout_styles %}
+  <style>
+
+    .main-content{
+      padding-left: 2em; 
+    }
+
+  .main-content-layout{
     display: flex;
     margin-right: 4em;
     padding-bottom: 2em;
@@ -87,6 +85,7 @@
   .blog-content{
     display:inline-block;
     margin-left: 1em;
+    overflow:scroll;
   }
 
   .blog-title{
@@ -99,7 +98,8 @@
 
   .blog-desc{
     font-family: poppins; 
-    font-size:12px
+    font-size:12px;
+    
   }
 
   .blog-img{
@@ -260,18 +260,29 @@
     color: #5DB57A;
   }
   
+
+  
  
+
+ @media (max-width:800px){
+  .main-content-layout{
+    display:block;
+  }
+ }
   
 
   
 
 
-</style>
-<div class="content min-vh-100">
-  {% include "navbars/sidebars/sidebar_lender.html"%}
-  <div class="main-container">
+  </style>
+ {% endblock layout_styles %}
+
+
+  
+{% block content %}
+<div class="main-content">
   <p class="h1 poppins cm-blue">Hello {{ username }}, </p>
-    <div class="main-container-grid">
+    <div class="main-content-layout">
 
      
      <div class="sub-container">
@@ -519,4 +530,7 @@
 
 </div>
 </div>
-{% endblock body %}
+</div>
+
+{% endblock content %}
+
