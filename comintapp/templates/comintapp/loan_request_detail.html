@@ -13,7 +13,24 @@
         {% if user == loan_request.user %}
             <a href="{% url 'comintapp:manage_loan' loan_request.id %}" class="btn btn-primary">Manage Loan</a>
         {% else %}
-            <a href="{% url 'comintapp:fund_loan' loan_request.id %}" class="btn btn-success">Fund Loan</a>
+            <a href="{% url 'comintapp:manage_loan' loan_request.id %}" class="btn btn-success">Fund Loan</a>
+        {% endif %}
+    </div>
+    <div class="mt-4">
+            <h2>Negotiation Trails</h2>
+            {% if show_warning %}
+            <div class="alert alert-warning" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> Because you have an existing line of credit for this loan request, you can only view your own negotiation details.
+            </div>
+            {% include "comintapp/negotiations_table.html" with negotiations=user_negotiations %}
+        {% else %}
+            {% for loc_id, negotiations in loc_negotiations_map.items %}
+                <h4>Negotiations for Line of Credit #{{ loc_id }}</h4>
+                {% include "comintapp/negotiations_table.html" with negotiations=negotiations %}
+                <br>
+                <hr>
+                <br>
+                {% endfor %}
         {% endif %}
     </div>
 </div>
