@@ -95,19 +95,21 @@ class ManageLoanView(DetailView):
     model = LoanRequest
     template_name = 'comintapp/manage_loan.html'
     context_object_name = 'loan_request'
-    
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user != request.user:
+            messages.warning(request, "You are not allowed to manage that loan.")
+            return redirect('comintapp:')  # Redirect to profile completion page
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Fetch the latest negotiation for this loan request
-        latest_negotiation = LOCNegotiationRequest.objects.filter(
-            line_of_credit__loan_request=self.object
-        ).order_by('-created_at').first()
-
-        # Determine if it's the loan creator's turn to respond
-        context['is_creators_turn'] = latest_negotiation and latest_negotiation.status == 'COUNTERED'
+        loan_request = self.get_object()
+        user = self.request.user
+        
+        loan_service = LoanService(loan_request, user)
+        context['funding_info'] = loan_service.get_funding_info()
+        context['loc_negotiations_map'] = loan_service.get_loc_negotiations_map()
+        
         return context
-
-    def get_queryset(self):
-        # Ensure that only the loan creator can manage the loan
-        return super().get_queryset().filter(user=self.request.user)
-    

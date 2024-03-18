@@ -1,31 +1,54 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="container">
+<div class="container mt-5">
     <h2>Manage Loan: {{ loan_request.name }}</h2>
-    <div class="mb-5">
-        <h4>Negotiation Trail</h4>
-        <!-- Display existing LOC negotiations -->
-        {% for negotiation in loan_request.locnegotiationrequest_set.all %}
-        <div class="card mb-2">
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Loan Info
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ loan_request.name }}</h5>
+                    <p class="card-text">{{ loan_request.description }}</p>
+                    <!-- Add more loan details as needed -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Funding Info
+                </div>
+                <div class="card-body">
+                    <!-- Display funding details; example: -->
+                    <p>Open LOCs: {{ funding_info.open_locs }}</p>
+                    <p>Accepted LOCs: {{ funding_info.accepted_locs }}</p>
+                    <p>Total Funds: ${{ funding_info.total_funds }}</p>
+                    <!-- Add more details as required -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Negotiation Trails Section -->
+    <div class="mt-4">
+        <h3>Negotiation Trails</h3>
+        {% for loc_id, negotiations in loc_negotiations_map.items %}
+        <div class="card mb-3">
+            <div class="card-header">
+                LOC ID: {{ loc_id }}
+                <!-- Dummy buttons; replace with actual functionality when ready -->
+                <a href="#negotiate" class="btn btn-primary float-right ml-1">Negotiate</a>
+                <a href="#accept" class="btn btn-success float-right">Accept</a>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Negotiation #{{ forloop.counter }}</h5>
-                <p class="card-text">Amount: {{ negotiation.amount }}</p>
-                <p>Term: {{ negotiation.term }} months</p>
-                <p>Interest Rate: {{ negotiation.interest_rate }}%</p>
-                <p>Status: {{ negotiation.get_status_display }}</p>
+                <!-- Include negotiations table HTML for rendering negotiations -->
+                {% include 'comintapp/negotiations_table.html' with negotiations=negotiations %}
             </div>
         </div>
         {% empty %}
-        <p>No negotiations yet.</p>
+        <p>No negotiation trails found.</p>
         {% endfor %}
     </div>
-
-    <!-- Form for submitting new LOC negotiation -->
-    <h4>Submit New Negotiation</h4>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Submit Negotiation</button>
-    </form>
 </div>
 {% endblock %}

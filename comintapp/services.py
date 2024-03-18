@@ -232,3 +232,26 @@ class LoanService:
             'status': neg.get_status_display()  # Convert code to human-readable status
         } for neg in negotiations]
         return formatted_negotiations
+
+    def get_funding_info(self):
+        """
+        Retrieves funding information for the loan request.
+        """
+        funding_info = {
+            'open_locs': 0,
+            'accepted_locs': 0,
+            'total_funds': 0.0,
+        }
+
+        locs = LineOfCredit.objects.filter(loan_request=self.loan_request)
+        for loc in locs:
+            # Count LOCs by status
+            last_negotiation = loc.negotiations.order_by('-created_at').first()
+            if last_negotiation:
+                if last_negotiation.status == 'OPEN':
+                    funding_info['open_locs'] += 1
+                elif last_negotiation.status == 'ACCEPTED':
+                    funding_info['accepted_locs'] += 1
+                    funding_info['total_funds'] += last_negotiation.amount
+
+        return funding_info
