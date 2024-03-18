@@ -1,5 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, FormView
+
+from comintapp.services import LoanService
 from ..models import LOCNegotiationRequest, LineOfCredit, LoanRequest
 from ..forms.cashboard_forms import LOCNegotiationRequestForm, LoanRequestForm
 from django.views.generic import TemplateView
@@ -18,6 +20,30 @@ class LoanRequestDetailView(DetailView):
     template_name = 'comintapp/loan_request_detail.html'
     context_object_name = 'loan_request'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        loan_request = self.get_object()
+        user = self.request.user
+
+        loan_service = LoanService(loan_request, user)
+
+        # Prepare the negotiations map for the template
+        context['loc_negotiations_map'] = loan_service.get_loc_negotiations_map()
+
+        # Check if the user has an existing LOC with this loan request
+        existing_loc = loan_service.get_user_loc()
+        context['existing_loc'] = existing_loc
+
+        if existing_loc:
+            # User is a lender with an existing LOC; only show their negotiations
+            context['user_negotiations'] = loan_service.get_negotiations_for_loc(existing_loc)
+            context['show_warning'] = True
+        else:
+            # User can view all LOC negotiations if they are the borrower or have no LOCs
+            context['show_warning'] = False
+        
+        return context
+    
 @method_decorator([login_required], name='dispatch')
 class CashboardView(TemplateView):
     template_name = 'comintapp/cashboard.html'
@@ -85,59 +111,3 @@ class ManageLoanView(DetailView):
         # Ensure that only the loan creator can manage the loan
         return super().get_queryset().filter(user=self.request.user)
     
-@method_decorator([login_required], name='dispatch')
-class FundLoanView(FormView):
-    template_name = 'comintapp/fund_loan.html'
-    form_class = LOCNegotiationRequestForm
-    success_url = reverse_lazy('comintapp:marketplace')
-
-    def dispatch(self, request, *args, **kwargs):
-        self.loan_request = get_object_or_404(LoanRequest, pk=self.kwargs['pk'])
-        if self.request.user == self.loan_request.user:
-            messages.warning(self.request, "You cannot fund your own loan request.")
-            return redirect('comintapp:loan_request_detail', pk=self.kwargs['pk'])
-        return super().dispatch(request, *args, **kwargs)
-    
-    def form_valid(self, form):
-        # Find or create a LineOfCredit between the user and the loan request
-        line_of_credit, created = LineOfCredit.objects.get_or_create(
-            loan_request=self.loan_request,
-            negotiator=self.request.user,
-        )
-        
-        # Fetch the latest negotiation for the LOC between the user and the loan request
-        latest_negotiation = LOCNegotiationRequest.objects.filter(
-            line_of_credit__loan_request=self.loan_request,
-            line_of_credit__negotiator=self.request.user
-        ).order_by('-created_at').first()
-
-        # Logic to check if it's user's turn to negotiate
-        if latest_negotiation and latest_negotiation.status not in ['ACCEPTED', 'REJECTED', 'COUNTERED']:
-            messages.error(self.request, "It's not your turn to negotiate.")
-            return super().form_invalid(form)
-        
-        # Create LOC Negotiation Request
-        negotiation_request = form.save(commit=False)
-        negotiation_request.line_of_credit = line_of_credit
-        negotiation_request.request_creator = self.request.user
-        negotiation_request.save()
-        
-        return super().form_valid(form)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['loan_request'] = self.loan_request
-        # Ensure we only show negotiations related to the current user's LOC
-        line_of_credit = LineOfCredit.objects.filter(
-            loan_request=self.loan_request, 
-            negotiator=self.request.user
-        ).first()
-        
-        if line_of_credit:
-            context['negotiations'] = line_of_credit.negotiations.all().order_by('-created_at')
-        else:
-            context['negotiations'] = LOCNegotiationRequest.objects.none()
-        
-        # print(context['negotiations'])
-
-        return context

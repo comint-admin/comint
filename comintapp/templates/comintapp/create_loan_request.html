@@ -70,6 +70,11 @@
       margin: 60px auto 0px auto;
     }
 
+    .form-control[readonly] {
+      background-color: #e9ecef;
+      opacity: 1;
+  }
+  
   </style>
 {% endblock layout_styles %}
 
@@ -132,44 +137,36 @@ $(document).ready(function() {
             $('#form_errors').text("Please correct all issues before submitting.").show();
             $('#errorModal').modal('show');
         } else {
-            $('#form_errors').text("").hide();
-            $('#form-header').text('{% trans "New Campaign Confirmation" %}');
-
-          // Show the confirmation message
+          $('#form-header').text('{% trans "New Campaign Confirmation" %}');
           $('#confirmation-message').show();
+          $('.loan-request-form input, .loan-request-form select, .loan-request-form textarea').prop('readonly', true);
+          $('.loan-request-form select').prop('disabled', true); // For dropdowns
 
-            // Make form fields readonly
-            $('.loan-request-form .form-control').prop('readonly', true);
-    
-            // Hide the review button and show the confirm button
-            $(this).hide();
-            $('#confirm-btn').show();
-    
-            // Show the edit button
-            $('#edit-btn').show();
+          // UI changes to show/hide buttons
+          $('#review-btn').hide();
+          $('#confirm-btn').show();
+          $('#edit-btn').css('display', 'inline-block'); // Making sure the edit button is visible
         }
       });
 
-      $('#edit-btn').click(function() {
-        // Change form header back to "New Campaign"
-        $('#form-header').text('{% trans "New Campaign" %}');
+    // When Edit is clicked
+    $('#edit-btn').click(function(e) {
+      e.preventDefault(); // Prevent the default link action
+      $('#form-header').text('{% trans "New Campaign" %}');
+      $('#confirmation-message').hide();
+      $('.loan-request-form input, .loan-request-form select, .loan-request-form textarea').prop('readonly', false).css('background-color', ''); // Make fields editable
+      $('.loan-request-form select').prop('disabled', false); // Enable dropdowns
 
-        // Hide the confirmation message
-        $('#confirmation-message').hide();
+      // UI changes to show/hide buttons
+      $('#review-btn').show();
+      $('#confirm-btn').hide();
+  });
 
-        // Make form fields editable again
-        $('.loan-request-form .form-control').prop('readonly', false);
-
-        // Hide the edit and confirm buttons, show the review button
-        $(this).hide();
-        $('#confirm-btn').hide();
-        $('#review-btn').show();
-    });
-
-    // The form should only be submitted when the confirm button is clicked
-    $('#confirm-btn').click(function(e) {
-        $('.loan-request-form').submit();
-    });
+  // Submit form on Confirm
+  $('#confirm-btn').click(function() {
+      // Directly submit the form
+      $('.loan-request-form').submit();
+  });
 });
 </script>
 {% endblock scripts %}
@@ -185,10 +182,9 @@ $(document).ready(function() {
   <div class="container">
       <div class="row d-flex align-items-center justify-content-center">
           <div style="background-color: #FFFFF2; margin: 20px 80px 20px 50px; border-radius: 25px; color: black;">
-            <button type="button" id="edit-btn" class="btn btn-sm" style="display:none; position: absolute; top: 20px; left: 20px;">{% trans "Edit" %}</button>
             <p style="margin: -80px 0px 70px 50px; color: #26176F; font-size: 30px;" id="form-header">New Campaign</p>
-            <div id="confirmation-message" style="color: #26176F; font-size: 15px; display:none; text-align: left; margin-top: 10px;">
-              {% trans "Please confirm that all the information entered is correct to proceed. If not, please edit the information entered." %}
+            <div id="confirmation-message" style="color: #26176F; font-size: 15px; display:none; font-weight: bold; text-align: left; margin-top: 10px;">
+              Please confirm that all the information entered is correct to proceed. If not, please <a href="#" id="edit-btn" style="font-weight: bold;">edit</a> the information entered.
           </div>
             {% if form.errors %}
               <div class="alert alert-danger alert-dismissible fade show" role="alert">

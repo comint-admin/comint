@@ -1,0 +1,36 @@
+{% if negotiations %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Request Creator</th>
+                        <th scope="col">Term (Months)</th>
+                        <th scope="col">Interest Rate (%)</th>
+                        <th scope="col">Amount (USD)</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for negotiation in negotiations %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ negotiation.request_creator }}</td>
+                            <td>{{ negotiation.term }}</td>
+                            <td>{{ negotiation.interest_rate }}</td>
+                            <td>{{ negotiation.amount }}</td>
+                            <td>{{ negotiation.created_at }}</td>
+                            <td>{{ negotiation.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-info" role="alert">
+        No negotiations yet.
+    </div>
+{% endif %}

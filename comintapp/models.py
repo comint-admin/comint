@@ -269,6 +269,7 @@ class LOCConfirmation(models.Model):
     loc_negotiation_request = models.OneToOneField(LOCNegotiationRequest, on_delete=models.CASCADE, related_name='confirmation')
     confirmed = models.BooleanField(default=False)
     confirmed_at = models.DateTimeField(null=True, blank=True)
+    confirmed_by = models.ForeignKey('ComintUser', null=True, blank=True, on_delete=models.SET_NULL)  # New field
 
     def __str__(self):
         return f'Confirmation for {self.loc_negotiation_request}'
