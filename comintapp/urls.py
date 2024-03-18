@@ -20,4 +20,6 @@ urlpatterns = [
     path('create_loan_request/', LoanRequestCreateView.as_view(), name='create_loan_request'),
     path('marketplace/', MarketplaceView.as_view(), name='marketplace'),
     path('loan-request/<int:pk>/', LoanRequestDetailView.as_view(), name='loan_request_detail'),
+    path('loan-request/<int:pk>/manage', ManageLoanView.as_view(), name='manage_loan'),
+    path('loan-request/<int:pk>/fund', FundLoanView.as_view(), name='fund_loan'),
 ]

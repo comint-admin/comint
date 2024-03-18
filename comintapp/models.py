@@ -241,7 +241,7 @@ class LineOfCredit(models.Model):
     def save(self, *args, **kwargs):
         if self.negotiator == self.loan_request.user:
             raise ValidationError('A user cannot add a line of credit to their own loan')
-        super().save(*args, **kwargs)
+        super(LineOfCredit, self).save(*args, **kwargs)
 
 
 class LOCNegotiationRequest(models.Model):
@@ -259,6 +259,7 @@ class LOCNegotiationRequest(models.Model):
     interest_rate = models.DecimalField(max_digits=5, decimal_places=1, help_text='Interest rate as a percentage')
     amount = models.DecimalField(max_digits=10, decimal_places=2, help_text='Loan amount in USD')
     created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='OPEN')
 
     def __str__(self):
