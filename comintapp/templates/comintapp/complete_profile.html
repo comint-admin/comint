@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load i18n %}
+{% load static %}
 {% load account socialaccount %}
 
 {% block head_title %}{% trans "Complete Profile" %}{% endblock head_title %}
@@ -11,6 +12,17 @@
       .custom-border {
           border-color: #26176F;
       }
+
+      .hero-background {
+            background-image: url("{% static 'comintapp/images/wave-haikei.png'%}");
+            background-repeat: repeat;
+            background-size: 1400px;
+      }
+      .complete-box {
+          box-shadow: -10px 10px 100px 0 rgba(0, 0, 0, 0.15);
+          background-color: #FFFFF2;
+          padding: 20px;
+      }
   </style>
 {% endblock styles %}
 
@@ -19,11 +31,11 @@
 {% endblock scripts %}
 
 {% block body %}
-  <section style="padding-top: 1em;">
+  <section class="hero-background" style="padding-top: 1em;">
     <div class="container py-4">
       <div class="row d-flex align-items-center justify-content-center">
         <div class="col-lg-6 col-md-7 col-sm-9">
-          <div class="my-5 p-5 bg-light rounded-3"
+          <div class="complete-box my-5 p-5 rounded-3"
                style="border-radius: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
             {% if form.errors %}
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -87,7 +99,7 @@
               <button type="submit" class="btn btn-lg btn-block"
                       style="color: white; background-color: #26176F; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto;">{% trans "Submit" %}</button>
               <a href="{% url 'comintapp:index' %}" class="btn btn-lg btn-block"
-                 style="color: white; background-color: #888; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto; margin-top: 10px;">{% trans "Continue" %}</a>
+                 style="color: white; background-color: #888; font-family: 'Poppins', sans-serif; display: block; margin: 0 auto; margin-top: 30px;">{% trans "Continue" %}</a>
             </form>
           </div>
         </div>

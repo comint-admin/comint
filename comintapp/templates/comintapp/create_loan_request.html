@@ -172,7 +172,7 @@ $(document).ready(function() {
                   class="loan-request-form mt-2" style="padding: 40px; width: 100%;">
               {% csrf_token %}
               <div id="form_errors" class="alert alert-danger" style="display: none;"></div>
-              <div style="margin-bottom: 20px; width:50%">
+              <div style="margin-bottom: 20px; width:100%">
                 <label>Name</label>
                 <br>
                 {% render_field form.name class="form-style" %}
