@@ -5,17 +5,45 @@
 {% block title %}About Us{% endblock title %}
 
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'comintapp/css/about/about.css' %}">
+    <link rel="stylesheet" href="{% static 'comintapp/css/about/about.css' %}">
+    <style>
+        .hero-background {
+            background-image: url("{% static 'comintapp/images/wave-haikei.png'%}");
+            background-repeat: repeat;
+            background-size: 1400px;
+        }
+        .card {
+            box-shadow: -10px 10px 100px 0 rgba(0, 0, 0, 0.15);
+            background-color: #FFFFF2;
+            padding: 20px;
+        }
+        .card:hover {
+        transition: all 1.5s;
+        transform: scale(1.05);
+        }
+         .row.gy-5 > .card {
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+        .row.gy-5:first-of-type > .card {
+            width: calc(50% - 20px); 
+            margin-right: 20px;
+            margin-left: 0;
+        }
+        .row.gy-5:first-of-type > .card:last-of-type {
+            margin-right: 0;
+        }
+    </style>
+
 {% endblock styles %}
 
 {% block body %}
-    <div class="row justify-content-center">
-        <div class="col-9">
+    <div class="row justify-content-center hero-background">
+        <div class="col-9" style="padding-bottom: 80px;">
             <h1 class="text-center py-5">Meet the Team</h1>
-            <div class="row p-4 gy-5 justify-content-evenly">
+            <div class="row gy-5">
                 <div class="card border border-0 col-md-6">
-                    <img src="https://media.licdn.com/dms/image/D4E03AQHcPA7tOQaoxA/profile-displayphoto-shrink_800_800/0/1676856394696?e=1706140800&v=beta&t=jJ8xrNJDFAn0Zuts7-59YPIK4Har-GxunixZkI7Nzbg"
-                         class="card-img-top w-50 mx-auto" alt="Rose Jean Louis">
+                    <img src="/static/comintapp/images/Rose.jpeg" class="card-img-top w-50 mx-auto" alt="Rose Jean Louis">
                     <div class="card-body">
                         <h5 class="card-title text-center">Rose Jean Louis</h5>
                         <h6 class="card-title text-center small">Founder</h6>
@@ -32,8 +60,7 @@
                     </div>
                 </div>
                 <div class="card border border-0 col-md-6">
-                    <img src="https://media.licdn.com/dms/image/D4E03AQGfEwMTxMkqQQ/profile-displayphoto-shrink_800_800/0/1697227396081?e=1706140800&v=beta&t=nu89U2CfMdEZm3skWDWb6daPWdwtAp-u2ObBKsxhl8k"
-                         class="card-img-top w-50 mx-auto" alt="Matthew Zomorodi">
+                    <img src="/static/comintapp/images/Matthew.jpeg" class="card-img-top w-50 mx-auto" alt="Matthew Zomorodi">
                     <div class="card-body">
                         <h5 class="card-title text-center">Matthew Zomorodi</h5>
                         <h6 class="card-title text-center small">Founder</h6>
@@ -68,8 +95,7 @@
                     </div>
                 </div>
                 <div class="card border border-0 col-md-6 col-lg-4">
-                    <img src="https://media.licdn.com/dms/image/D5603AQFwqVsUtgw62g/profile-displayphoto-shrink_800_800/0/1692384500617?e=1706140800&v=beta&t=7PWJELr-D3FWcwpPRRr7jFk0s2umq3xnx6x8JmFx0uQ"
-                         class="card-img-top w-50 mx-auto" alt="David Koplik">
+                    <img src="/static/comintapp/images/David.jpeg" class="card-img-top w-50 mx-auto" alt="David Koplik">
                     <div class="card-body">
                         <h5 class="card-title text-center">David Koplik</h5>
                         <h6 class="card-title text-center small">Fullstack Developer</h6>
@@ -82,8 +108,7 @@
                     </div>
                 </div>
                 <div class="card border border-0 col-md-6 col-lg-4">
-                    <img src="https://media.licdn.com/dms/image/D5635AQGXlNWQe6HVXg/profile-framedphoto-shrink_800_800/0/1683586357450?e=1701194400&v=beta&t=IQk5Ims6jUDNOeFHt-vtWiJsmZyUKo3DZFGWUxcRiYg"
-                         class="card-img-top w-50 mx-auto" alt="Shubh Khandelwal">
+                    <img src="/static/comintapp/images/Shubh.jpeg" class="card-img-top w-50 mx-auto" alt="Shubh Khandelwal">
                     <div class="card-body">
                         <h5 class="card-title text-center">Shubh Khandelwal</h5>
                         <h6 class="card-title text-center small">Fullstack Developer</h6>
@@ -100,8 +125,7 @@
                     </div>
                 </div>
                 <div class="card border border-0 col-md-6 col-lg-4">
-                    <img src="https://media.licdn.com/dms/image/D5603AQG4FIHMoYw4gA/profile-displayphoto-shrink_800_800/0/1667413458579?e=1706140800&v=beta&t=SgWFQY-3KvobX_9yFAIi10DMm_HE2EEQJGRFy0btZY4"
-                         class="card-img-top w-50 mx-auto" alt="Bao Huynh">
+                    <img src="/static/comintapp/images/Bao.jpeg" class="card-img-top w-50 mx-auto" alt="Bao Huynh">
                     <div class="card-body">
                         <h5 class="card-title text-center">Bao Huynh</h5>
                         <h6 class="card-title text-center small">Frontend Developer</h6>
